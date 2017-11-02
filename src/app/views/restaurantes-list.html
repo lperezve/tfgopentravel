@@ -1,0 +1,45 @@
+<nav id="subnav" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <ul>
+      <li> <a [routerLink]="['/crear-restaurantes']" [routerLinkActive]="['activado']"> Crear Restaurante</a></li>
+    </ul>
+  </nav>
+
+
+<h3>{{titulo}}</h3>
+<hr/>
+
+<div *ngIf="!restaurantes">
+		No hay restaurantes para mostrar
+</div>
+
+<div *ngIf="restaurantes">
+	<div class="row">
+				<!-- listado de restaurantes -->
+			<div class="col-lg-4" *ngFor="let restaurante of restaurantes">
+				<div class="thumbnail">
+					<div *ngIf="restaurante.imagen" class="imagen_container">
+						<img src="http://localhost/tfg-lpv/tfg-backend/uploads/{{restaurante.imagen}}" class="restaurante_imagen"/>
+					</div>
+					<div *ngIf="!restaurante.imagen" class="imagen_relleno">
+					</div>
+						<div class="caption">
+							<h3> {{restaurante.nombre}} </h3>
+
+						<div class="botones" *ngIf="confirmado != restaurante.id ">
+							<p> <a [routerLink]="['/restaurantes', restaurante.id]" class="btn btn-primary">Ver más</a>
+								<a [routerLink]="['/editar-restaurantes', restaurante.id]" class="btn btn-warning">Editar</a>
+								<a (click)="borrarConfirm(restaurante.id)" class="btn btn-danger">Elimnar</a>
+							</p>
+						</div>
+							<div class="seguro" *ngIf="confirmado == restaurante.id">
+									<a (click)="onDeleteRestaurante(restaurante.id)" class="btn btn-danger">Quiero eliminarlo</a>
+									<a (click)="cancelarConfirm()" class="btn btn-warning">Cancelar</a>
+								</div>
+							
+						</div>
+					
+				</div>
+			</div>
+		
+	</div>
+</div>

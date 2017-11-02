@@ -1,0 +1,12 @@
+
+<div *ngIf="restaurante">
+	<div class="col-lg-4" *ngIf="restaurante.imagen">
+		<br>
+		<img src="http://localhost/tfg-lpv/tfg-backend/uploads/{{restaurante.imagen}}" class="restaurante_imagen"/>
+	</div>
+
+	<div class="col-lg-8">
+		<h3> {{restaurante.nombre}} </h3>
+		<p> {{restaurante.direccion}}</p>
+	</div>
+</div>

@@ -1,0 +1,47 @@
+<nav id="subnav" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <ul>
+      <li> <a [routerLink]="['/crear-restaurantes']" [routerLinkActive]="['activado']"> Crear Restaurante</a></li>
+    </ul>
+  </nav>
+
+<h3>{{titulo}}</h3>
+<hr/>
+
+<form #formRestaurantes="ngForm" (ngSubmit)="onSubmit()" class="col-lg-8" id="form-restaurantes">
+
+	<label> 
+		Nombre 
+		<span *ngIf="!nombre.valid && nombre.touched" class="label label-danger"> El nombre es obligatorio </span>
+	</label>
+	
+	<input type="text" class="form-control" #nombre="ngModel" name="nombre" [(ngModel)]="restaurante.nombre" required />
+
+
+	<label> Dirección </label>
+	<input type="text" class="form-control" #direccion="ngModel" name="direccion" [(ngModel)]="restaurante.direccion"/>
+
+	<label> 
+		Latitud 
+		<span *ngIf="!latitud.valid && latitud.touched" class="label label-danger"> La latitud no es correcta </span>
+	</label>
+	<input type="text" class="form-control" #latitud="ngModel" name="latitud" [(ngModel)]="restaurante.latitud" required pattern="(-[0-9+].[0-9]+)|([0-9+].[0-9]+)" />
+
+	<label> 
+		Longitud 
+		<span *ngIf="!longitud.valid && longitud.touched" class="label label-danger"> La longitud no es correcta </span>
+	</label>
+	<input type="text" class="form-control" #longitud="ngModel" name="longitud" [(ngModel)]="restaurante.longitud" required pattern="(-[0-9+].[0-9]+)|([0-9+].[0-9]+)" />
+
+	<label> Url </label>
+	<input type="text" class="form-control" #url="ngModel" name="url" [(ngModel)]="restaurante.url"/>
+
+	<label> Imagen </label>
+	<div *ngIf="is_edit"> 
+		<img src="http://localhost/tfg-lpv/tfg-backend/uploads/{{restaurante.imagen}}" width="60" />
+	</div>
+	<input type="file" class="form-control" (change)="fileChangeEvent($event)"/>
+	
+
+	<br>
+	<input type="submit" value ="{{titulo}}" class="btn btn-success" [disabled]="!formRestaurantes.form.valid" />
+</form>
