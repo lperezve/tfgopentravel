@@ -14,7 +14,8 @@ import { RestaurantesListComponent } from './components/restaurantes-list.compon
 import { RestaurantesAddComponent } from './components/restaurantes-add.component';
 import { RestaurantesDetailComponent } from './components/restaurantes-detail.component';
 import { RestaurantesEditComponent } from './components/restaurantes-edit.component';
-
+import { UsuariosAddComponent } from './components/usuarios-add.component';
+import { UsuariosDetailComponent } from './components/usuarios-detail.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,9 @@ import { RestaurantesEditComponent } from './components/restaurantes-edit.compon
     RestaurantesListComponent,
     RestaurantesAddComponent,
     RestaurantesDetailComponent,
-    RestaurantesEditComponent
+    RestaurantesEditComponent,
+    UsuariosAddComponent,
+    UsuariosDetailComponent
   ],
   imports: [
     BrowserModule,

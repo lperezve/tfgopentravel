@@ -1,0 +1,41 @@
+<h1>{{titulo}}</h1>
+
+<form #formUsuarios="ngForm" (ngSubmit)="onSubmit()" class="col-lg-8" id="form-restaurantes">
+	<label> 
+		Nombre 
+		<span *ngIf="!nombre.valid && nombre.touched" class="label label-danger"> El nombre es obligatorio </span>
+	</label>
+	<input type="text" class="form-control" #nombre="ngModel" name="nombre" [(ngModel)]="usuario.nombre" required />
+
+
+	<label> Apellido 1 </label>
+	<input type="text" class="form-control" #apellido1="ngModel" name="apellido1" [(ngModel)]="usuario.apellido1"/>
+
+	<label> Apellido 2 </label>
+	<input type="text" class="form-control" #apellido2="ngModel" name="apellido2" [(ngModel)]="usuario.apellido2"/>
+
+	<label> 
+		Alias 
+		<span *ngIf="!alias.valid && alias.touched" class="label label-danger"> El alias es obligatorio</span>
+	</label>
+	<input type="text" class="form-control" #alias="ngModel" name="alias" [(ngModel)]="usuario.alias" required pattern="([a-zA-Z0-9]+)"/>
+	
+
+	<label> 
+		Email 
+		<span *ngIf="!email.valid && email.touched" class="label label-danger"> El email es obligatorio </span>
+	</label>
+	<input type="text" class="form-control" #email="ngModel" name="email" [(ngModel)]="usuario.email" required pattern="^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$"/>
+	
+
+	<label> 
+		Contraseña 
+		<!--<span *ngIf="!password.valid && password.touched" class="label label-danger"> El password es obligatorio </span>-->
+	</label>
+	<input type="text" class="form-control" #password="ngModel" name="password" [(ngModel)]="usuario.password" />
+	<!--required pattern="(-[0-9+].[0-9]+)|([0-9+].[0-9]+)"-->
+	
+
+	<br>
+	<input type="submit" value ="{{titulo}}" class="btn btn-success" [disabled]="!formUsuarios.form.valid" />
+</form>
