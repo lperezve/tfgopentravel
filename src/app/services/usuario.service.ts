@@ -10,7 +10,7 @@ export class UsuarioService {
 	public url: string;
 
 	constructor (
-		public _http: Http
+		public _http: Http,
 		) {
 		this.url = GLOBAL.urlusuarios;
 	}

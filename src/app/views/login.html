@@ -1,0 +1,10 @@
+<form #formUsuarios="ngForm" (ngSubmit)="loginUsuario($event)">
+	<div class="col-lg-4" id="form-restaurantes">
+		<label> Email </label>
+		<input type="text" class="form-control" required />
+		<label> Contraseña </label>
+		<input type="text" class="form-control" required/>
+		<br>
+		<input type="submit" value="Login" class="btn btn-success" [disabled]="!formUsuarios.form.valid"/>
+	</div>
+</form>

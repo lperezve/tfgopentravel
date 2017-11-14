@@ -1,0 +1,14 @@
+<nav id="nav" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <ul>
+      <li> <a [routerLink]="['/home']" [routerLinkActive]="['activado']"> Home </a></li>
+      <li> <a [routerLink]="['/restaurantes']" [routerLinkActive]="['activado']"> Restaurantes </a></li>
+      <li> <a [routerLink]="['/crear-usuarios']" [routerLinkActive]="['activado']"> Registrarse </a></li>
+    </ul>
+    <ul class="navbar-right">
+      <li> <a [routerLink]="['/login']" [routerLinkActive]="['activado']" *ngIf="!auth.authenticated()"> Login </a></li>
+        <!--<li> <a [routerLink]="['/home']" [routerLinkActive]="['activado']> Mi perfil </a></li>-->
+      <li> <a [routerLink]="['/usuario']" [routerLinkActive]="['activado']" *ngIf="auth.authenticated()"> Mi perfil </a></li>
+        <li> <a [routerLink]="['/home']" (click)="auth.logoutService()"
+          *ngIf="auth.authenticated()"> Logout </a></li> 
+    </ul>
+  </nav>

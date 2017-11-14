@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { RestauranteService } from '../services/restaurante.service';
-import { Restaurante } from '../models/restaurante';
+import { RestauranteService } from '../../services/restaurante.service';
+import { Restaurante } from '../../models/restaurante';
 
 @Component ({
 	selector: 'restaurantes-list',
-	templateUrl: '../views/restaurantes-list.html',
+	templateUrl: '../../views/restaurantes/restaurantes-list.html',
 	providers: [RestauranteService]
 })
 

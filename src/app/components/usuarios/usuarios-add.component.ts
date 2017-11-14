@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { UsuarioService } from '../services/usuario.service';
-import { Usuario } from '../models/usuario';
-import { GLOBAL } from '../services/global';
+import { UsuarioService } from '../../services/usuario.service';
+import { Usuario } from '../../models/usuario';
+import { GLOBAL } from '../../services/global';
 
 @Component ({
 	selector: 'usuarios-add',
-	templateUrl: '../views/usuarios-add.html',
+	templateUrl: '../../views/usuarios/usuarios-add.html',
 	providers: [UsuarioService]
 })
 

@@ -6,22 +6,33 @@ import { HttpModule } from '@angular/http';
 //Rutas
 import { routing, appRoutingProviders } from './app.routing';
 
+//Servicios
+import { AuthService } from './services/auth.service';
+
+
 //Componentes
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home.component';
 import { ErrorComponent } from './components/error.component';
-import { RestaurantesListComponent } from './components/restaurantes-list.component';
-import { RestaurantesAddComponent } from './components/restaurantes-add.component';
-import { RestaurantesDetailComponent } from './components/restaurantes-detail.component';
-import { RestaurantesEditComponent } from './components/restaurantes-edit.component';
-import { UsuariosAddComponent } from './components/usuarios-add.component';
-import { UsuariosDetailComponent } from './components/usuarios-detail.component';
+import { LoginComponent } from './components/login.component';
+import { AuthguardGuard } from './authguard.guard';
+import { HeaderComponent } from './components/header.component';
+
+import { RestaurantesListComponent } from './components/restaurantes/restaurantes-list.component';
+import { RestaurantesAddComponent } from './components/restaurantes/restaurantes-add.component';
+import { RestaurantesDetailComponent } from './components/restaurantes/restaurantes-detail.component';
+import { RestaurantesEditComponent } from './components/restaurantes/restaurantes-edit.component';
+import { UsuariosAddComponent } from './components/usuarios/usuarios-add.component';
+import { UsuariosDetailComponent } from './components/usuarios/usuarios-detail.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     ErrorComponent,
+    LoginComponent,
+    HeaderComponent,
     RestaurantesListComponent,
     RestaurantesAddComponent,
     RestaurantesDetailComponent,
@@ -36,7 +47,9 @@ import { UsuariosDetailComponent } from './components/usuarios-detail.component'
     routing
   ],
   providers: [
-    appRoutingProviders
+    appRoutingProviders,
+    AuthService,
+    AuthguardGuard
   ],
   bootstrap: [AppComponent]
 })
