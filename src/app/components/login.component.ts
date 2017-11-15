@@ -11,6 +11,7 @@ import { AuthService } from '../services/auth.service';
 
 export class LoginComponent {
 	public usuario : Usuario;
+	returnUrl : string;
 
 	constructor (
 		private _route: ActivatedRoute,
@@ -21,6 +22,10 @@ export class LoginComponent {
 		this.usuario = new Usuario (0,'','','','','','',false);
 	}
 
+	/*ngOnInit(){
+		this.returnUrl = this._route.snapshot.queryParams['returnUrl'] || '/';
+	}*/
+
 	loginUsuario(event){
 		var email = event.target.elements[0].value;
 		var password = event.target.elements[1].value;
@@ -30,7 +35,9 @@ export class LoginComponent {
 				if (response.code == 200){
 					this.usuario = response.data;
 					this._authService.loginservice(this.usuario);
-					this._router.navigate(['/usuario']);
+					/* para redirigir a la url previa del login */
+					this.returnUrl = this._route.snapshot.queryParams['returnUrl'] || '/';
+					this._router.navigate([this.returnUrl]);
 				}
 				else {
 					this._router.navigate(['/home']);
