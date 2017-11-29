@@ -2,25 +2,35 @@ import { Component } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { RestauranteService } from '../../services/restaurante.service';
 import { Restaurante } from '../../models/restaurante';
+import { AuthService } from '../../services/auth.service';
+
 
 @Component ({
 	selector: 'restaurantes-list',
 	templateUrl: '../../views/restaurantes/restaurantes-list.html',
-	providers: [RestauranteService]
+	providers: [RestauranteService, AuthService]
 })
 
 export class RestaurantesListComponent {
 	public titulo : string;
 	public restaurantes : Restaurante[]; //variable que se utiliza para el html luego
 	public confirmado;
+	public hayUsuario : boolean;
 
 	constructor (
 		private _route: ActivatedRoute,
 		private _router: Router,
-		private _restauranteService: RestauranteService
+		private _restauranteService: RestauranteService,
+		private _auth : AuthService
 		) {
 		this.titulo = 'Listado de Restaurantes';
 		this.confirmado = null;
+
+		if (_auth.authenticated()){
+			this.hayUsuario = true;
+		}
+		else
+			this.hayUsuario = false;
 	}
 
 	ngOnInit () {

@@ -4,6 +4,7 @@ import { UsuarioService } from '../../services/usuario.service';
 import { Usuario } from '../../models/usuario';
 import { AuthService } from '../../services/auth.service';
 
+
 @Component ({
 	selector: 'usarios-detail',
 	templateUrl: '../../views/usuarios/usarios-detail.html',

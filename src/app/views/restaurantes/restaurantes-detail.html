@@ -7,6 +7,47 @@
 
 	<div class="col-lg-8">
 		<h3> {{restaurante.nombre}} </h3>
-		<p> {{restaurante.direccion}}</p>
+		<p> Dirección: {{restaurante.direccion}}</p>
+		<p> Puntuación: {{avg}} </p>
 	</div>
+
+	<div class="col-lg-12">
+		<div class="col-lg-12" *ngFor="let opinion of opiniones">
+			<div class="thumbnail">
+				<h4>{{opinion.id_usuario}}</h4>
+				<p>{{opinion.fecha}}</p>
+				<p>{{opinion.puntuacion}} - {{opinion.mensaje}}</p>
+			</div>
+		</div>
+
+		<div *ngIf="hayUsuario">
+			<h2> Deja tu opinión </h2>
+			<form #formOpinionesRest="ngForm" (ngSubmit)="onSubmitOpinion()" class="col-lg-8" id="form-restaurantes">
+				<label>
+					Puntuación 
+				</label>
+				<input type="number" #puntuacion="ngModel" name="puntuacion" [(ngModel)]="opinion.puntuacion"/>
+				<!-- https://emiliocobos.net/calificacion-estrellas-solo-con-css/ 
+				<div class="ec-stars-wrapper">
+					<a data-value="1" title="Votar con 1 estrellas">&#9733;</a>
+					<a data-value="2" title="Votar con 2 estrellas">&#9733;</a>
+					<a data-value="3" title="Votar con 3 estrellas">&#9733;</a>
+					<a data-value="4" title="Votar con 4 estrellas">&#9733;</a>
+					<a data-value="5" title="Votar con 5 estrellas">&#9733;</a>
+				</div>-->
+				<br>
+				<label>
+					Opinión (max 420 caracteres)
+				</label>
+				<br>
+				<textarea placeholder="Introduzca aquí su opinión (max 420 caracteres)" #mensaje="ngModel" name="mensaje" [(ngModel)]="opinion.mensaje" autofocus></textarea>
+
+				<input type="submit" value="Opinar" class="btn btn-success" [disabled]="!formOpinionesRest.form.valid"/>
+			</form>
+		</div>
+		
+
+	</div>
+
+
 </div>

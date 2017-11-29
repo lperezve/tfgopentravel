@@ -10,17 +10,22 @@ import { RestaurantesListComponent } from './components/restaurantes/restaurante
 import { RestaurantesAddComponent } from './components/restaurantes/restaurantes-add.component';
 import { RestaurantesDetailComponent } from './components/restaurantes/restaurantes-detail.component';
 import { RestaurantesEditComponent } from './components/restaurantes/restaurantes-edit.component';
+import { RestaurantesImportDatasetComponent } from './components/restaurantes/restaurantes-import-dataset.component';
+
 import { UsuariosAddComponent } from './components/usuarios/usuarios-add.component';
 import { UsuariosDetailComponent } from './components/usuarios/usuarios-detail.component';
+
 
 const appRoutes : Routes = [
 	{path: '', component: HomeComponent},//path vacío a la pagina principal
 	{path: 'home', component: HomeComponent},
 	{path: 'login', component: LoginComponent},
-	{path: 'restaurantes', canActivate: [AuthguardGuard], component: RestaurantesListComponent},
+	{path: 'restaurantes', component: RestaurantesListComponent},
 	{path: 'crear-restaurantes', canActivate: [AuthguardGuard], component: RestaurantesAddComponent},
-	{path: 'restaurantes/:id', canActivate: [AuthguardGuard], component: RestaurantesDetailComponent},
+	{path: 'restaurantes/:id', component: RestaurantesDetailComponent},
 	{path: 'editar-restaurantes/:id', canActivate: [AuthguardGuard], component: RestaurantesEditComponent},
+	{path: 'importdataset-restaurantes', canActivate: [AuthguardGuard], component: RestaurantesImportDatasetComponent},
+
 	{path: 'crear-usuarios', component: UsuariosAddComponent},
 	{path: 'usuario', canActivate: [AuthguardGuard], component: UsuariosDetailComponent},
 

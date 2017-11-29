@@ -4,15 +4,20 @@ import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 import { Restaurante } from '../models/restaurante';
 import { GLOBAL } from './global';
+import { Opinion } from '../models/opinion';
+
 
 @Injectable ()
 export class RestauranteService {
 	public url: string;
+	public urlOpiniones: string;
 
 	constructor (
 		public _http: Http
 		) {
-		this.url = GLOBAL.url;
+		this.url = GLOBAL.urlrestaurantes;
+		this.urlOpiniones = GLOBAL.urlopinionesRestaurantes;
+
 	}
 
 	getRestaurantes () {
@@ -46,6 +51,30 @@ export class RestauranteService {
 		return this._http.get(this.url+'delete-restaurantes/'+id).map(res => res.json());
 	}
 
+	getOpinionesRestaurante(id){
+		return this._http.get(this.urlOpiniones+'opiniones/'+id).map(res => res.json());
+	}
+
+	addOpinion(opinion : Opinion){
+		let json = JSON.stringify(opinion);
+		let params = 'json='+json;
+		let headers = new Headers({'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'});
+		/* falta hacer el metodo en la api*/
+		return this._http.post(this.urlOpiniones+'opinion', params, {headers: headers})
+				.map(res => res.json());
+	}
+
+	getAvgOpinionesRestaurante(id){
+		return this._http.get(this.urlOpiniones+'avg-opiniones/'+id).map(res => res.json());
+	}
+
+		
+	//obtener la opinion que se le pasa por el id
+	getOpinion(id){
+		return this._http.get(this.urlOpiniones+'opinion/'+id).map(res => res.json());
+	}
+
+	/* subir ficheros */
 	makeFileRequest (url:string, params: Array<string>, files: Array<File>){
 		return new Promise((resolve, reject) => {
 			var formData: any = new FormData(); 

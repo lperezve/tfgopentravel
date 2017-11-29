@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { UsuarioService } from '../../services/usuario.service';
 import { Usuario } from '../../models/usuario';
-import { GLOBAL } from '../../services/global';
 
 @Component ({
 	selector: 'usuarios-add',

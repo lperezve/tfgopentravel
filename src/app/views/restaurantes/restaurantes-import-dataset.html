@@ -1,0 +1,40 @@
+<!--
+<input name="importdatasetrest" type="file" />
+<input type="submit" value="Importar"/>
+
+<input type="file"
+       ngFileSelect
+       [options]="options"
+       (onUpload)="handleUpload($event)"
+       (beforeUpload)="beforeUpload($event)">-->
+
+<label> Dataset </label>
+<input type="file" class="form-control" (change)="fileChangeEvent($event)"/>
+<input type="submit" value="Importar" (click)="onSubmit()"/>
+ 
+
+<!--{{resultDownload}}-->
+
+<ul>
+  <li *ngFor='let key of resultDownload | keys'>
+   Key: {{key.key}}, {{key.value}}
+   <div *ngIf="isObject(key.value)">
+    <ul>
+     	<li *ngFor='let sub of key.value | keys'>
+        key2 {{sub.key}}, {{sub.value}}
+      
+      <div *ngIf="isObject(sub.value)">
+        pepepep
+        <ul>
+        <li *ngFor='let sub2 of sub.value| keys'>
+             key3 {{sub2.key}}, {{sub2.value}}
+        </li>
+      
+       </ul>
+       </div>
+     </li>
+      
+     </ul>
+   </div>
+  </li>
+</ul>

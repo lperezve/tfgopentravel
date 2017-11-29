@@ -36,7 +36,7 @@ export class RestaurantesEditComponent {
 		console.log(this.restaurante);
 
 		if (this.filesToUpload && this.filesToUpload.length >= 1) { //en el caso de que haya una imagen seleccionada
-			this._restauranteService.makeFileRequest(GLOBAL.url+'upload-file', [], this.filesToUpload)
+			this._restauranteService.makeFileRequest(GLOBAL.url+'upload-image', [], this.filesToUpload)
 				.then((result) => {
 					console.log(result);
 					this.resultUpload = result;

@@ -2,13 +2,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { Ng2UploaderModule } from 'ng2-uploader';
 
 //Rutas
 import { routing, appRoutingProviders } from './app.routing';
 
 //Servicios
 import { AuthService } from './services/auth.service';
-
+import { KeysPipe } from './components/pipes_keys';
 
 //Componentes
 import { AppComponent } from './app.component';
@@ -22,8 +23,12 @@ import { RestaurantesListComponent } from './components/restaurantes/restaurante
 import { RestaurantesAddComponent } from './components/restaurantes/restaurantes-add.component';
 import { RestaurantesDetailComponent } from './components/restaurantes/restaurantes-detail.component';
 import { RestaurantesEditComponent } from './components/restaurantes/restaurantes-edit.component';
+import { RestaurantesImportDatasetComponent } from './components/restaurantes/restaurantes-import-dataset.component';
+
+
 import { UsuariosAddComponent } from './components/usuarios/usuarios-add.component';
 import { UsuariosDetailComponent } from './components/usuarios/usuarios-detail.component';
+
 
 
 @NgModule({
@@ -37,14 +42,17 @@ import { UsuariosDetailComponent } from './components/usuarios/usuarios-detail.c
     RestaurantesAddComponent,
     RestaurantesDetailComponent,
     RestaurantesEditComponent,
+    RestaurantesImportDatasetComponent,
     UsuariosAddComponent,
-    UsuariosDetailComponent
+    UsuariosDetailComponent,
+    KeysPipe
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    routing
+    routing,
+    Ng2UploaderModule
   ],
   providers: [
     appRoutingProviders,
