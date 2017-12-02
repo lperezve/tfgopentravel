@@ -68,7 +68,6 @@ export class RestauranteService {
 		return this._http.get(this.urlOpiniones+'avg-opiniones/'+id).map(res => res.json());
 	}
 
-		
 	//obtener la opinion que se le pasa por el id
 	getOpinion(id){
 		return this._http.get(this.urlOpiniones+'opinion/'+id).map(res => res.json());
@@ -95,6 +94,5 @@ export class RestauranteService {
 			xhr.open("POST", url, true);
 			xhr.send(formData);
 		});
-
 	}
 }

@@ -14,6 +14,9 @@
 </div>
  
 <div *ngIf="restaurantes">
+	<!--[href]="urlDownload" download="restaurantes.json" -->
+	<a (click)="generateDownloadJson()" class="btn btn-primary"> Descargar json</a>
+	<a (click)="generateDownloadCSV()" class="btn btn-primary"> Descargar csv</a>
 	<div class="row">
 				<!-- listado de restaurantes -->
 			<div class="col-lg-4" *ngFor="let restaurante of restaurantes">
