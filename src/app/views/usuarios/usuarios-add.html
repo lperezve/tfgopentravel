@@ -25,14 +25,14 @@
 		Email 
 		<span *ngIf="!email.valid && email.touched" class="label label-danger"> El email es obligatorio </span>
 	</label>
-	<input type="text" class="form-control" #email="ngModel" name="email" [(ngModel)]="usuario.email" required pattern="^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$"/>
+	<input type="email" class="form-control" #email="ngModel" name="email" [(ngModel)]="usuario.email" required pattern="^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$"/>
 	
 
 	<label> 
 		Contraseña 
 		<!--<span *ngIf="!password.valid && password.touched" class="label label-danger"> El password es obligatorio </span>-->
 	</label>
-	<input type="text" class="form-control" #password="ngModel" name="password" [(ngModel)]="usuario.password" />
+	<input type="password" class="form-control" #password="ngModel" name="password" [(ngModel)]="usuario.password" />
 	<!--required pattern="(-[0-9+].[0-9]+)|([0-9+].[0-9]+)"-->
 	
 

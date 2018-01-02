@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { Ng2UploaderModule } from 'ng2-uploader';
-
+import { NgxPaginationModule } from 'ngx-pagination';
 //Rutas
 import { routing, appRoutingProviders } from './app.routing';
 
@@ -52,7 +52,8 @@ import { UsuariosDetailComponent } from './components/usuarios/usuarios-detail.c
     FormsModule,
     HttpModule,
     routing,
-    Ng2UploaderModule
+    Ng2UploaderModule,
+    NgxPaginationModule
   ],
   providers: [
     appRoutingProviders,

@@ -1,40 +1,89 @@
+<div class="col-lg-12">
+  <label> Dataset </label>
+  <input type="file" class="form-control" (change)="fileChangeEvent($event)"/>
+  <input type="submit" value="Importar" (click)="onSubmit()"/>
+</div>
 <!--
-<input name="importdatasetrest" type="file" />
-<input type="submit" value="Importar"/>
+<form #formCombinarDataset="ngForm" (ngSubmit)="passingFields()" class="col-lg-8" id="form-restaurantes">
+  <div *ngFor='let atr of atributos'>
+    <div *ngIf="atr != 'id'">
+      <div *ngIf="atr != 'imagen'">
+        <label>{{atr}} </label>
+          <select class="form-control col-lg-8" (change)="onSaveFields(atr, $event.target.value)">
+             <option *ngFor="let item of fields">
+                     {{item}}
+             </option>
+          </select>
+        </div>
+      </div>
+    </div>
+  <input type="submit" value="Continuar"/>
+</form>
+-->
+<div *ngIf="importado">
+  <form #formCombinarDataset="ngForm" (ngSubmit)="passingFields()" class="col-lg-8" id="form-restaurantes">
+    <div>
+      <label> 
+        Nombre 
+      </label>
+        <select class="form-control col-lg-8" [(ngModel)]="restaurante.nombre" #nombre="ngModel" name="nombre">
+           <option *ngFor="let item of fields">
+                   {{item}}
+           </option>
+        </select>
+    </div>
 
-<input type="file"
-       ngFileSelect
-       [options]="options"
-       (onUpload)="handleUpload($event)"
-       (beforeUpload)="beforeUpload($event)">-->
+    <div>
+      <label> Dirección </label>
+      <select class="form-control col-lg-8" [(ngModel)]="restaurante.direccion" #direccion="ngModel" name="direccion">
+         <option *ngFor="let item of fields">
+                 {{item}}
+         </option>
+      </select>
+    </div>
+    <div>
+      <label> 
+      Latitud 
+      </label>
+      <select class="form-control col-lg-8" [(ngModel)]="restaurante.latitud" #latitud="ngModel" name="latitud">
+         <option *ngFor="let item of fields">
+                 {{item}}
+         </option>
+      </select>
+    </div>
+    <div>
+      <label> 
+      Longitud 
+      </label>
+      <select class="form-control col-lg-8" [(ngModel)]="restaurante.longitud" #longitud="ngModel" name="longitud">
+         <option *ngFor="let item of fields">
+                 {{item}}
+         </option>
+      </select>
+    </div>
+    <div>
+      <label> 
+      Url 
+      </label>
+      <select class="form-control col-lg-8" [(ngModel)]="restaurante.url" #url="ngModel" name="url">
+         <option *ngFor="let item of fields">
+                 {{item}}
+         </option>
+      </select>
+    </div>
+    <div>
+      <label> 
+      Imagen 
+      </label>
+      <select class="form-control col-lg-8" [(ngModel)]="restaurante.imagen" #imagen="ngModel" name="imagen">
+         <option *ngFor="let item of fields">
+                 {{item}}
+         </option>
+      </select>
+    </div>
 
-<label> Dataset </label>
-<input type="file" class="form-control" (change)="fileChangeEvent($event)"/>
-<input type="submit" value="Importar" (click)="onSubmit()"/>
- 
-
-<!--{{resultDownload}}-->
-
-<ul>
-  <li *ngFor='let key of resultDownload | keys'>
-   Key: {{key.key}}, {{key.value}}
-   <div *ngIf="isObject(key.value)">
-    <ul>
-     	<li *ngFor='let sub of key.value | keys'>
-        key2 {{sub.key}}, {{sub.value}}
-      
-      <div *ngIf="isObject(sub.value)">
-        pepepep
-        <ul>
-        <li *ngFor='let sub2 of sub.value| keys'>
-             key3 {{sub2.key}}, {{sub2.value}}
-        </li>
-      
-       </ul>
-       </div>
-     </li>
-      
-     </ul>
-   </div>
-  </li>
-</ul>
+    <div>
+     <input type="submit" value="Continuar"/>
+    </div>
+  </form>
+</div>

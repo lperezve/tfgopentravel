@@ -1,14 +1,25 @@
-<nav id="nav" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+<!--  class="col-lg-10 col-lg-offset-1"hacer que este div esté siempre presente en la página -->
+<!--enlace de menu pegajoso http://www.falconmasters.com/web-design/menu-pegajoso-sticky-menu/-->
+<nav id="nav" class="menu" role="navigation"><!--col-lg-12 col-md-12 col-sm-12 col-xs-12-->
     <ul>
       <li> <a [routerLink]="['/home']" [routerLinkActive]="['activado']"> Home </a></li>
       <li> <a [routerLink]="['/restaurantes']" [routerLinkActive]="['activado']"> Restaurantes </a></li>
-      <li> <a [routerLink]="['/crear-usuarios']" [routerLinkActive]="['activado']"> Registrarse </a></li>
+      <li> <a [routerLink]="['/home']" [routerLinkActive]="['activado']"> Alojamientos </a></li>
     </ul>
     <ul class="navbar-right">
+      <li *ngIf="!autenticado"> <a [routerLink]="['/crear-usuarios']" [routerLinkActive]="['activado']"> Registrarse </a></li>
       <li> <a [routerLink]="['/login']" [routerLinkActive]="['activado']" *ngIf="!auth.authenticated()"> Login </a></li>
-        <!--<li> <a [routerLink]="['/home']" [routerLinkActive]="['activado']> Mi perfil </a></li>-->
       <li> <a [routerLink]="['/usuario']" [routerLinkActive]="['activado']" *ngIf="auth.authenticated()"> Mi perfil </a></li>
         <li> <a [routerLink]="['/home']" (click)="auth.logoutService()"
           *ngIf="auth.authenticated()"> Logout </a></li> 
     </ul>
+</nav>
+<div id="content" *ngIf="admin">
+<nav id="subnav" role="navigation">
+    <ul>
+      <li> <a [routerLink]="['/crear-restaurantes']" [routerLinkActive]="['activado']"> Crear Restaurante</a></li>
+      <li> <a [routerLink]="['/importdataset-restaurantes']" [routerLinkActive]="['activado']"> Subir Dataset </a></li>
+    </ul>
   </nav>
+</div>
+

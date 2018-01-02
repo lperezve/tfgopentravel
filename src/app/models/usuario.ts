@@ -7,6 +7,6 @@ export class Usuario {
 		public alias : string,
 		public email : string,
 		public password : string,
-		public rol_publicador : boolean
+		public admin : boolean
 		) {}
 }

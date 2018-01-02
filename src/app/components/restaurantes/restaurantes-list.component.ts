@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { RestauranteService } from '../../services/restaurante.service';
 import { Restaurante } from '../../models/restaurante';
+import { Opinion } from '../../models/opinion'
 import { AuthService } from '../../services/auth.service';
 import 'rxjs/Rx';
 import { saveAs as importedSaveAs} from "file-saver";
@@ -18,6 +19,7 @@ export class RestaurantesListComponent {
 	public restaurantes : Restaurante[]; //variable que se utiliza para el html luego
 	public confirmado;
 	public hayUsuario : boolean;
+	public opinionesRecientes : Opinion[];
 
 	constructor (
 		private _route: ActivatedRoute,
@@ -39,6 +41,7 @@ export class RestaurantesListComponent {
 	ngOnInit () {
 		console.log('Se ha cargado el componente list-restaurantes.component.ts');
 		this.getRestaurantes();
+		this.getOpinionesRecientes();
 	}
 
 	getRestaurantes () {
@@ -76,6 +79,21 @@ export class RestaurantesListComponent {
 				console.log(<any>error);
 				}
 			);
+	}
+
+	getOpinionesRecientes() {
+		this._restauranteService.getOpinionesRecientes().subscribe(
+			result => {
+				if (result.code != 200){
+					console.log(result);
+				}
+				else {
+					this.opinionesRecientes = result.data;
+				}
+			}, error => {
+				console.log(<any>error);
+			}
+		);
 	}
 
 	generateDownloadJson() {

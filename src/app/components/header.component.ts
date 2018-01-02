@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-//import { Usuario } from '../models/usuario';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { Observable } from 'rxjs';
@@ -14,10 +13,19 @@ import { Usuario } from '../models/usuario';
 export class HeaderComponent {
   public usuario : Usuario;
   public autenticado : boolean;
+  public admin : boolean = false;
 
   constructor (private auth : AuthService){
-    this.usuario = JSON.parse(localStorage.getItem('currentuser'));
-    this.autenticado = auth.authenticated();
-    console.log(auth.authenticated());
+    if (auth.authenticated()){
+      this.usuario = JSON.parse(localStorage.getItem('currentUser'));
+      this.autenticado = auth.authenticated();
+      if (this.usuario.admin == true){
+         this.admin = true;
+      } else {
+      this.admin = false;
+      }
+    }
+    //console.log(this.admin);
+    //console.log(auth.authenticated());
   }
 }

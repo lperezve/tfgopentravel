@@ -21,7 +21,7 @@ export class RestaurantesDetailComponent {
 	public usuario : Usuario;
 	public hayUsuario : boolean;
 	public avg;
-	public usuarioSingle : Usuario;
+	public usuariosOpinion;
 	public opinionSingle : Opinion;
 
 
@@ -33,6 +33,7 @@ export class RestaurantesDetailComponent {
 		private _auth : AuthService
 	) {
 		this.opinion = new Opinion(0,0,0,0,'','');
+		this.opinionSingle = new Opinion(0,0,0,0,'','');
 		if (_auth.authenticated()){
 			this.hayUsuario = true;
 		}
@@ -64,7 +65,7 @@ export class RestaurantesDetailComponent {
 			);
 		});
 	}
-
+	/*obtener las opiniones de un restaurante */
 	getOpiniones(){
 		this._route.params.forEach((params: Params) => {
 			let id = params['id'];
@@ -72,6 +73,7 @@ export class RestaurantesDetailComponent {
 				response => {
 					if (response.code == 200)
 						this.opiniones = response.data;
+						console.log(this.opiniones);
 				},
 				error => {
 					console.log(<any>error);
@@ -95,34 +97,9 @@ export class RestaurantesDetailComponent {
 		);
 	}
 
-	obtenerNombreOpinion(idOpinion){
-		this._restauranteService.getOpinion(idOpinion).subscribe(
-			response => {
-				if (response.code == 200){
-					this.opinionSingle = response.data;
-					this._usuarioService.getUsuario(this.opinionSingle.id_usuario).subscribe(
-						response => {
-							if (response.code == 200){
-								this.usuarioSingle = response.data;
-								console.log(this.usuarioSingle.nombre);
-							}
-							else {
-								console.log(response);
-							}
-						},
-						error => {
-							console.log(<any>error);
-						}
-					);
-				}
-				else {
-					console.log(response);
-				}
-			},
-			error => {
-				console.log(<any>error);
-			}
-		);
+
+	obtenerUsuariosOpinion(){
+		
 	}
 
 
@@ -152,7 +129,7 @@ export class RestaurantesDetailComponent {
 			response => {
 				if (response.code == 200){
 					this._router.navigate(['/restaurantes',this.restaurante.id]);
-					//location.reload();
+					location.reload();
 				}
 				else {
 					console.log(response);

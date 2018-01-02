@@ -51,8 +51,10 @@ export class RestauranteService {
 		return this._http.get(this.url+'delete-restaurantes/'+id).map(res => res.json());
 	}
 
+	/* obtener las opiniones de un restaurante pasado por parámetro. 
+	También se obtienen el nombre de los que han dejado la opinión*/
 	getOpinionesRestaurante(id){
-		return this._http.get(this.urlOpiniones+'opiniones/'+id).map(res => res.json());
+		return this._http.get(this.url+'opiniones/'+id).map(res => res.json());
 	}
 
 	addOpinion(opinion : Opinion){
@@ -71,6 +73,16 @@ export class RestauranteService {
 	//obtener la opinion que se le pasa por el id
 	getOpinion(id){
 		return this._http.get(this.urlOpiniones+'opinion/'+id).map(res => res.json());
+	}
+
+	/* OBTENER TODAS LAS OPINIONES DE MAS NUEVAS A MÁS ANTIGUAS */
+	getOpinionesRecientes (){
+		return this._http.get(this.urlOpiniones+'opiniones-recientes').map(res => res.json());
+	}
+
+	/* obtener los atributos de la tabla restaurantes */
+	getAtributosTabla(){
+		return this._http.get(this.url+'atributos').map(res => res.json());
 	}
 
 	/* subir ficheros */
