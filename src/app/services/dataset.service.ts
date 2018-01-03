@@ -16,16 +16,16 @@ export class DatasetService {
 	}
 
 	/* busca el dataset según su nombre */
-	getDatasetFields (filename) {
-		return this._http.get(this.url+'dataset-fields/'+filename).map(res => res.json());
+	getDatasetFields (filename, separacion) {
+		return this._http.get(this.url+'csv-fields/'+filename+'/'+separacion).map(res => res.json());
 	}
 
-	/* pasar los campos correctos del dataset para su insercción */
-	addFields(filename, restaurante : Restaurante){
+	/* SE PASA UN RESTAURANTE QUE TIENE LOS CAMPOS (FIELDS) NECESARIOS PARA LA INSERCCIÓN */
+	addFields(filename, separacion, restaurante : Restaurante){
 		let json = JSON.stringify(restaurante);
 		let params = 'json='+json;
 		let headers = new Headers({'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'});
-		return this._http.post(this.url+'up-dataset/'+filename, params, {headers: headers})
+		return this._http.post(this.url+'up-csv/'+filename+'/'+separacion, params, {headers: headers})
 				.map(res => res.json());
 	}
 }

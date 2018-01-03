@@ -23,8 +23,7 @@ import { RestaurantesListComponent } from './components/restaurantes/restaurante
 import { RestaurantesAddComponent } from './components/restaurantes/restaurantes-add.component';
 import { RestaurantesDetailComponent } from './components/restaurantes/restaurantes-detail.component';
 import { RestaurantesEditComponent } from './components/restaurantes/restaurantes-edit.component';
-import { RestaurantesImportDatasetComponent } from './components/restaurantes/restaurantes-import-dataset.component';
-
+import { RestaurantesImportCSVComponent } from './components/restaurantes/restaurantes-import-csv.component';
 
 import { UsuariosAddComponent } from './components/usuarios/usuarios-add.component';
 import { UsuariosDetailComponent } from './components/usuarios/usuarios-detail.component';
@@ -42,7 +41,7 @@ import { UsuariosDetailComponent } from './components/usuarios/usuarios-detail.c
     RestaurantesAddComponent,
     RestaurantesDetailComponent,
     RestaurantesEditComponent,
-    RestaurantesImportDatasetComponent,
+    RestaurantesImportCSVComponent,
     UsuariosAddComponent,
     UsuariosDetailComponent,
     KeysPipe

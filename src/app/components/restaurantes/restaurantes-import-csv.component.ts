@@ -6,54 +6,55 @@ import { Restaurante } from '../../models/restaurante';
 import { GLOBAL } from '../../services/global';
 
 @Component ({
-	selector: 'restaurantes-import-dataset',
+	selector: 'restaurantes-import-csv',
 	templateUrl: '../../views/restaurantes/restaurantes-import-dataset.html',
 	providers: [RestauranteService, DatasetService]
 })
 
-export class RestaurantesImportDatasetComponent {
+export class RestaurantesImportCSVComponent {
+	public soyCsv : boolean;
+	public soyJson : boolean;
+	public separacion : string;
+	//-------
 	public filesToUpload;
 	public resultUpload;
 	public archivoObtenido;
 	public atributos;
 	public fields;
-	//public correctFields : Array<any>
-	//public correctData : Array<any>;
 	public restaurante : Restaurante;
 	public importado : boolean;
 
-	constructor (
-		private _restauranteService : RestauranteService,
+	constructor (private _restauranteService : RestauranteService,
 		private _datasetService : DatasetService,
 		private _route: ActivatedRoute,
-		private _router: Router
-		) {
-		//this.correctData=[{}];
-		//this.correctFields=[{}];
+		private _router: Router) {
+		this.soyCsv = true;
+		this.soyJson = false;
+		//----
 		this.restaurante = new Restaurante (0, '','','','','','');
 		this.importado = false;
-		}
-
-	ngOnInit () {
-		console.log('Se ha cargado el componente restaurantes-import-dataset.component.ts');
 	}
 
-	onSubmit(){
+	ngOnInit () {
+		console.log('Se ha cargado el componente restaurantes-import-csv.component.ts');
+	}
+
+	setSeparacion (e : string){
+		this.separacion = e;
+		console.log(this.separacion);
+	}
+
+	onSubmit(){//PRIMERO SE SUBE EL DATASET AL SERVIDOR PARA PODER TRABAJAR CON EL 
 			this._restauranteService.makeFileRequest(GLOBAL.url+'upload-dataset', [], this.filesToUpload).then((result) => {
 				console.log(result);
 				this.resultUpload = result;
-				//UNA VEZ OBTENIDO EL RESULT, TENGO EL FILENAME PARA EXTRAER EL DATASET Y MOSTRARLO.
-				/*LO QUE DEBERÍA HACER ES UN MÉTODO EN EL SERVICE QUE ME DEVUELVA EL DATASET DESEADO 
-				Y MOSTRARLO
-				-->SIGUIENTE PASO: PARSEAR EL JSON, ALGÚN MÉTODO QUE EXTRAIGA TODOS LOS 
-				ATRIBUTOS NECESARIOS PARA EMPAREJARLOS CON LA BD
-				*/
-				this._datasetService.getDatasetFields(this.resultUpload.filename).subscribe(
+				//OBTENEMOS LOS FIELDS DEL DATASET QUE ACABAMOS DE SUBIR, 
+				this._datasetService.getDatasetFields(this.resultUpload.filename, this.separacion).subscribe(
 					result => {
 						if (result.code != 200){
 							console.log(result);
 						} else {
-
+							//OBTENEMOS LOS ATRIBUTOS DE LA TABLA RESTAURANTES PARA SU EMPAREJAMIENTO
 							this._restauranteService.getAtributosTabla().subscribe(
 								result => {
 									if (result.code != 200){
@@ -81,7 +82,8 @@ export class RestaurantesImportDatasetComponent {
 	passingFields(){
 		this._route.params.forEach((params: Params) => {
 			let filename = this.resultUpload.filename;
-			this._datasetService.addFields(filename, this.restaurante).subscribe(
+			//PASAMOS LOS FIELDS EMPAREJADOS CON LOS ATRIBUTOS DE LA BASE DE DATOS PARA PODER INSERTARLOS A TRAVES DE LA API
+			this._datasetService.addFields(filename, this.separacion, this.restaurante).subscribe(
 			response => {
 				if (response.code == 200){
 					console.log(response);
