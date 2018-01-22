@@ -18,7 +18,7 @@ export class RestaurantesListComponent {
 	public titulo : string;
 	public restaurantes : Restaurante[]; //variable que se utiliza para el html luego
 	public confirmado;
-	public hayUsuario : boolean;
+	public esAdmin : boolean;
 	public opinionesRecientes : Opinion[];
 
 	constructor (
@@ -30,11 +30,11 @@ export class RestaurantesListComponent {
 		this.titulo = 'Listado de Restaurantes';
 		this.confirmado = null;
 
-		if (_auth.authenticated()){
-			this.hayUsuario = true;
+		if (_auth.authenticatedAdmin()){
+			this.esAdmin = true;
 		}
 		else
-			this.hayUsuario = false;
+			this.esAdmin = false;
 		//this.generateDownloadJson();
 	}
 

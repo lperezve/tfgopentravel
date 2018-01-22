@@ -6,59 +6,52 @@ import { Restaurante } from '../../models/restaurante';
 import { GLOBAL } from '../../services/global';
 
 @Component ({
-	selector: 'restaurantes-import-csv',
+	selector: 'restaurantes-import-json',
 	templateUrl: '../../views/restaurantes/restaurantes-import-dataset.html',
 	providers: [RestauranteService, DatasetService]
 })
 
-export class RestaurantesImportCSVComponent {
+export class RestaurantesImportJSONComponent {
 	public soyCsv : boolean;
 	public soyJson : boolean;
-	public separacion : string;
-	//-------
-	public filesToUpload;
-	public resultUpload;
-	public archivoObtenido;
-	public atributos;
-	public fields;
-	public restaurante : Restaurante;
 	public importado : boolean;
 	public mensajeError;
 	public errorImportacion : boolean;
+	public restaurante : Restaurante;
+	public filesToUpload;
+	public resultUpload;
+	public atributos;
+	public fields;
+	public archivoObtenido;
 
 	constructor (private _restauranteService : RestauranteService,
 		private _datasetService : DatasetService,
 		private _route: ActivatedRoute,
 		private _router: Router) {
-		this.soyCsv = true;
-		this.soyJson = false;
-		//----
+		this.soyCsv = false;
+		this.soyJson = true;
 		this.restaurante = new Restaurante (0, '','','','','','');
 		this.importado = false;
 		this.errorImportacion = false;
 	}
-
 	ngOnInit () {
-		console.log('Se ha cargado el componente restaurantes-import-csv.component.ts');
+		console.log('Se ha cargado el componente restaurantes-import-json.component.ts');
 	}
 
-	setSeparacion (e : string){
-		this.separacion = e;
-		console.log(this.separacion);
-	}
-
-	onSubmit(){//PRIMERO SE SUBE EL DATASET AL SERVIDOR PARA PODER TRABAJAR CON EL 
-			this._restauranteService.makeFileRequest(GLOBAL.url+'upload-dataset', [], this.filesToUpload).then((result) => {
+	onSubmit(){
+		this._restauranteService.makeFileRequest(GLOBAL.url+'upload-dataset', [], this.filesToUpload).then(
+			(result) => {
 				console.log(result);
 				this.resultUpload = result;
 				//OBTENEMOS LOS FIELDS DEL DATASET QUE ACABAMOS DE SUBIR, 
-				this._datasetService.getDatasetFields(this.resultUpload.filename, this.separacion).subscribe(
+				this._datasetService.getDatasetFieldsJson(this.resultUpload.filename).subscribe(
 					result => {
 						if (result.code != 200){
 							console.log(result);
 							this.errorImportacion = true;
 							this.mensajeError = result.message;
 						} else {
+							console.log("ESTOY EN EL ELSE");
 							//OBTENEMOS LOS ATRIBUTOS DE LA TABLA RESTAURANTES PARA SU EMPAREJAMIENTO
 							this._restauranteService.getAtributosTabla().subscribe(
 								result => {
@@ -85,15 +78,15 @@ export class RestaurantesImportCSVComponent {
 			);
 	}
 
-	passingFields(){
+	passingFields (){
 		this._route.params.forEach((params: Params) => {
 			let filename = this.resultUpload.filename;
 			//PASAMOS LOS FIELDS EMPAREJADOS CON LOS ATRIBUTOS DE LA BASE DE DATOS PARA PODER INSERTARLOS A TRAVES DE LA API
-			this._datasetService.addFields(filename, this.separacion, this.restaurante).subscribe(
+			this._datasetService.addFieldsJson(filename, this.restaurante).subscribe(
 			response => {
 				if (response.code == 200){
 					console.log(response);
-					this._router.navigate(['/restaurantes']);
+					//this._router.navigate(['/restaurantes']);
 				}
 				else {
 					console.log(response);

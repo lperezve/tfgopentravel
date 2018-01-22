@@ -8,11 +8,13 @@ import { GLOBAL } from './global';
 @Injectable ()
 export class AuthService {
 	public url: string;
+	public admin : Usuario;
 
 	constructor (
 		public _http: Http,
 		) {
 		this.url = GLOBAL.urlusuarios;
+
 	}
 
 	getUsuarioLogin(email, password){
@@ -34,5 +36,19 @@ export class AuthService {
 		}
 		else
 			return false;
+	}
+
+	public authenticatedAdmin (){
+		this.admin = JSON.parse(localStorage.getItem('currentUser'));
+		if (this.admin == null){
+			return false;
+		} 
+		else {
+			if ((this.admin.nombre == "admin") && (this.admin.email == "admin")){
+				return true;
+			}
+			else
+				return false;
+			}
 	}
 }

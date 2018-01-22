@@ -2,7 +2,11 @@
 <div *ngIf="restaurante">
 	<div class="col-lg-4" *ngIf="restaurante.imagen">
 		<br>
-		<img src="http://localhost/tfg-lpv/tfg-backend/uploads/{{restaurante.imagen}}" class="restaurante_imagen"/>
+		<img src="{{restaurante.imagen}}" class="restaurante_imagen"/>
+	</div>
+	<div class="col-lg-4" *ngIf="!restaurante.imagen">
+		<br>
+		<img src="https://image.flaticon.com/icons/png/512/45/45586.png" class="restaurante_imagen"/>
 	</div>
 
 	<div class="col-lg-8">
@@ -40,7 +44,7 @@
 					Opinión (max 420 caracteres)
 				</label>
 				<br>
-				<textarea placeholder="Introduzca aquí su opinión (max 420 caracteres)" #mensaje="ngModel" name="mensaje" [(ngModel)]="opinion.mensaje" autofocus></textarea>
+				<textarea placeholder="Introduzca aquí su opinión (max 420 caracteres)" #mensaje="ngModel" name="mensaje" [(ngModel)]="opinion.mensaje"></textarea>
 
 				<input type="submit" value="Opinar" class="btn btn-success" [disabled]="!formOpinionesRest.form.valid"/>
 			</form>

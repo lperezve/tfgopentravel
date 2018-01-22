@@ -11,6 +11,7 @@ import { RestaurantesAddComponent } from './components/restaurantes/restaurantes
 import { RestaurantesDetailComponent } from './components/restaurantes/restaurantes-detail.component';
 import { RestaurantesEditComponent } from './components/restaurantes/restaurantes-edit.component';
 import { RestaurantesImportCSVComponent } from './components/restaurantes/restaurantes-import-csv.component';
+import { RestaurantesImportJSONComponent } from './components/restaurantes/restaurantes-import-json.component';
 
 import { UsuariosAddComponent } from './components/usuarios/usuarios-add.component';
 import { UsuariosDetailComponent } from './components/usuarios/usuarios-detail.component';
@@ -25,6 +26,7 @@ const appRoutes : Routes = [
 	{path: 'restaurantes/:id', component: RestaurantesDetailComponent},
 	{path: 'editar-restaurantes/:id', canActivate: [AuthguardGuard], component: RestaurantesEditComponent},
 	{path: 'importcsv-restaurantes', canActivate: [AuthguardGuard], component: RestaurantesImportCSVComponent},
+	{path: 'importjson-restaurantes', canActivate: [AuthguardGuard], component: RestaurantesImportJSONComponent},
 	
 	{path: 'crear-usuarios', component: UsuariosAddComponent},
 	{path: 'usuario', canActivate: [AuthguardGuard], component: UsuariosDetailComponent},

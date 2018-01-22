@@ -10,7 +10,7 @@
 		<div class="row">
 					<!-- listado de restaurantes -->
 
-				<div class="col-lg-4" *ngFor="let restaurante of restaurantes | paginate: {itemsPerPage: 6, currentPage: p1}">
+				<div class="col-lg-4" *ngFor="let restaurante of restaurantes"> <!-- | paginate: {itemsPerPage: 6, currentPage: p1}-->
 					<div class="thumbnail">
 						<div *ngIf="restaurante.imagen" class="imagen_container">
 							<!--<img src="http://localhost/tfg-lpv/tfg-backend/uploads/{{restaurante.imagen}}" class="restaurante_imagen"/>-->
@@ -20,16 +20,16 @@
 							<img class="restaurante_imagen" src="https://image.flaticon.com/icons/png/512/45/45586.png">
 						</div>
 							<div class="caption">
-								<h3> {{restaurante.nombre}} </h3>
+								<h4> {{restaurante.nombre}} </h4>
 
 							<div class="botones" *ngIf="confirmado != restaurante.id ">
-								<div *ngIf="hayUsuario">
+								<div *ngIf="esAdmin">
 									<p> <a [routerLink]="['/restaurantes', restaurante.id]" class="btn btn-primary">Ver más</a>
 										<a [routerLink]="['/editar-restaurantes', restaurante.id]" class="btn btn-warning">Editar</a>
 										<a (click)="borrarConfirm(restaurante.id)" class="btn btn-danger">Elimnar</a>
 									</p>
 								</div>
-								<div *ngIf="!hayUsuario">
+								<div *ngIf="!esAdmin">
 									<p> <a [routerLink]="['/restaurantes', restaurante.id]" class="btn btn-primary">Ver más</a>
 								</div>
 							</div>
@@ -40,7 +40,7 @@
 							</div>
 					</div>
 				</div>
-			<pagination-controls (pageChange)=" p1 = $event "></pagination-controls>
+			<!--<pagination-controls (pageChange)=" p1 = $event "></pagination-controls>-->
 		</div>
 
 		<!--[href]="urlDownload" download="restaurantes.json" -->
@@ -52,8 +52,8 @@
 <div class="col-lg-3">
 	
 	<div class="col-lg-12">
+		<h4> Últimos comentarios </h4>
 		<div *ngFor="let opinion of opinionesRecientes">
-			<h4> Últimos comentarios </h4>
 			<div class="panel panel-info">
 				<div class="panel-heading">
 					<h5 class="panel-title"> {{opinion.fecha}}</h5>

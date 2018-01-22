@@ -24,6 +24,8 @@ import { RestaurantesAddComponent } from './components/restaurantes/restaurantes
 import { RestaurantesDetailComponent } from './components/restaurantes/restaurantes-detail.component';
 import { RestaurantesEditComponent } from './components/restaurantes/restaurantes-edit.component';
 import { RestaurantesImportCSVComponent } from './components/restaurantes/restaurantes-import-csv.component';
+import { RestaurantesImportJSONComponent } from './components/restaurantes/restaurantes-import-json.component';
+
 
 import { UsuariosAddComponent } from './components/usuarios/usuarios-add.component';
 import { UsuariosDetailComponent } from './components/usuarios/usuarios-detail.component';
@@ -42,6 +44,7 @@ import { UsuariosDetailComponent } from './components/usuarios/usuarios-detail.c
     RestaurantesDetailComponent,
     RestaurantesEditComponent,
     RestaurantesImportCSVComponent,
+    RestaurantesImportJSONComponent,
     UsuariosAddComponent,
     UsuariosDetailComponent,
     KeysPipe

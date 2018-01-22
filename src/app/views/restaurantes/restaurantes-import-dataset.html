@@ -1,6 +1,6 @@
-<div class="col-lg-12" *ngIf="soyCsv">
+<div class="col-lg-12" >
   
-  <div>
+  <div *ngIf="soyCsv">
     <p> Por favor, seleccione el método de separación del fichero</p>
     <label><input type="radio" name="gender" value="," (click)="setSeparacion(',')">coma ','</label>
     <label><input type="radio" name="gender" value=":" (click)="setSeparacion(':')">dos puntos ':'</label>
@@ -9,6 +9,9 @@
   <input type="file" class="form-control" (change)="fileChangeEvent($event)"/>
   <input type="submit" value="Importar" (click)="onSubmit()"/>
 </div>
+<div *ngIf="errorImportacion">
+  <p> {{mensajeError}} </p>
+  </div>
 <div *ngIf="importado">
   <form #formCombinarDataset="ngForm" (ngSubmit)="passingFields()" class="col-lg-8" id="form-restaurantes">
     <div>
