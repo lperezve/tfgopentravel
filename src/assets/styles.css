@@ -110,11 +110,11 @@
 
 #subnav ul li a {
 	float:left;
-    padding: .4em 0.5em;
+    padding: .4em 0.8em;
     text-decoration: none;
     color: #39536c;
     text-shadow: 0 1px 0 rgba(255,255,255,.5);
-    font: bold 1.1em/1 'trebuchet MS', Arial, Helvetica;
+    font: 1em/1 'trebuchet MS', Arial, Helvetica;
     letter-spacing: 0.5px;
     border-width: 1px;
 }
@@ -128,8 +128,19 @@
 	/*text-decoration: none !important;
 	/*background: #0080FF !important;*/
 	/*color: white !important;*/
-	/*border-bottom: 3px solid #FFBF00;*/
-	box-shadow: 0 0 2px 2px rgba(0,0,0,.3) inset;
+	/*border-bottom: 3px solid #FFBF00;
+	box-shadow: 0 0 2px 2px rgba(0,0,0,.3) inset;*/
+	color: #555;
+	background-color: white !important;
+	margin:-1px;
+	border: 1px solid #ddd;
+
+
+}
+
+.activadosub {
+	color: white !important;
+
 }
 
 .menu-fixed {
@@ -163,6 +174,7 @@
 	overflow: hidden;
 }
 
+/*BORRAR??*/
 .restaurante_imagen {
 	height: 200px;
 	margin: 0 auto;
@@ -212,3 +224,57 @@ textarea{
     -moz-box-sizing: border-box;    /* Firefox, other Gecko */
     box-sizing: border-box;         /* Opera/IE 8+ */
 }
+
+.max-image {
+	max-width: 200px;
+	max-height: 300px;
+}
+
+.row-margin {
+	/*margin: 10px;*/
+    padding: -10px;
+}
+.border-grey {
+	border-width: 1px 1px 1px 1px; 
+	border-style: solid; 
+	border-color: lightgrey;
+}
+
+.imagen-listado {
+	height: 100px;
+	margin: 0 auto;
+	display: block;
+}
+
+.imagen-detalle {
+	height: 200px;
+	margin: 0 auto;
+	margin-top: 20px;
+	display: block;
+}
+
+.only-little-margin {
+	margin: 15px;
+}
+
+.cuadrado-azul {
+	border-width: 1px 1px 1px 1px; 
+	border-style: solid; 
+	border-color: #3399f3;
+	margin:5px;
+	padding: 5px;
+	border-radius: 0.25rem !important;
+}
+
+#list-panel {
+	border-width: 1px 1px 1px 1px; 
+	border-style: solid; 
+	border-color: #3399f38a;
+	padding: 10px;
+	margin-bottom: 10px;
+	border-radius: 0.25rem !important;
+	/*-webkit-box-shadow: 5px 10px 30px -5px rgba(0,0,0,0.39);
+	-moz-box-shadow: 5px 10px 30px -5px rgba(0,0,0,0.39);
+	box-shadow: 5px 10px 30px -5px rgba(0,0,0,0.39);*/
+}
+

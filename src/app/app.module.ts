@@ -9,7 +9,6 @@ import { routing, appRoutingProviders } from './app.routing';
 
 //Servicios
 import { AuthService } from './services/auth.service';
-import { KeysPipe } from './components/pipes_keys';
 
 //Componentes
 import { AppComponent } from './app.component';
@@ -29,7 +28,8 @@ import { RestaurantesImportJSONComponent } from './components/restaurantes/resta
 
 import { UsuariosAddComponent } from './components/usuarios/usuarios-add.component';
 import { UsuariosDetailComponent } from './components/usuarios/usuarios-detail.component';
-
+import { VerPerfilComponent } from './components/usuarios/ver-perfil.component';
+import { UsuariosEditComponent } from './components/usuarios/usuarios-edit.component';
 
 
 @NgModule({
@@ -47,7 +47,8 @@ import { UsuariosDetailComponent } from './components/usuarios/usuarios-detail.c
     RestaurantesImportJSONComponent,
     UsuariosAddComponent,
     UsuariosDetailComponent,
-    KeysPipe
+    VerPerfilComponent,
+    UsuariosEditComponent
   ],
   imports: [
     BrowserModule,

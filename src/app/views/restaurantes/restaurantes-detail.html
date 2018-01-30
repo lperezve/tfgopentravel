@@ -1,57 +1,65 @@
+<div class="col-md-12">
+	<div *ngIf="restaurante">
+		<div class="row">
+			<div class="col-md-3" *ngIf="restaurante.imagen">
+				<img alt="Imagen Principal del Restaurante" src="{{restaurante.imagen}}" class="img-rounded imagen-detalle">
+			</div>
+			<div class="col-lg-3" *ngIf="!restaurante.imagen">
+			<img src="https://image.flaticon.com/icons/png/512/45/45586.png" class="img-rounded imagen-detalle"/>
+			</div>
+			<div class="col-md-9">
+				<h3 class="text-primary text-center">
+					{{restaurante.nombre}}
+				</h3>
+				<p> Dirección: {{restaurante.direccion}}</p>
+				<p> Puntuación: {{avg}} </p>
 
-<div *ngIf="restaurante">
-	<div class="col-lg-4" *ngIf="restaurante.imagen">
-		<br>
-		<img src="{{restaurante.imagen}}" class="restaurante_imagen"/>
-	</div>
-	<div class="col-lg-4" *ngIf="!restaurante.imagen">
-		<br>
-		<img src="https://image.flaticon.com/icons/png/512/45/45586.png" class="restaurante_imagen"/>
-	</div>
-
-	<div class="col-lg-8">
-		<h3> {{restaurante.nombre}} </h3>
-		<p> Dirección: {{restaurante.direccion}}</p>
-		<p> Puntuación: {{avg}} </p>
-	</div>
-
-	<div class="col-lg-12">
-		<div class="col-lg-12" *ngFor="let opinion of opiniones">
-			<div class="thumbnail">
-				<h4>{{opinion.nombre}}</h4>
-				<p>{{opinion.fecha}}</p>
-				<p>{{opinion.puntuacion}} - {{opinion.mensaje}}</p>
 			</div>
 		</div>
-
-		<div *ngIf="hayUsuario">
-			<h2> Deja tu opinión </h2>
-			<form #formOpinionesRest="ngForm" (ngSubmit)="onSubmitOpinion()" class="col-lg-8" id="form-restaurantes">
-				<label>
-					Puntuación 
-				</label>
-				<input type="number" #puntuacion="ngModel" name="puntuacion" [(ngModel)]="opinion.puntuacion"/>
-				<!-- https://emiliocobos.net/calificacion-estrellas-solo-con-css/ 
-				<div class="ec-stars-wrapper">
-					<a data-value="1" title="Votar con 1 estrellas">&#9733;</a>
-					<a data-value="2" title="Votar con 2 estrellas">&#9733;</a>
-					<a data-value="3" title="Votar con 3 estrellas">&#9733;</a>
-					<a data-value="4" title="Votar con 4 estrellas">&#9733;</a>
-					<a data-value="5" title="Votar con 5 estrellas">&#9733;</a>
-				</div>-->
-				<br>
-				<label>
-					Opinión (max 420 caracteres)
-				</label>
-				<br>
-				<textarea placeholder="Introduzca aquí su opinión (max 420 caracteres)" #mensaje="ngModel" name="mensaje" [(ngModel)]="opinion.mensaje"></textarea>
-
-				<input type="submit" value="Opinar" class="btn btn-success" [disabled]="!formOpinionesRest.form.valid"/>
-			</form>
+		<div class="row">
+			<div class="col-md-12">
+				<h3 class="text-center">
+						Comentarios
+				</h3>
+				<!-- AQUÍ SE PODRÍA PONER UN FILTRO PARA LOS COMENTARIOS -->
+				<div class="col-md-10 col-md-offset-1">
+					<div class="panel panel-info" *ngFor="let opinion of opiniones | paginate: {itemsPerPage: 2, currentPage: p}">
+				    	<div class="panel-heading">
+				      		<h4>{{opinion.nombre}}</h4>
+				      	</div>
+				      	<div class="panel-body">
+				      		<p>{{opinion.fecha}}</p>
+							<p>{{opinion.puntuacion}} - {{opinion.mensaje}}</p>
+							<button type="button" class="btn btn-success btn-sm">
+								Votar
+							</button>
+				      	</div>
+					</div>
+					<pagination-controls (pageChange)=" p = $event "></pagination-controls>
+				</div>
+				<div *ngIf="hayUsuario">
+					<div class="col-md-10 col-md-offset-1 thumbnail">
+						<h3 class="text-primary text-center"> Deja tu opinión </h3>
+						<form role="form" #formOpinionesRest="ngForm" (ngSubmit)="onSubmitOpinion()">
+							<div class="form-group">
+								<div class="col-md-4">
+									<label for="Puntuacion">
+										Puntuación
+									</label>
+									<input type="number" class="form-control" id="puntuacion" #puntuacion="ngModel" name="puntuacion" [(ngModel)]="opinion.puntuacion">
+								</div>
+								<div class="col-md-8">
+									<label for="Opinion">
+										Opinión (máx 420 caracteres)
+									</label>
+									<textarea placeholder="Introduzca aquí su opinión (max 420 caracteres)" #mensaje="ngModel" name="mensaje" [(ngModel)]="opinion.mensaje"></textarea>
+								</div>
+									<input type="submit" value="Opinar" class="btn btn-info pull-right only-little-margin" [disabled]="!formOpinionesRest.form.valid"/>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
 		</div>
-		
-
 	</div>
-
-
 </div>

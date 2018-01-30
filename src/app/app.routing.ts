@@ -1,4 +1,5 @@
 import { ModuleWithProviders } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 //Componentes
@@ -15,6 +16,8 @@ import { RestaurantesImportJSONComponent } from './components/restaurantes/resta
 
 import { UsuariosAddComponent } from './components/usuarios/usuarios-add.component';
 import { UsuariosDetailComponent } from './components/usuarios/usuarios-detail.component';
+import { VerPerfilComponent } from './components/usuarios/ver-perfil.component';
+import { UsuariosEditComponent } from './components/usuarios/usuarios-edit.component';
 
 
 const appRoutes : Routes = [
@@ -30,6 +33,9 @@ const appRoutes : Routes = [
 	
 	{path: 'crear-usuarios', component: UsuariosAddComponent},
 	{path: 'usuario', canActivate: [AuthguardGuard], component: UsuariosDetailComponent},
+	{path: 'ver-perfil', component: VerPerfilComponent},
+	{path: 'editar-perfil', component: UsuariosEditComponent},
+	
 
 	{path: '**', component: ErrorComponent}//siempre debe ser la última, es cuando no existe la ruta
 

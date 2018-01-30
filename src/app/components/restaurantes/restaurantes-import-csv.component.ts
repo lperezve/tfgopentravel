@@ -88,9 +88,11 @@ export class RestaurantesImportCSVComponent {
 	passingFields(){
 		this._route.params.forEach((params: Params) => {
 			let filename = this.resultUpload.filename;
+			console.log("HASTA AQUÍ");
 			//PASAMOS LOS FIELDS EMPAREJADOS CON LOS ATRIBUTOS DE LA BASE DE DATOS PARA PODER INSERTARLOS A TRAVES DE LA API
 			this._datasetService.addFields(filename, this.separacion, this.restaurante).subscribe(
 			response => {
+				console.log(response);
 				if (response.code == 200){
 					console.log(response);
 					this._router.navigate(['/restaurantes']);
@@ -98,11 +100,11 @@ export class RestaurantesImportCSVComponent {
 				else {
 					console.log(response);
 				}
-				},
-				error => {
-					console.log(<any>error);
-				}
-			);
+			},
+			error => {
+				console.log(<any>error);
+			});
+		console.log("Aquí tambien");
 		});
 	}
 

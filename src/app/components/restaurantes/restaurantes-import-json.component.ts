@@ -86,7 +86,7 @@ export class RestaurantesImportJSONComponent {
 			response => {
 				if (response.code == 200){
 					console.log(response);
-					//this._router.navigate(['/restaurantes']);
+					this._router.navigate(['/restaurantes']);
 				}
 				else {
 					console.log(response);

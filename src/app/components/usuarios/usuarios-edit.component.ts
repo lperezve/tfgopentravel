@@ -3,33 +3,28 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { UsuarioService } from '../../services/usuario.service';
 import { Usuario } from '../../models/usuario';
 import { AuthService } from '../../services/auth.service';
-import { Opinion } from '../../models/opinion';
-
 
 @Component ({
-	selector: 'usarios-detail',
-	templateUrl: '../../views/usuarios/usuarios-detail.html',
+	selector: 'usarios-edit',
+	templateUrl: '../../views/usuarios/usuarios-edit.html',
 	providers: [UsuarioService, AuthService]
 })
 
-export class UsuariosDetailComponent {
+export class UsuariosEditComponent {
 	public usuario : Usuario;
-	public opiniones;
-	public hayOpiniones : boolean;
- 
+	public atributos;
+
 	constructor (
 		private _route: ActivatedRoute,
 		private _router: Router,
 		private _usuarioService: UsuarioService,
-		private auth : AuthService
-	) {
-		this.hayOpiniones = false;
-	}
+		private _authService : AuthService
+	) {}
 
 	ngOnInit(){
-		console.log('Se ha cargado el componente usuarios-detail.component.ts');
+		console.log('Se ha cargado el componente usuarios-edit.component.ts');
 		this.getUsuario();
-		this.getOpinionesUsuario();
+		this.getAtributosUsuario();
 	}
 
 	getUsuario(){
@@ -47,19 +42,34 @@ export class UsuariosDetailComponent {
 		);
 	}
 
-	getOpinionesUsuario () {
-		this._usuarioService.getOpinionesUser(this.usuario.id).subscribe(
+	getAtributosUsuario(){
+		this._usuarioService.getAtributos().subscribe(
+			result => {
+				if (result.code != 200) { //cuando haya un error
+					console.log(result);
+				} else { //cuando todo va bien, se le asignan los datos
+					this.atributos = result.data;
+				}
+			}, 
+			error => {
+				console.log(<any>error);//para mostrar el error que nos devuelve
+			}
+		);
+	}
+	
+	updateUsuario() {
+		console.log(this.usuario);
+		this._usuarioService.editUsuarios(this.usuario.id, this.usuario).subscribe(
 			response => {
-				if (response.code == 200){
-					this.opiniones = response.data;
-					this.hayOpiniones = true;
-					console.log(this.opiniones);
+				if (response.code == 200) {
+					this._authService.loginservice(this.usuario);
+					this._router.navigate(['/ver-perfil']);
+
 				}
 				else {
-					this.hayOpiniones = false;
 					console.log(response);
 				}
-				},
+			},
 			error => {
 				console.log(<any>error);
 			}

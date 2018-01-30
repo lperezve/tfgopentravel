@@ -1,0 +1,68 @@
+<div class="col-md-12">
+	<div class="row">
+		<div *ngIf="usuario">
+			<!-- COLUMNA IZQUIERDA -->
+			<div class="col-md-3">
+				<div class="col-md-12 only-little-margin" align="center">
+					<img alt="Imagen de perfil" class="max-image border-grey img-circle" src="https://image.flaticon.com/icons/png/512/10/10952.png">
+				</div>
+				<div class="col-md-12 row-margin">
+					<p class="text-center font-weight-bold"> {{usuario.nombre}} {{usuario.apellido1}} {{usuario.apellido2}} </p>
+					<p class="text-center font-italic">{{usuario.alias}}</p>
+				</div>
+				<div class="row">
+					<div class="col-md-12 only-little-margin"> 
+						<button [routerLink]="['/usuario']" type="button" class="btn btn-success btn-block">Ver Perfil</button>
+						<button [routerLink]="['/ver-perfil']" type="button" class="btn btn-primary btn-block">Mis Datos</button>
+						<button type="button" class="btn btn-warning btn-block">Tareas Pendientes</button>
+					</div>
+				</div>
+			</div>
+			<!-- COLUMNA DERECHA -->
+			<div class="col-md-9">
+				<div class="only-little-margin">
+					<h3 class="text-center text-success">
+						Mi perfil
+					</h3>
+						<div class="col-md-12">
+							<div class="col-md-8 col-md-offset-2">
+								<form #formEditUsuario="ngForm" (ngSubmit)="updateUsuario()" id="form-restaurantes">
+									<label for="nombre"> Nombre </label>
+									<span *ngIf="!nombre.valid && nombre.touched" class="label label-danger"> El nombre es obligatorio </span>
+									<input type="text" class="form-control" #nombre="ngModel" name="nombre" [(ngModel)]="usuario.nombre" required />
+
+									<label for="apellido 1"> Apellido 1 </label>
+									<input type="text" class="form-control" #apellido1="ngModel" name="apellido1" [(ngModel)]="usuario.apellido1"/>
+
+									<label for="apellido 2"> Apellido 2 </label>
+									<input type="text" class="form-control" #apellido2="ngModel" name="apellido2" [(ngModel)]="usuario.apellido2"/>
+
+									<label for="alias"> 
+										Alias 
+										<span *ngIf="!alias.valid && alias.touched" class="label label-danger"> El alias es obligatorio</span>
+									</label>
+									<input type="text" class="form-control" #alias="ngModel" name="alias" [(ngModel)]="usuario.alias" required pattern="([a-zA-Z0-9]+)"/>
+
+
+									<label for="email"> 
+									Email 
+										<span *ngIf="!email.valid && email.touched" class="label label-danger"> El email es obligatorio </span>
+									</label>
+									<input type="email" class="form-control" #email="ngModel" name="email" [(ngModel)]="usuario.email" required pattern="^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$"/>
+
+									<label for="password"> 
+									Contraseña 
+									<!--<span *ngIf="!password.valid && password.touched" class="label label-danger"> El password es obligatorio </span>-->
+									</label>
+									<input type="password" class="form-control" #password="ngModel" name="password" [(ngModel)]="usuario.password" />	
+
+									<br>
+									<input type="submit" value ="Guardar" class="btn btn-success" [disabled]="!formEditUsuario.form.valid" />
+								</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

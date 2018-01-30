@@ -24,7 +24,7 @@ export class DatasetService {
 		return this._http.get(this.url+'json-fields/'+filename).map(res => res.json());
 	}
 
-	/* SE PASA UN RESTAURANTE QUE TIENE LOS CAMPOS (FIELDS) NECESARIOS PARA LA INSERCCIÓN */
+	/* SE PASA UN RESTAURANTE QUE TIENE LOS CAMPOS (FIELDS) NECESARIOS PARA LA INSERCCIÓN CSV*/
 	addFields(filename, separacion, restaurante : Restaurante){
 		let json = JSON.stringify(restaurante);
 		let params = 'json='+json;
@@ -33,6 +33,7 @@ export class DatasetService {
 				.map(res => res.json());
 	}
 
+	/* SE PASA UN RESTAURANTE QUE TIENE LOS CAMPOS (FIELDS) NECESARIOS PARA LA INSERCCIÓN JSON*/
 	addFieldsJson(filename, restaurante : Restaurante){
 		let json = JSON.stringify(restaurante);
 		let params = 'json='+json;

@@ -1,0 +1,54 @@
+<div class="col-md-12">
+	<div class="row">
+		<div *ngIf="usuario">
+			<!-- COLUMNA IZQUIERDA -->
+			<div class="col-md-3">
+				<div class="col-md-12 only-little-margin" align="center">
+					<img alt="Imagen de perfil" class="max-image border-grey img-circle" src="https://image.flaticon.com/icons/png/512/10/10952.png">
+				</div>
+				<div class="col-md-12 row-margin">
+					<p class="text-center font-weight-bold"> {{usuario.nombre}} {{usuario.apellido1}} {{usuario.apellido2}} </p>
+					<p class="text-center font-italic">{{usuario.alias}}</p>
+				</div>
+				<div class="row">
+					<div class="col-md-12 only-little-margin"> 
+						<button [routerLink]="['/usuario']" type="button" class="btn btn-success btn-block">Ver Perfil</button>
+						<button [routerLink]="['/ver-perfil']" type="button" class="btn btn-primary btn-block">Mis Datos</button>
+						<button type="button" class="btn btn-warning btn-block">Tareas Pendientes</button>
+					</div>
+				</div>
+			</div>
+			<!-- COLUMNA DERECHA -->
+			<div class="col-md-9">
+				<div class="only-little-margin">
+					<h3 class="text-center text-success">
+						Mi perfil
+					</h3>
+						<div class="col-md-12">
+							<div class="row">
+							<div class="col-md-4">
+								<div class="text-right" *ngFor="let at of atributos">
+									<p> {{at}} </p>
+								</div>
+							</div>
+							<div class="col-md-8">
+							<div class="text-left" *ngFor="let us of usuarioArray">
+								<p><strong>{{us}}</strong></p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4" *ngIf="!confirmado">
+					<button type="button" class="btn btn-danger pull-right" (click)="borrarConfirm(usuario.id)" >Eliminar Perfil</button>
+				</div>
+				<div class="col-md-4 seguro" *ngIf="confirmado == usuario.id">
+							<a (click)="onDeleteUsuario(usuario.id)" class="btn btn-danger">Darme de Baja</a>
+							<a (click)="cancelarConfirm()" class="btn btn-warning pull-right">Cancelar</a>
+						</div>
+				<div class="col-md-8">
+					<button [routerLink]="['/editar-perfil']" type="button" class="btn btn-info pull-left">Editar Perfil</button> 
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

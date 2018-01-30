@@ -1,10 +1,20 @@
-<form #formUsuarios="ngForm" (ngSubmit)="loginUsuario($event)">
-	<div class="col-lg-4" id="form-restaurantes">
-		<label> Email </label>
-		<input type="text" class="form-control" autofocus required />
-		<label> Contraseña </label>
-		<input type="password" class="form-control" required/>
-		<br>
-		<input type="submit" value="Login" class="btn btn-success" [disabled]="!formUsuarios.form.valid"/>
+<div class="col-md-12">
+	<div class="col-md-7 thumbnail">
+		<p> Poner las instrucciones o en qué consiste ser usuario de la página, o los distintos usuarios que puedes ser </p>
 	</div>
-</form>
+	<div class="col-md-5 thumbnail">
+		<h2 class="text-center text-primary">
+			Acceso de usuario
+					</h2>
+		<form #formUsuarios="ngForm" (ngSubmit)="loginUsuario($event)">
+			<div class="col-lg-8" id="form-restaurantes">
+				<label for="email"> Email </label>
+				<input type="text" class="form-control" autofocus required />
+				<label for="password"> Contraseña </label>
+				<input type="password" class="form-control" required/>
+				<br>
+				<input type="submit" value="Login" class="btn btn-success" [disabled]="!formUsuarios.form.valid"/>
+			</div>
+		</form>
+	</div>
+</div>
