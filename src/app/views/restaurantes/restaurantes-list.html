@@ -4,8 +4,32 @@
 		<!-- LISTA DE RESTAURANTES --> 
 		<div class="col-md-9">
 			<h3 class="text-center text-default"> Restaurantes </h3>
+			<div class="row only-little-margin">
+				<div class="col-md-12"  id="panel-buscador">
+					<div class="col-md-1">
+						<h4 class="text-center text-secondary bold"> Filtrar </h4>
+					</div>
+					<div class="col-md-4">
+						<!--<select class="form-control">
+							<option value="0" disabled selected> Seleccione una búsqueda </option>
+							<option value="1"> Mejor valorados </option>
+						</select>-->
+						  <select class="form-control" [(ngModel)]="selected" (ngModelChange)="getAll()">
+						    <option value="1">Todos los restaurantes</option>
+						    <option value="2">Mejor Valoración</option>
+						    <option value="3">Ciudad</option>
+						</select>
+					</div>
+					<div class="col-md-3">
+						<h4 class="text-center text-secondary bold"> Buscar por nombre </h4>
+					</div>
+					<div class="col-md-4">
+						<input class="form-control" [(ngModel)]="searchText" placeholder="search text goes here">
+					</div>
+				</div>
+			</div>
 			<div class="col-md-12">
-				<div class="col-md-6 row-margin" *ngFor="let restaurante of restaurantes | paginate: {itemsPerPage: 6, currentPage: p1}">
+				<div class="col-md-6 row-margin" *ngFor="let restaurante of restaurantes | filterNombre : searchText | paginate: {itemsPerPage: 6, currentPage: p1}">
 					<div id="list-panel" class="col-md-12 row">
 						<h3 class="text-center text-primary"> {{restaurante.nombre}} </h3>
 						<div class="col-md-4">

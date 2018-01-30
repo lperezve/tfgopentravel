@@ -7,6 +7,8 @@ import { AuthService } from '../../services/auth.service';
 import 'rxjs/Rx';
 import { saveAs as importedSaveAs} from "file-saver";
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
+import { FilterPipe } from '../../components/filter.pipe';
+
 
 @Component ({
 	selector: 'restaurantes-list',
@@ -20,6 +22,16 @@ export class RestaurantesListComponent {
 	public confirmado;
 	public esAdmin : boolean;
 	public opinionesRecientes : Opinion[];
+	public filtro;
+	public selected;
+	characters = [
+    'Finn the human',
+    'Jake the dog',
+    'Princess bubblegum',
+    'Lumpy Space Princess',
+    'Beemo1',
+    'Beemo2'
+  ]
 
 	constructor (
 		private _route: ActivatedRoute,
@@ -29,6 +41,7 @@ export class RestaurantesListComponent {
 		) {
 		this.titulo = 'Listado de Restaurantes';
 		this.confirmado = null;
+		this.selected = 1;
 
 		if (_auth.authenticatedAdmin()){
 			this.esAdmin = true;
@@ -40,8 +53,22 @@ export class RestaurantesListComponent {
 
 	ngOnInit () {
 		console.log('Se ha cargado el componente list-restaurantes.component.ts');
-		this.getRestaurantes();
+		if (this.filtro == null){
+			this.getRestaurantes();
+		}
 		this.getOpinionesRecientes();
+		console.log(this.selected);
+	}
+
+	getAll () {
+		if(this.selected == 1){
+			this.getRestaurantes();
+			console.log("opcion1");
+		}
+		if (this.selected == 2){
+			this.getRestaurantesValoracion();
+			console.log("opcion2");
+		}
 	}
 
 	getRestaurantes () {
@@ -55,6 +82,22 @@ export class RestaurantesListComponent {
 			}, 
 			error => {
 				console.log(<any>error);//para mostrar el error que nos devuelve
+			}
+		);
+	}
+
+	getRestaurantesValoracion () {
+		this._restauranteService.getRestaurantesValorados().subscribe(
+			result => {
+				if (result.code == 200){
+					this.restaurantes = result.data;
+				}
+				else {
+					console.log(result);
+				}
+			},
+			error => {
+				console.log(<any>error);
 			}
 		);
 	}

@@ -278,3 +278,15 @@ textarea{
 	box-shadow: 5px 10px 30px -5px rgba(0,0,0,0.39);*/
 }
 
+#panel-buscador {
+	background: aliceblue;
+    width: 910px;
+    padding: 5px;
+    padding-top: 10px;
+    border-radius: 5px;
+}
+
+.bold {
+	font-weight: bold;
+}
+
