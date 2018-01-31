@@ -13,13 +13,23 @@ import { AuthService } from '../../services/auth.service';
 export class UsuariosEditComponent {
 	public usuario : Usuario;
 	public atributos;
+	public admin : boolean = false;
 
 	constructor (
 		private _route: ActivatedRoute,
 		private _router: Router,
 		private _usuarioService: UsuarioService,
 		private _authService : AuthService
-	) {}
+	) {
+		if (_authService.authenticated()){
+	      this.usuario = JSON.parse(localStorage.getItem('currentUser'));
+	      if (this.usuario.admin == true){
+	         this.admin = true;
+	      } else {
+	      	this.admin = false;
+	      }
+	    }
+	}
 
 	ngOnInit(){
 		console.log('Se ha cargado el componente usuarios-edit.component.ts');

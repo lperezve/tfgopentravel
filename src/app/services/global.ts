@@ -3,5 +3,6 @@ export var GLOBAL = {
 	urlrestaurantes: 'http://localhost/tfg-lpv/tfg-backend/apirestaurantes.php/',
 	urlusuarios: 'http://localhost/tfg-lpv/tfg-backend/apiusuarios.php/',
 	urlopinionesRestaurantes: 'http://localhost/tfg-lpv/tfg-backend/apiopiniones_restaurantes.php/',
-	urluploads: 'http://localhost/tfg-lpv/tfg-backend/upload.php/uploads'
+	urluploads: 'http://localhost/tfg-lpv/tfg-backend/upload.php/uploads',
+	urlpropiedades: 'http://localhost/tfg-lpv/tfg-backend/apipropiedades.php/'
 }

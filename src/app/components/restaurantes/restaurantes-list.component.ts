@@ -7,7 +7,6 @@ import { AuthService } from '../../services/auth.service';
 import 'rxjs/Rx';
 import { saveAs as importedSaveAs} from "file-saver";
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
-import { FilterPipe } from '../../components/filter.pipe';
 
 
 @Component ({

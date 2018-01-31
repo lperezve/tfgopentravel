@@ -22,24 +22,26 @@
 			<div class="col-md-9">
 					<div class="only-little-margin">
 						<h3 class="text-center text-success">
-							Mi perfil
+							Tareas Pendientes
 						</h3>
-						<div class="panel panel-default" *ngIf="opiniones">
-							 <h4 class="panel-heading"> Comentarios dejados </h4>
-							 <div class="panel-body cuadrado-azul" *ngFor="let op of opiniones | paginate: {itemsPerPage: 4, currentPage: p}">
-							 	{{op.fecha}} 
-							 	<br>
-							 	{{op.nombre}} - <strong>{{op.mensaje}}</strong>
-							 </div>
-							 <pagination-controls (pageChange)=" p = $event "></pagination-controls>
-						</div>
-						<div class="panel panel-default" *ngIf="!opiniones">
-							<div class="row only-little-margin">
+						<div class="only-little-margin"*ngIf="peticiones">
+							<h4 class="text-warning"> Usuarios que solicitan propiedades </h4>
+							<div class="col-md-12 panel panel-default padding-top"*ngFor="let pet of peticiones">
+								<div class="col-md-1 ">
+									<p class="text-center text-danger"> Petición <br>{{pet.id}}</p>
+								</div>
 								<div class="col-md-8">
-								<h4 class="text-right text-warning"> Aún no has dejado ninguna opinión, empieza ahora!! :) </h4></div>
-								<div class="col-md-3"><p><a [routerLink]="['/restaurantes']" class="btn btn-primary"> Restaurantes </a></p></div>
+									<p class="text-info"> El usuario con alias <strong>{{pet.alias}}</strong> y correo electrónico <strong>{{pet.email}}</strong> solicita la propiedad <strong><i>{{pet.nombre}}</i></strong> para hacerse cargo de su edición y borrado en caso necesario.</p>
+								</div>
+								<div class="col-md-3">
+									<button (click)="validar(pet.id)" class="btn btn-success">Validar</button>
+									<button (click)="denegar(pet.id)"class="btn btn-danger">Denegar</button>
+								</div>
 							</div>
 						</div>
+					<div class="only-little-margin"*ngIf="!peticiones">
+						<h4 class="text-success text-center"> Enhorabuena!! No tiene ninguna tarea ;) </h4>
+					</div>
 				</div>
 			</div>
 		</div>

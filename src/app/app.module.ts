@@ -31,7 +31,7 @@ import { UsuariosAddComponent } from './components/usuarios/usuarios-add.compone
 import { UsuariosDetailComponent } from './components/usuarios/usuarios-detail.component';
 import { VerPerfilComponent } from './components/usuarios/ver-perfil.component';
 import { UsuariosEditComponent } from './components/usuarios/usuarios-edit.component';
-
+import { TareasPendientesComponent } from './components/usuarios/admin-tareas-pendientes.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +50,7 @@ import { UsuariosEditComponent } from './components/usuarios/usuarios-edit.compo
     UsuariosDetailComponent,
     VerPerfilComponent,
     UsuariosEditComponent,
+    TareasPendientesComponent,
     FilterPipe
   ],
   imports: [

@@ -14,7 +14,7 @@
 					<div class="col-md-12 only-little-margin"> 
 						<button [routerLink]="['/usuario']" type="button" class="btn btn-success btn-block">Ver Perfil</button>
 						<button [routerLink]="['/ver-perfil']" type="button" class="btn btn-primary btn-block">Mis Datos</button>
-						<button type="button" class="btn btn-warning btn-block">Tareas Pendientes</button>
+						<button *ngIf="admin" [routerLink]="['/tareas-pendientes']" type="button" class="btn btn-warning btn-block">Tareas Pendientes</button>
 					</div>
 				</div>
 			</div>

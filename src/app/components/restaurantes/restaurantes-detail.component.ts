@@ -6,12 +6,13 @@ import { Opinion } from '../../models/opinion';
 import { Usuario } from '../../models/usuario';
 import { UsuarioService } from '../../services/usuario.service';
 import { AuthService } from '../../services/auth.service';
-
+import { PropiedadService } from '../../services/propiedad.service';
+//import { AgmCoreModule } from '@agm/core';
 
 @Component ({
 	selector: 'restaurantes-detail',
 	templateUrl: '../../views/restaurantes/restaurantes-detail.html',
-	providers: [RestauranteService, UsuarioService, AuthService]
+	providers: [RestauranteService, UsuarioService, AuthService, PropiedadService]
 })
 
 export class RestaurantesDetailComponent {
@@ -23,6 +24,9 @@ export class RestaurantesDetailComponent {
 	public avg;
 	public usuariosOpinion;
 	public opinionSingle : Opinion;
+	public propietario : boolean;
+	public userPropi : Usuario;
+	public solicitado : boolean;
 
 
 	constructor (
@@ -30,21 +34,27 @@ export class RestaurantesDetailComponent {
 		private _router: Router,
 		private _restauranteService: RestauranteService,
 		private _usuarioService: UsuarioService,
-		private _auth : AuthService
+		private _auth : AuthService,
+		private _propiedadService : PropiedadService
 	) {
 		this.opinion = new Opinion(0,0,0,0,'','');
 		this.opinionSingle = new Opinion(0,0,0,0,'','');
+		this.propietario = false;
+		this.solicitado = false;
 		if (_auth.authenticated()){
 			this.hayUsuario = true;
 		}
 		else
 			this.hayUsuario = false;
+
 	}
 
 	ngOnInit() {
 		console.log('Se ha cargado el componente restaurantes-detail.component.ts');
 		this.getRestaurante();
 		this.getOpiniones();
+		this.obtenerPropietario();
+		this.getUsuario();
 	}
 
 	getRestaurante(){
@@ -65,6 +75,21 @@ export class RestaurantesDetailComponent {
 			);
 		});
 	}
+	getUsuario(){
+		this.usuario = JSON.parse(localStorage.getItem('currentUser'));
+		this._usuarioService.getUsuario(this.usuario.id).subscribe(
+			response => {
+				if (response.code == 200)
+					this.usuario = response.data;
+				 else
+					this._router.navigate(['/home']);
+				},
+			error => {
+				console.log(<any>error);	
+			}
+		);
+	}
+
 	/*obtener las opiniones de un restaurante */
 	getOpiniones(){
 		this._route.params.forEach((params: Params) => {
@@ -97,13 +122,56 @@ export class RestaurantesDetailComponent {
 		);
 	}
 
-
 	obtenerUsuariosOpinion(){
-		
 	}
 
+	obtenerPropietario () {
+		this._route.params.forEach((params: Params) => {
+			let id = params['id'];
+			this._restauranteService.getPropietarioRestaurante(id).subscribe(
+				response => {
+					if (response.code == 200 && response.bandera == true){
+						this.propietario = true;
+						this.userPropi = response.data;
+						console.log(response.data);
+					}
+					else{
+						console.log(response);
+					}
+				},
+				error => {
+					console.log(<any>error);
+				}
+			);
+		});
+	}
 
+	esSolicitado(){
+		this.solicitado = true;
+	}
 
+	cancelarSolicitud(){
+		this.solicitado = false;
+	}
+
+	solicitarPropiedad(id){
+		console.log(this.usuario.id);
+		console.log(id);
+		this._propiedadService.nuevaSolicitud(this.usuario.id, id).subscribe(
+			response => {
+				if (response.code == 200){
+					console.log(response.message);
+					this.solicitado = false;
+				}
+				else {
+					console.log(response);
+				}
+			},
+			error => {
+				console.log(<any>error);
+			}
+		);
+	}
 	// ---------------- cuando el usuario está logeado ----------------------- //
 
 	onSubmitOpinion(){

@@ -8,11 +8,32 @@
 			<img src="https://image.flaticon.com/icons/png/512/45/45586.png" class="img-rounded imagen-detalle"/>
 			</div>
 			<div class="col-md-9">
-				<h3 class="text-primary text-center">
-					{{restaurante.nombre}}
-				</h3>
-				<p> Dirección: {{restaurante.direccion}}</p>
-				<p> Puntuación: {{avg}} </p>
+				<div class="col-md-7 thumbnail">
+					<h3 class="text-primary text-center">
+						{{restaurante.nombre}}
+					</h3>
+					<p> Dirección: {{restaurante.direccion}}</p>
+					<p> Puntuación: {{avg}} </p>
+					<div *ngIf="!propietario">
+						<div *ngIf="!solicitado">
+							<p> <a (click)="esSolicitado()"> ¿Eres propietario de este negocio? Solicítalo </a></p>
+						</div>
+						<div *ngIf="solicitado">
+							<p><strong> A continuación se va a proceder a informar al administrador de la solicitud deseada: <i>el usuario {{usuario.nombre}} requiere los derechos de este establecimiento ({{restaurante.nombre}}). </i></strong></p>
+							<p> ¿Está seguro? </p>
+							<a (click)="solicitarPropiedad(restaurante.id)" class="btn btn-success">Aceptar</a>
+							<a (click)="cancelarSolicitud()" class="btn btn-warning">Cancelar</a>
+						</div>
+					</div>
+				
+				</div>
+				<div class="col-md-5 thumbnail" *ngIf="propietario">
+					<h4 class="text-muted text-center"> Propietario </h4>
+					<p class="text-center">{{userPropi.nombre}} {{userPropi.apellido1}} {{userPropi.apellido2}} </p>
+					<p class="text-center">{{userPropi.email}}</p>
+				</div>
+				
+					
 
 			</div>
 		</div>
@@ -35,7 +56,7 @@
 							</button>
 				      	</div>
 					</div>
-					<pagination-controls (pageChange)=" p = $event "></pagination-controls>
+					<pagination-controls *ngIf="opiniones" (pageChange)=" p = $event "></pagination-controls>
 				</div>
 				<div *ngIf="hayUsuario">
 					<div class="col-md-10 col-md-offset-1 thumbnail">

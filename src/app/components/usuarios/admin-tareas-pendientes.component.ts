@@ -3,25 +3,26 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { UsuarioService } from '../../services/usuario.service';
 import { Usuario } from '../../models/usuario';
 import { AuthService } from '../../services/auth.service';
+import { Propiedad } from '../../models/propiedad';
+import { PropiedadService } from '../../services/propiedad.service';
 
 @Component ({
-	selector: 'ver-perfil',
-	templateUrl: '../../views/usuarios/ver-perfil.html',
-	providers: [UsuarioService, AuthService]
+	selector: 'tareas-pendientes',
+	templateUrl: '../../views/usuarios/admin-tareas-pendientes.html',
+	providers: [UsuarioService, AuthService, PropiedadService]
 })
 
-export class VerPerfilComponent {
+export class TareasPendientesComponent {
 	public usuario : Usuario;
-	public atributos;
-	public usuarioArray;
-	public confirmado;
 	public admin : boolean = false;
+	public peticiones = [];
 
 	constructor (
 		private _route: ActivatedRoute,
 		private _router: Router,
 		private _usuarioService: UsuarioService,
-		private _authService : AuthService
+		private _authService : AuthService,
+		private _propiedadService : PropiedadService
 	) {
 		if (_authService.authenticated()){
 	      this.usuario = JSON.parse(localStorage.getItem('currentUser'));
@@ -31,16 +32,12 @@ export class VerPerfilComponent {
 	      	this.admin = false;
 	      }
 	    }
-		this.usuarioArray = [];
-		this.confirmado = null;
-
 	}
 
 	ngOnInit(){
 		console.log('Se ha cargado el componente usuarios-detail.component.ts');
-		this.getAtributosUsuario();
-		this.usuarioArray = [];
-		this.showPerfil();
+		this.getUsuario();
+		this.getTareasPendientes();
 	}
 
 	getUsuario(){
@@ -58,53 +55,55 @@ export class VerPerfilComponent {
 		);
 	}
 
-	getAtributosUsuario(){
-		this._usuarioService.getAtributos().subscribe(
-			result => {
-				if (result.code != 200) { //cuando haya un error
-					console.log(result);
-				} else { //cuando todo va bien, se le asignan los datos
-					this.atributos = result.data;
-					//console.log(this.atributos);
+	getTareasPendientes (){
+		this._propiedadService.obtenerSolicitudesNoValidadas().subscribe(
+			response => {
+				if (response.code == 200){
+					console.log(response.data);
+					this.peticiones = response.data;
 				}
-			}, 
+				else {
+					console.log(response);
+				}
+			},
 			error => {
-				console.log(<any>error);//para mostrar el error que nos devuelve
+				console.log(<any>error);
 			}
 		);
 	}
 
-	showPerfil(){
-		this.getAtributosUsuario();
-		this.getUsuario();
-		for (var i in this.usuario) {
- 			this.usuarioArray.push(this.usuario[i]);
-		}
-		console.log(this.usuarioArray);
-	}
-
-	borrarConfirm(id){
-		this.confirmado = id;
-		console.log(this.confirmado);
-	}
-
-	cancelarConfirm(id){
-		this.confirmado = null;
-	}
-
-	onDeleteUsuario(id) {
-		this._usuarioService.deleteUsuarios(id).subscribe(
+	validar (id){
+		this._propiedadService.validarPeticion(id).subscribe(
 			response => {
-				if (response.code == 200) {
-					this._authService.logoutService();
-					this._router.navigate(['/home']);
-
-				} else
+				if (response.code == 200){
+					console.log(response.message);
+					window.location.reload();
+				}
+				else {
 					console.log(response);
-			}, 
+				}
+			},
 			error => {
 				console.log(<any>error);
+			}
+		);
+	}
+
+	denegar (id) {
+		this._propiedadService.denegarPeticion(id).subscribe(
+			response => {
+				if (response.code == 200){
+					console.log(response.message);
+					window.location.reload();
 				}
+				else {
+					console.log(response);
+				}
+			},
+			error => {
+				console.log(<any>error);
+			}
 		);
 	}
 }
+

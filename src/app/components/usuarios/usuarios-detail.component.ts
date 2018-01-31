@@ -16,6 +16,7 @@ export class UsuariosDetailComponent {
 	public usuario : Usuario;
 	public opiniones;
 	public hayOpiniones : boolean;
+	public admin : boolean = false;
  
 	constructor (
 		private _route: ActivatedRoute,
@@ -23,6 +24,14 @@ export class UsuariosDetailComponent {
 		private _usuarioService: UsuarioService,
 		private auth : AuthService
 	) {
+		if (auth.authenticated()){
+	      this.usuario = JSON.parse(localStorage.getItem('currentUser'));
+	      if (this.usuario.admin == true){
+	         this.admin = true;
+	      } else {
+	      	this.admin = false;
+	      }
+	    }
 		this.hayOpiniones = false;
 	}
 

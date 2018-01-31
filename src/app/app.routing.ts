@@ -18,6 +18,7 @@ import { UsuariosAddComponent } from './components/usuarios/usuarios-add.compone
 import { UsuariosDetailComponent } from './components/usuarios/usuarios-detail.component';
 import { VerPerfilComponent } from './components/usuarios/ver-perfil.component';
 import { UsuariosEditComponent } from './components/usuarios/usuarios-edit.component';
+import { TareasPendientesComponent } from './components/usuarios/admin-tareas-pendientes.component';
 
 
 const appRoutes : Routes = [
@@ -35,7 +36,7 @@ const appRoutes : Routes = [
 	{path: 'usuario', canActivate: [AuthguardGuard], component: UsuariosDetailComponent},
 	{path: 'ver-perfil', component: VerPerfilComponent},
 	{path: 'editar-perfil', component: UsuariosEditComponent},
-	
+	{path: 'tareas-pendientes', canActivate: [AuthguardGuard], component: TareasPendientesComponent},
 
 	{path: '**', component: ErrorComponent}//siempre debe ser la última, es cuando no existe la ruta
 

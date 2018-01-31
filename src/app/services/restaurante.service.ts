@@ -28,6 +28,11 @@ export class RestauranteService {
 		return this._http.get(this.url+'valorados').map(res => res.json());
 	}
 
+	//comprobar si el restaurante tiene propietario, y en ese caso, devolver al propietario
+	getPropietarioRestaurante (id) {
+		return this._http.get(this.url+'tiene-propietario/'+id).map(res => res.json());
+	}
+
 	//obtener el restaurante id
 	getRestaurante (id) {
 		return this._http.get(this.url+'restaurantes/'+id).map(res => res.json());

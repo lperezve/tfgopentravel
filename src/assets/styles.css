@@ -290,3 +290,11 @@ textarea{
 	font-weight: bold;
 }
 
+.padding-top {
+	padding-top: 10px;
+}
+
+agm-map {
+   height: 300px;
+}
+
