@@ -241,16 +241,29 @@ textarea{
 }
 
 .imagen-listado {
-	height: 100px;
-	margin: 0 auto;
-	display: block;
+	/*height: 80px;
+    width: 90px;
+    margin: 0 auto;
+    display: block;*/
+    max-width: 100%;
+  	overflow: hidden;
+  	margin: 0 auto;
+  	padding: 0;
+  	/*position: relative;*/
 }
 
 .imagen-detalle {
-	height: 200px;
-	margin: 0 auto;
-	margin-top: 20px;
-	display: block;
+	max-height: 180px;
+    max-width: 280px;
+    margin-left: 20px;
+    /* margin: 0 auto; */
+    margin-top: 20px;
+    display: block;
+}
+
+.imagen-rest-usuario {
+	max-height: 90px;
+    max-width: 200px;
 }
 
 .only-little-margin {
@@ -294,7 +307,9 @@ textarea{
 	padding-top: 10px;
 }
 
-agm-map {
-   height: 300px;
+.img-rest-propietario {
+	width: 30px;
 }
+
+
 

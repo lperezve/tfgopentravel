@@ -7,12 +7,14 @@ import { AuthService } from '../../services/auth.service';
 import 'rxjs/Rx';
 import { saveAs as importedSaveAs} from "file-saver";
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
+import { Usuario } from '../../models/usuario';
+import { UsuarioService } from '../../services/usuario.service';
 
 
 @Component ({
 	selector: 'restaurantes-list',
 	templateUrl: '../../views/restaurantes/restaurantes-list.html',
-	providers: [RestauranteService, AuthService]
+	providers: [RestauranteService, AuthService, UsuarioService]
 })
 
 export class RestaurantesListComponent {
@@ -23,24 +25,21 @@ export class RestaurantesListComponent {
 	public opinionesRecientes : Opinion[];
 	public filtro;
 	public selected;
-	characters = [
-    'Finn the human',
-    'Jake the dog',
-    'Princess bubblegum',
-    'Lumpy Space Princess',
-    'Beemo1',
-    'Beemo2'
-  ]
+	public propietario : boolean;
+	public restProp = [];
+	public usuario : Usuario;
 
 	constructor (
 		private _route: ActivatedRoute,
 		private _router: Router,
 		private _restauranteService: RestauranteService,
-		private _auth : AuthService
+		private _auth : AuthService,
+		private _usuarioService : UsuarioService
 		) {
 		this.titulo = 'Listado de Restaurantes';
 		this.confirmado = null;
 		this.selected = 1;
+		this.propietario = false;
 
 		if (_auth.authenticatedAdmin()){
 			this.esAdmin = true;
@@ -53,10 +52,27 @@ export class RestaurantesListComponent {
 	ngOnInit () {
 		console.log('Se ha cargado el componente list-restaurantes.component.ts');
 		if (this.filtro == null){
-			this.getRestaurantes();
+			//this.getRestaurantes();
+			this.getRestaurantesPropietario();
 		}
+		this.getUsuario();
 		this.getOpinionesRecientes();
 		console.log(this.selected);
+	}
+
+	getUsuario(){
+		this.usuario = JSON.parse(localStorage.getItem('currentUser'));
+		this._usuarioService.getUsuario(this.usuario.id).subscribe(
+			response => {
+				if (response.code == 200)
+					this.usuario = response.data;
+				 else
+					this._router.navigate(['/home']);
+				},
+			error => {
+				console.log(<any>error);	
+			}
+		);
 	}
 
 	getAll () {
@@ -101,6 +117,25 @@ export class RestaurantesListComponent {
 		);
 	}
 
+	getRestaurantesPropietario () {
+		console.log("está entrando");
+		this._restauranteService.getRestProp().subscribe(
+			response => {
+				if (response.code == 200){
+					this.propietario = true;
+					this.restProp = response.data;
+					console.log(response.data);
+				}
+				else{
+					console.log(response);
+				}
+			},
+			error => {
+				console.log(<any>error);
+			}
+		);
+	}
+
 	borrarConfirm(id){
 		this.confirmado = id;
 	}
@@ -109,18 +144,19 @@ export class RestaurantesListComponent {
 		this.confirmado = null;
 	}
 
-	onDeleteRestaurante(id) {
+	onDeleteRestaurante(id, nombre) {
 		this._restauranteService.deleteRestaurantes(id).subscribe(
 			response => {
 				if (response.code == 200) {
-					this.getRestaurantes();
+					alert('El restaurante: '+ id + ' - ' + nombre +', se ha borrado correctamente');
+					window.location.reload();
 				} else
-					alert('Error al borrar producto');
+					alert('Error al borrar el restaurante');
 			}, 
 			error => {
 				console.log(<any>error);
-				}
-			);
+			}
+		);
 	}
 
 	getOpinionesRecientes() {

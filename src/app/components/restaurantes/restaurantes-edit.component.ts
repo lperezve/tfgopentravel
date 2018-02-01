@@ -22,7 +22,7 @@ export class RestaurantesEditComponent {
 		private _route: ActivatedRoute,
 		private _router: Router
 		) {
-		this.titulo = 'Editar restaurante';
+		this.titulo = 'Editar Restaurante';
 		this.restaurante = new Restaurante (0, '','','','','','');
 		this.is_edit = true;
 	}
@@ -35,7 +35,7 @@ export class RestaurantesEditComponent {
 	onSubmit() {
 		console.log(this.restaurante);
 
-		if (this.filesToUpload && this.filesToUpload.length >= 1) { //en el caso de que haya una imagen seleccionada
+		/*if (this.filesToUpload && this.filesToUpload.length >= 1) { //en el caso de que haya una imagen seleccionada
 			this._restauranteService.makeFileRequest(GLOBAL.url+'upload-image', [], this.filesToUpload)
 				.then((result) => {
 					console.log(result);
@@ -47,9 +47,9 @@ export class RestaurantesEditComponent {
 					console.log(error);
 				});
 		}
-		else {
+		else {*/
 			this.updateRestaurante(); //se llama saveRestaurante sin tener que subir la imagen
-		}
+		//}
 	}
 
 	updateRestaurante () {

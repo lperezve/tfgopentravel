@@ -29,8 +29,9 @@
 				</div>
 			</div>
 			<div class="col-md-12">
-				<div class="col-md-6 row-margin" *ngFor="let restaurante of restaurantes | filterNombre : searchText | paginate: {itemsPerPage: 6, currentPage: p1}">
+				<div class="col-md-6 row-margin" *ngFor="let restaurante of restProp | filterNombre : searchText | paginate: {itemsPerPage: 6, currentPage: p1}">
 					<div id="list-panel" class="col-md-12 row">
+						<img *ngIf="(restaurante.id_usuario != null) && (restaurante.validado == 1)" class="pull-right img-rest-propietario" src="/assets/imagen/verificado.jpg" title="Restaurante con propietario"/>
 						<h3 class="text-center text-primary"> {{restaurante.nombre}} </h3>
 						<div class="col-md-4">
 							<div *ngIf="restaurante.imagen" class="imagen_container">
@@ -44,17 +45,17 @@
 					<div class="col-md-8">
 						<p> {{restaurante.direccion}} </p>
 						<div class="botones" *ngIf="confirmado != restaurante.id ">
-							<div *ngIf="esAdmin">
+							<div *ngIf="(esAdmin) || (restaurante.id_usuario == usuario.id)">
 								<p> <a [routerLink]="['/restaurantes', restaurante.id]" class="btn btn-primary">Ver más</a>
 								<a [routerLink]="['/editar-restaurantes', restaurante.id]" class="btn btn-warning">Editar</a>
 								<a (click)="borrarConfirm(restaurante.id)" class="btn btn-danger">Elimnar</a></p>
 							</div>
-							<div *ngIf="!esAdmin">
+							<div *ngIf="((!esAdmin) && (restaurante.id_usuario == null)) || (restaurante.id_usuario != usuario.id)">
 								<p> <a [routerLink]="['/restaurantes', restaurante.id]" class="btn btn-primary">Ver más</a></p>
 							</div>
 						</div>
 						<div class="seguro" *ngIf="confirmado == restaurante.id">
-							<a (click)="onDeleteRestaurante(restaurante.id)" class="btn btn-danger">Quiero eliminarlo</a>
+							<a (click)="onDeleteRestaurante(restaurante.id, restaurante.nombre)" class="btn btn-danger">Quiero eliminarlo</a>
 							<a (click)="cancelarConfirm()" class="btn btn-warning">Cancelar</a>
 						</div>
 					</div>

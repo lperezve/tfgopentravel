@@ -24,14 +24,38 @@
 						<h3 class="text-center text-success">
 							Mi perfil
 						</h3>
-						<div class="panel panel-default" *ngIf="opiniones">
+						<div class="col-md-12 panel panel-default" *ngIf="hayRestaurantes">
+							<h4 class="panel-heading"> Restaurantes propios </h4>
+							 <div class="panel-body cuadrado-azul" *ngFor="let rest of restaurantes | paginate: {itemsPerPage: 1, currentPage: p1, id: 'first'}">
+							 	<div class="col-md-3">
+							 		<img class="img-rounded imagen-rest-usuario" src="{{rest.imagen}}">
+							 	</div>
+							 	<div class="col-md-7">
+								 	<p class="text-default"> {{rest.nombre}} </p>
+								 	<p class="text-default"> {{rest.direccion}} </p>
+								 	<p class="text-muted"> Poner las estrellitas (la media de las opiniones)</p>
+							 	</div>
+							 	<div class="col-md-2">
+							 		<div class="botones" *ngIf="confirmado != rest.id ">
+										<a [routerLink]="['/editar-restaurantes', rest.id]" class="btn btn-warning btn-block">Editar</a>
+										<a (click)="borrarConfirm(rest.id)" class="btn btn-danger btn-block">Elimnar</a>
+									</div>
+									<div class="seguro" *ngIf="confirmado == rest.id">
+										<a (click)="onDeleteRestaurante(rest.id, rest.nombre)" class="btn btn-danger btn-block">Aceptar</a>
+										<a (click)="cancelarConfirm()" class="btn btn-warning btn-block">Cancelar</a>
+									</div>
+							 	</div>
+							 </div>
+							 <pagination-controls (pageChange)="p1 = $event" id="first"></pagination-controls>
+						</div>
+						<div class=" col-md-12 panel panel-default" *ngIf="opiniones">
 							 <h4 class="panel-heading"> Comentarios dejados </h4>
-							 <div class="panel-body cuadrado-azul" *ngFor="let op of opiniones | paginate: {itemsPerPage: 4, currentPage: p}">
+							 <div class="panel-body cuadrado-azul" *ngFor="let op of opiniones | paginate: {itemsPerPage: 2, currentPage: p2, id: 'second'}">
 							 	{{op.fecha}} 
 							 	<br>
 							 	{{op.nombre}} - <strong>{{op.mensaje}}</strong>
 							 </div>
-							 <pagination-controls (pageChange)=" p = $event "></pagination-controls>
+							<pagination-controls (pageChange)="p2 = $event" id="second"></pagination-controls>
 						</div>
 						<div class="panel panel-default" *ngIf="!opiniones">
 							<div class="row only-little-margin">

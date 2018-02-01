@@ -25,6 +25,18 @@
 							<a (click)="cancelarSolicitud()" class="btn btn-warning">Cancelar</a>
 						</div>
 					</div>
+					<div *ngIf="(hayUsuario && propietario && usuario.id == userPropi.id) || (admin)">
+						<div *ngIf="!confirmado">
+							<button [routerLink]="['/editar-restaurantes', restaurante.id]" class="btn btn-warning">Editar</button>
+
+							<button (click)="seguroBorrar()" class="btn btn-danger">Eliminar</button>
+						</div>
+						<div *ngIf="confirmado">
+							<button (click)="eliminarRestaurante()" class="btn btn-danger">Estoy Seguro</button>
+							<button (click)="cancelarBorrar()" class="btn btn-warning">Cancelar</button>
+						</div>
+					</div>
+
 				
 				</div>
 				<div class="col-md-5 thumbnail" *ngIf="propietario">
@@ -32,7 +44,6 @@
 					<p class="text-center">{{userPropi.nombre}} {{userPropi.apellido1}} {{userPropi.apellido2}} </p>
 					<p class="text-center">{{userPropi.email}}</p>
 				</div>
-				
 					
 
 			</div>

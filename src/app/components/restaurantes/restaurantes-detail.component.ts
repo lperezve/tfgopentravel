@@ -27,6 +27,9 @@ export class RestaurantesDetailComponent {
 	public propietario : boolean;
 	public userPropi : Usuario;
 	public solicitado : boolean;
+	public admin : boolean = false;
+	public confirmado : boolean;
+ 
 
 
 	constructor (
@@ -41,11 +44,20 @@ export class RestaurantesDetailComponent {
 		this.opinionSingle = new Opinion(0,0,0,0,'','');
 		this.propietario = false;
 		this.solicitado = false;
+		this.confirmado = false;
 		if (_auth.authenticated()){
 			this.hayUsuario = true;
 		}
 		else
 			this.hayUsuario = false;
+		if (_auth.authenticated()){
+	      this.usuario = JSON.parse(localStorage.getItem('currentUser'));
+	      if (this.usuario.admin == true){
+	         this.admin = true;
+	      } else {
+	      	this.admin = false;
+	      }
+	    }
 
 	}
 
@@ -79,8 +91,10 @@ export class RestaurantesDetailComponent {
 		this.usuario = JSON.parse(localStorage.getItem('currentUser'));
 		this._usuarioService.getUsuario(this.usuario.id).subscribe(
 			response => {
-				if (response.code == 200)
+				if (response.code == 200){
 					this.usuario = response.data;
+					console.log(this.usuario);
+				}
 				 else
 					this._router.navigate(['/home']);
 				},
@@ -122,9 +136,6 @@ export class RestaurantesDetailComponent {
 		);
 	}
 
-	obtenerUsuariosOpinion(){
-	}
-
 	obtenerPropietario () {
 		this._route.params.forEach((params: Params) => {
 			let id = params['id'];
@@ -152,6 +163,29 @@ export class RestaurantesDetailComponent {
 
 	cancelarSolicitud(){
 		this.solicitado = false;
+	}
+
+	seguroBorrar(){
+		this.confirmado = true;
+	}
+
+	cancelarBorrar(){
+		this.confirmado = false;
+	}
+
+	eliminarRestaurante(){
+		this._restauranteService.deleteRestaurantes(this.restaurante.id).subscribe(
+			response => {
+				if (response.code == 200) {
+					alert('El restaurante se ha borrado correctamente');
+					this._router.navigate(['/restaurantes']);
+				} else
+					alert('Error al borrar el restaurante');
+			}, 
+			error => {
+				console.log(<any>error);
+				}
+			);
 	}
 
 	solicitarPropiedad(id){
