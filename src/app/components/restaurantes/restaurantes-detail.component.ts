@@ -7,11 +7,12 @@ import { Usuario } from '../../models/usuario';
 import { UsuarioService } from '../../services/usuario.service';
 import { AuthService } from '../../services/auth.service';
 import { PropiedadService } from '../../services/propiedad.service';
-//import { AgmCoreModule } from '@agm/core';
+//import { GoogleMapsAPIWrapper } from '@agm/core';
 
 @Component ({
 	selector: 'restaurantes-detail',
 	templateUrl: '../../views/restaurantes/restaurantes-detail.html',
+	styleUrls: ['../../app.component.css'],
 	providers: [RestauranteService, UsuarioService, AuthService, PropiedadService]
 })
 
@@ -29,9 +30,12 @@ export class RestaurantesDetailComponent {
 	public solicitado : boolean;
 	public admin : boolean = false;
 	public confirmado : boolean;
+	public hayPeticion : boolean;
+	//public gMaps: GoogleMapsAPIWrapper;
+	public lat : number;
+  	public long : number;
+  	public zoom : number;
  
-
-
 	constructor (
 		private _route: ActivatedRoute,
 		private _router: Router,
@@ -45,12 +49,22 @@ export class RestaurantesDetailComponent {
 		this.propietario = false;
 		this.solicitado = false;
 		this.confirmado = false;
-		if (_auth.authenticated()){
+		this.hayPeticion = false;
+		this.zoom = 11;
+	}
+
+	ngOnInit() {
+		console.log('Se ha cargado el componente restaurantes-detail.component.ts');
+
+		if (this._auth.authenticated()){
 			this.hayUsuario = true;
+			this.getUsuario();
+			this.getHayPeticion();
 		}
 		else
 			this.hayUsuario = false;
-		if (_auth.authenticated()){
+
+		if (this._auth.authenticated()){
 	      this.usuario = JSON.parse(localStorage.getItem('currentUser'));
 	      if (this.usuario.admin == true){
 	         this.admin = true;
@@ -58,15 +72,10 @@ export class RestaurantesDetailComponent {
 	      	this.admin = false;
 	      }
 	    }
-
-	}
-
-	ngOnInit() {
-		console.log('Se ha cargado el componente restaurantes-detail.component.ts');
-		this.getRestaurante();
+	    this.getRestaurante();
 		this.getOpiniones();
-		this.obtenerPropietario();
-		this.getUsuario();
+		this.obtenerPropietario();	
+		
 	}
 
 	getRestaurante(){
@@ -77,6 +86,8 @@ export class RestaurantesDetailComponent {
 				response => {
 						if (response.code == 200){
 							this.restaurante = response.data;
+							this.lat = Number(response.data.latitud);
+							this.long = Number(response.data.longitud);
 							this.obtenerMediaOpiniones();
 						} else
 							this._router.navigate(['/restaurantes']);//redireccion a restaurantes si falla
@@ -87,13 +98,14 @@ export class RestaurantesDetailComponent {
 			);
 		});
 	}
+
 	getUsuario(){
 		this.usuario = JSON.parse(localStorage.getItem('currentUser'));
 		this._usuarioService.getUsuario(this.usuario.id).subscribe(
 			response => {
 				if (response.code == 200){
 					this.usuario = response.data;
-					console.log(this.usuario);
+					//console.log(this.usuario);
 				}
 				 else
 					this._router.navigate(['/home']);
@@ -112,7 +124,7 @@ export class RestaurantesDetailComponent {
 				response => {
 					if (response.code == 200)
 						this.opiniones = response.data;
-						console.log(this.opiniones);
+						//console.log(this.opiniones);
 				},
 				error => {
 					console.log(<any>error);
@@ -144,7 +156,7 @@ export class RestaurantesDetailComponent {
 					if (response.code == 200 && response.bandera == true){
 						this.propietario = true;
 						this.userPropi = response.data;
-						console.log(response.data);
+						//console.log(response.data);
 					}
 					else{
 						console.log(response);
@@ -189,13 +201,12 @@ export class RestaurantesDetailComponent {
 	}
 
 	solicitarPropiedad(id){
-		console.log(this.usuario.id);
-		console.log(id);
 		this._propiedadService.nuevaSolicitud(this.usuario.id, id).subscribe(
 			response => {
 				if (response.code == 200){
-					console.log(response.message);
+					//console.log(response.message);
 					this.solicitado = false;
+					window.location.reload();
 				}
 				else {
 					console.log(response);
@@ -205,6 +216,28 @@ export class RestaurantesDetailComponent {
 				console.log(<any>error);
 			}
 		);
+	}
+
+	getHayPeticion (){
+		this._route.params.forEach((params: Params) => {
+			let id_rest = params['id'];
+			this._propiedadService.obtenerSiHayPeticion(this.usuario.id, id_rest).subscribe(
+				response => {
+					if (response.code == 200)
+						if (response.hayPeticion == true){
+							this.hayPeticion = true;
+							//console.log(this.hayPeticion);
+						}
+						else
+							this.hayPeticion = false;
+					else
+						console.log(response);
+				},
+				error => {
+					console.log(<any>error);
+				}
+			);
+		});
 	}
 	// ---------------- cuando el usuario está logeado ----------------------- //
 
@@ -217,7 +250,7 @@ export class RestaurantesDetailComponent {
 					this.usuario = response.data;
 					this.opinion.id_usuario = this.usuario.id;
 					this.opinion.id_restaurante = this.restaurante.id;
-					console.log(this.opinion);
+					//console.log(this.opinion);
 					this.saveOpinion();
 				},
 				error => {
@@ -231,9 +264,11 @@ export class RestaurantesDetailComponent {
 			response => {
 				if (response.code == 200){
 					this._router.navigate(['/restaurantes',this.restaurante.id]);
+					alert("Opinión realizada correctamente");
 					location.reload();
 				}
 				else {
+					alert("Ha habido un problema al dejar la opinión, inténtelo de nuevo");
 					console.log(response);
 				}
 			},

@@ -245,6 +245,7 @@ textarea{
     width: 90px;
     margin: 0 auto;
     display: block;*/
+    max-height: 90px;
     max-width: 100%;
   	overflow: hidden;
   	margin: 0 auto;
@@ -280,6 +281,7 @@ textarea{
 }
 
 #list-panel {
+	height: 175px;
 	border-width: 1px 1px 1px 1px; 
 	border-style: solid; 
 	border-color: #3399f38a;
@@ -309,6 +311,14 @@ textarea{
 
 .img-rest-propietario {
 	width: 30px;
+}
+
+.margin-top-2 {
+	margin-top: 2px;
+}
+
+.margin-top-20 {
+	margin-top: 20px;
 }
 
 

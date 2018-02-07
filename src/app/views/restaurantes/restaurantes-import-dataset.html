@@ -1,81 +1,117 @@
-<div class="col-lg-12" >
-  
-  <div *ngIf="soyCsv">
-    <p> Por favor, seleccione el método de separación del fichero</p>
-    <label><input type="radio" name="gender" value="," (click)="setSeparacion(',')">coma ','</label>
-    <label><input type="radio" name="gender" value=":" (click)="setSeparacion(':')">dos puntos ':'</label>
-    <label><input type="radio" name="gender" value=";" (click)="setSeparacion(';')">punto y coma ';'</label>
+<div class="col-md-12" >
+  <!--<div class="col-md-4">
+    <select class="form-control" [(ngModel)]="selectCity">
+      <option value="5">Asturias</option>
+      <option value="12">Cáceres</option>
+      <option value="52">Zaragoza</option>
+    </select>
+    <p>You selected: {{selectCity}}</p>
+  </div>-->
+  <div class="col-md-7 only-little-margin">
+    <h3 class="text-default text-primary"> Instrucciones </h3>
+    <p *ngIf="!soyCsv"> A continuación se procedera a la carga de datos a través de ficheros con extensión json. </p>
+
+    <p *ngIf="soyCsv"> A continuación se procedera a la carga de datos a través de ficheros con extensión csv. </p>
+    <p *ngIf="soyCsv"> Para poder cargar datos en <i>csv</i> es necesario conocer el carácter con el que están separados los datos para poder comunicárselo al sistema y así llevar a cabo la insercción. Por el momento disponemos de 3 tipos de separadores: coma (,), dos puntos (:) y punto y coma (;). Por tanto, una vez conocido, seleccionamos el separador del documento que vamos a importar.</p>
+    <p> Seleccionamos el documento deseado y procedemos a la importación (pulsar boton <i>Importar</i>).</p>
+    <p> Una vez importado el documento, nos aparece un formulario con los campos que requiere la base de datos para realizar la inserción de los restaurantes. La función de este formulario será emparejar cada atributo de la base de datos, con la clave adecuada a esa información (clave proporcionada por el dataset).</p>
+    <p class="text-muted"> Por ejemplo, para el campo <i>nombre</i>, las claves más comunes a seleccionar serían: <i>rdfs</i>, <i>name</i>, <i>título</i> (entre otras), pero nunca una clave como <i>street</i> (que seguramente hará referencia a la dirección del restaurante).</p>
+    <p> Una vez emparejados los atributos deseados con las claves correspondientes, hacemos clic en <i>Continuar</i> para proceder a la carga de los datos</p>
+    <p class="text-warning"> Ningún atributo es obligatorio para hacer la insercción, así como es posible que no encuentre claves en el dataset para todos los atributos. </p>
+
   </div>
-  <input type="file" class="form-control" (change)="fileChangeEvent($event)"/>
-  <input type="submit" value="Importar" (click)="onSubmit()"/>
+  <div class="col-md-4">
+    <div *ngIf="soyCsv" class="only-little-margin">
+      <p> Por favor, seleccione el método de separación del fichero: </p>
+       <select class="form-control" [(ngModel)]="separacion">
+          <option value=",">, (coma)</option>
+          <option value=":">: (dos puntos)</option>
+          <option value=";">: (punto y coma)</option>
+      </select>
+    <p *ngIf="separacion"><strong>Ha seleccionado: {{separacion}}</strong></p>
+    </div>
+    <div class="only-little-margin">
+      <p> Por favor, seleccione el fichero que desea importar: </p>
+      <input type="file" class="form-control" (change)="fileChangeEvent($event)"/>
+    </div>
+     <input *ngIf="soyCsv" type="submit" value="Importar" class="btn btn-primary center-block" (click)="onSubmit()" [disabled]="(!inputButton) || (!separacion)"/>
+     <input *ngIf="!soyCsv" type="submit" value="Importar" class="btn btn-primary center-block" (click)="onSubmit()" [disabled]="!inputButton"/>
+  </div>
+   
 </div>
-<div *ngIf="errorImportacion">
-  <p> {{mensajeError}} </p>
+
+<div class="col-md-12">
+  <div *ngIf="errorImportacion">
+    <p> {{mensajeError}} </p>
   </div>
-<div *ngIf="importado">
-  <form #formCombinarDataset="ngForm" (ngSubmit)="passingFields()" class="col-lg-8" id="form-restaurantes">
-    <div>
-      <label> 
-        Nombre 
-      </label>
-        <select class="form-control col-lg-8" [(ngModel)]="restaurante.nombre" #nombre="ngModel" name="nombre">
+  <hr />
+  <div *ngIf="importado" class="col-md-12 only-little-margin">
+    <h3 class="text-success text-center">Formulario de emparejamiento </h3>
+    <form #formCombinarDataset="ngForm" (ngSubmit)="passingFields()" class="col-lg-8 col-md-offset-2" id="form-restaurantes">
+      <div>
+        <label> 
+          Nombre 
+        </label>
+          <select class="form-control col-lg-8" [(ngModel)]="restaurante.nombre" #nombre="ngModel" name="nombre">
+             <option *ngFor="let item of fields">
+                     {{item}}
+             </option>
+          </select>
+      </div>
+
+      <div>
+        <label> Dirección </label>
+        <select class="form-control col-lg-8" [(ngModel)]="restaurante.direccion" #direccion="ngModel" name="direccion">
            <option *ngFor="let item of fields">
                    {{item}}
            </option>
         </select>
-    </div>
+      </div>
+      <div>
+        <label> 
+        Latitud 
+        </label>
+        <select class="form-control col-lg-8" [(ngModel)]="restaurante.latitud" #latitud="ngModel" name="latitud">
+           <option *ngFor="let item of fields">
+                   {{item}}
+           </option>
+        </select>
+      </div>
+      <div>
+        <label> 
+        Longitud 
+        </label>
+        <select class="form-control col-lg-8" [(ngModel)]="restaurante.longitud" #longitud="ngModel" name="longitud">
+           <option *ngFor="let item of fields">
+                   {{item}}
+           </option>
+        </select>
+      </div>
+      <div>
+        <label> 
+        Url 
+        </label>
+        <select class="form-control col-lg-8" [(ngModel)]="restaurante.url" #url="ngModel" name="url">
+           <option *ngFor="let item of fields">
+                   {{item}}
+           </option>
+        </select>
+      </div>
+      <div>
+        <label> 
+        Imagen 
+        </label>
+        <select class="form-control col-lg-8" [(ngModel)]="restaurante.imagen" #imagen="ngModel" name="imagen">
+           <option *ngFor="let item of fields">
+                   {{item}}
+           </option>
+        </select>
+      </div>
 
-    <div>
-      <label> Dirección </label>
-      <select class="form-control col-lg-8" [(ngModel)]="restaurante.direccion" #direccion="ngModel" name="direccion">
-         <option *ngFor="let item of fields">
-                 {{item}}
-         </option>
-      </select>
-    </div>
-    <div>
-      <label> 
-      Latitud 
-      </label>
-      <select class="form-control col-lg-8" [(ngModel)]="restaurante.latitud" #latitud="ngModel" name="latitud">
-         <option *ngFor="let item of fields">
-                 {{item}}
-         </option>
-      </select>
-    </div>
-    <div>
-      <label> 
-      Longitud 
-      </label>
-      <select class="form-control col-lg-8" [(ngModel)]="restaurante.longitud" #longitud="ngModel" name="longitud">
-         <option *ngFor="let item of fields">
-                 {{item}}
-         </option>
-      </select>
-    </div>
-    <div>
-      <label> 
-      Url 
-      </label>
-      <select class="form-control col-lg-8" [(ngModel)]="restaurante.url" #url="ngModel" name="url">
-         <option *ngFor="let item of fields">
-                 {{item}}
-         </option>
-      </select>
-    </div>
-    <div>
-      <label> 
-      Imagen 
-      </label>
-      <select class="form-control col-lg-8" [(ngModel)]="restaurante.imagen" #imagen="ngModel" name="imagen">
-         <option *ngFor="let item of fields">
-                 {{item}}
-         </option>
-      </select>
-    </div>
-
-    <div>
-     <input type="submit" value="Continuar"/>
-    </div>
-  </form>
+      <div class="col-md-12">
+        <br>
+       <input type="submit" class="btn btn-success center-block" value="Continuar"/>
+      </div>
+    </form>
+  </div>
 </div>

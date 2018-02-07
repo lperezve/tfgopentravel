@@ -15,14 +15,20 @@
 					<p> Dirección: {{restaurante.direccion}}</p>
 					<p> Puntuación: {{avg}} </p>
 					<div *ngIf="!propietario">
-						<div *ngIf="!solicitado">
+						<div *ngIf="(!solicitado) && (!hayPeticion) && (hayUsuario)">
 							<p> <a (click)="esSolicitado()"> ¿Eres propietario de este negocio? Solicítalo </a></p>
+						</div>
+						<div *ngIf="(!solicitado) && (!hayPeticion) && (!hayUsuario)">
+							<p> <a [routerLink]="['/crear-usuarios']"> Si eres propietario de este negocio y deseas solicitarlo, es necesario que se resgistre. </a></p>
 						</div>
 						<div *ngIf="solicitado">
 							<p><strong> A continuación se va a proceder a informar al administrador de la solicitud deseada: <i>el usuario {{usuario.nombre}} requiere los derechos de este establecimiento ({{restaurante.nombre}}). </i></strong></p>
 							<p> ¿Está seguro? </p>
 							<a (click)="solicitarPropiedad(restaurante.id)" class="btn btn-success">Aceptar</a>
 							<a (click)="cancelarSolicitud()" class="btn btn-warning">Cancelar</a>
+						</div>
+						<div *ngIf="(!solicitado) && (hayPeticion)">
+							<p class="text-muted"> Ha realizado una petición para ser propietario de este restaurante. Espere a que el Administrador se ponga en contacto con usted. Muchas gracias :) </p>
 						</div>
 					</div>
 					<div *ngIf="(hayUsuario && propietario && usuario.id == userPropi.id) || (admin)">
@@ -38,13 +44,23 @@
 					</div>
 
 				
+				
+					<div class="col-md-12 thumbnail" *ngIf="propietario">
+						<h4 class="text-muted text-center"> Propietario </h4>
+						<p class="text-center">{{userPropi.nombre}} {{userPropi.apellido1}} {{userPropi.apellido2}} </p>
+						<p class="text-center">{{userPropi.email}}</p>
+					</div>
 				</div>
-				<div class="col-md-5 thumbnail" *ngIf="propietario">
-					<h4 class="text-muted text-center"> Propietario </h4>
-					<p class="text-center">{{userPropi.nombre}} {{userPropi.apellido1}} {{userPropi.apellido2}} </p>
-					<p class="text-center">{{userPropi.email}}</p>
-				</div>
-					
+			<div class="col-md-5">
+				<agm-map 
+					[latitude]="lat" 
+					[longitude]="long" 
+					[zoom]="zoom"
+					[mapTypeId]="'terrain'"
+					style="height: 250px">
+		 			<agm-marker [latitude]="lat" [longitude]="long"></agm-marker>
+				</agm-map>
+			</div>
 
 			</div>
 		</div>

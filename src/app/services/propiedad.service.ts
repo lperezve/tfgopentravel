@@ -31,4 +31,8 @@ export class PropiedadService {
 	denegarPeticion (id) {
 		return this._http.get(this.url+'denegar/'+id).map(res => res.json());
 	}
+
+	obtenerSiHayPeticion (id_usuario, id_restaurante) {
+		return this._http.get(this.url+'hay-peticion/'+id_usuario+'/'+id_restaurante).map(res => res.json());
+	}
 }

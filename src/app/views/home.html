@@ -1,10 +1,24 @@
-<div class="col-lg-10 col-lg-offset-1">
+<div class="col-md-12 col-lmd-offset-1">
 	<div class="jumbotron">
 		<h2> {{titulo}} </h2>
 		<p> Aplicación Open Travel para compartir datos públicos de turismo nacional </p>
-
 		<p>
 			<a [routerLink]="['/restaurantes']" class="btn-lg btn-primary"> Restaurantes </a>
 		</p>
+
+		<agm-map 
+			[latitude]="lat" 
+			[longitude]="lng" 
+			[zoom]="zoom"
+			[mapTypeId]="'terrain'"
+			style="height: 300px"><!-- 'roadmap' | 'hybrid' | 'satellite' | 'terrain' -->
+			<agm-marker *ngFor="let rest of restaurantes" [latitude]="convertStringToNumber(rest.latitud)" [longitude]="convertStringToNumber(rest.longitud)">
+			<agm-info-window>
+				<h5>{{rest.nombre}}</h5> 
+				<h6> {{rest.direccion}}</h6>
+				<h6> <a [routerLink]="['/restaurantes', rest.id]">Ver más</a></h6>
+			</agm-info-window>
+			</agm-marker>
+		</agm-map>
 	</div>
 </div>

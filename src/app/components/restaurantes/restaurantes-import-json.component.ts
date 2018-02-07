@@ -23,6 +23,8 @@ export class RestaurantesImportJSONComponent {
 	public atributos;
 	public fields;
 	public archivoObtenido;
+	selectCity = null;
+	public inputButton : boolean;
 
 	constructor (private _restauranteService : RestauranteService,
 		private _datasetService : DatasetService,
@@ -33,6 +35,7 @@ export class RestaurantesImportJSONComponent {
 		this.restaurante = new Restaurante (0, '','','','','','');
 		this.importado = false;
 		this.errorImportacion = false;
+		this.inputButton = false;
 	}
 	ngOnInit () {
 		console.log('Se ha cargado el componente restaurantes-import-json.component.ts');
@@ -82,7 +85,7 @@ export class RestaurantesImportJSONComponent {
 		this._route.params.forEach((params: Params) => {
 			let filename = this.resultUpload.filename;
 			//PASAMOS LOS FIELDS EMPAREJADOS CON LOS ATRIBUTOS DE LA BASE DE DATOS PARA PODER INSERTARLOS A TRAVES DE LA API
-			this._datasetService.addFieldsJson(filename, this.restaurante).subscribe(
+			this._datasetService.addFieldsJson(filename, this.restaurante, this.selectCity).subscribe(
 			response => {
 				if (response.code == 200){
 					console.log(response);
@@ -101,6 +104,7 @@ export class RestaurantesImportJSONComponent {
 
 	fileChangeEvent (fileInput: any) {
 		this.filesToUpload = <Array<File>>fileInput.target.files;
+		this.inputButton = true;
 		console.log(this.filesToUpload);
 	}
 }

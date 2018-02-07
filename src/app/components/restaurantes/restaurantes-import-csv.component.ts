@@ -25,6 +25,7 @@ export class RestaurantesImportCSVComponent {
 	public importado : boolean;
 	public mensajeError;
 	public errorImportacion : boolean;
+	public inputButton : boolean;
 
 	constructor (private _restauranteService : RestauranteService,
 		private _datasetService : DatasetService,
@@ -36,15 +37,12 @@ export class RestaurantesImportCSVComponent {
 		this.restaurante = new Restaurante (0, '','','','','','');
 		this.importado = false;
 		this.errorImportacion = false;
+		this.inputButton = false;
+		this.separacion = null;
 	}
 
 	ngOnInit () {
 		console.log('Se ha cargado el componente restaurantes-import-csv.component.ts');
-	}
-
-	setSeparacion (e : string){
-		this.separacion = e;
-		console.log(this.separacion);
 	}
 
 	onSubmit(){//PRIMERO SE SUBE EL DATASET AL SERVIDOR PARA PODER TRABAJAR CON EL 
@@ -110,6 +108,7 @@ export class RestaurantesImportCSVComponent {
 
 	fileChangeEvent (fileInput: any) {
 		this.filesToUpload = <Array<File>>fileInput.target.files;
+		this.inputButton = true;
 		console.log(this.filesToUpload);
 	}
 }

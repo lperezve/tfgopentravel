@@ -35,6 +35,7 @@ export class LoginComponent {
 				if (response.code == 200){
 					this.usuario = response.data;
 					this._authService.loginservice(this.usuario);
+					alert("Se ha loggeado correctamente");
 					/* para redirigir a la url previa del login */
 					this.returnUrl = this._route.snapshot.queryParams['returnUrl'] || '/';
 					this._router.navigate([this.returnUrl]);
@@ -42,6 +43,7 @@ export class LoginComponent {
 				}
 				else {
 					this._router.navigate(['/home']);
+					alert("Aún no tiene cuenta con nosotros. Regístrese en un momento!");
 					console.log('El usuario no está registrado');
 				}
 			},

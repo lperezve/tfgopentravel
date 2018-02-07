@@ -10,14 +10,10 @@
 						<h4 class="text-center text-secondary bold"> Filtrar </h4>
 					</div>
 					<div class="col-md-4">
-						<!--<select class="form-control">
-							<option value="0" disabled selected> Seleccione una búsqueda </option>
-							<option value="1"> Mejor valorados </option>
-						</select>-->
 						  <select class="form-control" [(ngModel)]="selected" (ngModelChange)="getAll()">
 						    <option value="1">Todos los restaurantes</option>
 						    <option value="2">Mejor Valoración</option>
-						    <option value="3">Ciudad</option>
+						    <option value="3">Mostrar Mapa</option>
 						</select>
 					</div>
 					<div class="col-md-3">
@@ -28,11 +24,11 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-12">
+			<div class="col-md-12" *ngIf="selected != 3">
 				<div class="col-md-6 row-margin" *ngFor="let restaurante of restProp | filterNombre : searchText | paginate: {itemsPerPage: 6, currentPage: p1}">
 					<div id="list-panel" class="col-md-12 row">
 						<img *ngIf="(restaurante.id_usuario != null) && (restaurante.validado == 1)" class="pull-right img-rest-propietario" src="/assets/imagen/verificado.jpg" title="Restaurante con propietario"/>
-						<h3 class="text-center text-primary"> {{restaurante.nombre}} </h3>
+						<h3 class="text-center text-primary margin-top-2"> {{restaurante.nombre}} </h3>
 						<div class="col-md-4">
 							<div *ngIf="restaurante.imagen" class="imagen_container">
 										<!--<img src="http://localhost/tfg-lpv/tfg-backend/uploads/{{restaurante.imagen}}" class="restaurante_imagen"/>-->
@@ -45,14 +41,15 @@
 					<div class="col-md-8">
 						<p> {{restaurante.direccion}} </p>
 						<div class="botones" *ngIf="confirmado != restaurante.id ">
-							<div *ngIf="(esAdmin) || (restaurante.id_usuario == usuario.id)">
+							<div class="margin-top-20" *ngIf="hayUsuario">
 								<p> <a [routerLink]="['/restaurantes', restaurante.id]" class="btn btn-primary">Ver más</a>
-								<a [routerLink]="['/editar-restaurantes', restaurante.id]" class="btn btn-warning">Editar</a>
-								<a (click)="borrarConfirm(restaurante.id)" class="btn btn-danger">Elimnar</a></p>
+								<a *ngIf="(esAdmin) || ((restaurante.id_usuario == usuario.id) && (restaurante.validado == 1))" [routerLink]="['/editar-restaurantes', restaurante.id]" class="btn btn-warning">Editar</a>
+								<a *ngIf="(esAdmin) || ((restaurante.id_usuario == usuario.id) && (restaurante.validado == 1))" (click)="borrarConfirm(restaurante.id)" class="btn btn-danger">Elimnar</a></p>
 							</div>
-							<div *ngIf="((!esAdmin) && (restaurante.id_usuario == null)) || (restaurante.id_usuario != usuario.id)">
+							<div class="margin-top-20" *ngIf="!hayUsuario">
 								<p> <a [routerLink]="['/restaurantes', restaurante.id]" class="btn btn-primary">Ver más</a></p>
 							</div>
+
 						</div>
 						<div class="seguro" *ngIf="confirmado == restaurante.id">
 							<a (click)="onDeleteRestaurante(restaurante.id, restaurante.nombre)" class="btn btn-danger">Quiero eliminarlo</a>
@@ -61,6 +58,22 @@
 					</div>
 					</div>
 				</div>
+			</div>
+			<div class="col-md-12" *ngIf="selected == 3">
+				<agm-map 
+					[latitude]="lat" 
+					[longitude]="lng" 
+					[zoom]="zoom"
+					[mapTypeId]="'roadmap'"
+					style="height: 500px"><!-- 'roadmap' | 'hybrid' | 'satellite' | 'terrain' -->
+					<agm-marker *ngFor="let rest of restaurantes" [latitude]="convertStringToNumber(rest.latitud)" [longitude]="convertStringToNumber(rest.longitud)">
+						<agm-info-window>
+							<h5>{{rest.nombre}}</h5> 
+							<h6> {{rest.direccion}}</h6>
+							<h6> <a [routerLink]="['/restaurantes', rest.id]">Ver más</a></h6>
+						</agm-info-window>
+					</agm-marker>
+				</agm-map>
 			</div>
 		</div>
 		<!-- LISTA DE ÚLTIMOS COMENTARIOS --> 
@@ -78,5 +91,5 @@
 			</div>
 		</div>
 	</div>
-	<pagination-controls (pageChange)=" p1 = $event "></pagination-controls>
+	<pagination-controls *ngIf="selected != 3" (pageChange)=" p1 = $event "></pagination-controls>
 </div>

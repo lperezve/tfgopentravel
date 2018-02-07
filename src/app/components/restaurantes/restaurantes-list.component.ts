@@ -28,6 +28,10 @@ export class RestaurantesListComponent {
 	public propietario : boolean;
 	public restProp = [];
 	public usuario : Usuario;
+	public hayUsuario : boolean;
+	lat: number = 40.4893538;
+  	lng: number = -3.6827461;
+  	zoom : number = 5;
 
 	constructor (
 		private _route: ActivatedRoute,
@@ -40,34 +44,38 @@ export class RestaurantesListComponent {
 		this.confirmado = null;
 		this.selected = 1;
 		this.propietario = false;
+		this.hayUsuario = false;
 
 		if (_auth.authenticatedAdmin()){
 			this.esAdmin = true;
+			this.hayUsuario = true;
 		}
 		else
 			this.esAdmin = false;
-		//this.generateDownloadJson();
 	}
 
 	ngOnInit () {
 		console.log('Se ha cargado el componente list-restaurantes.component.ts');
 		if (this.filtro == null){
-			//this.getRestaurantes();
 			this.getRestaurantesPropietario();
 		}
-		this.getUsuario();
+		if (JSON.parse(localStorage.getItem('currentUser'))){
+			this.hayUsuario = true;
+			this.getUsuario();
+		}
+		else {
+			this.hayUsuario = false;
+		}	
 		this.getOpinionesRecientes();
-		console.log(this.selected);
 	}
 
 	getUsuario(){
 		this.usuario = JSON.parse(localStorage.getItem('currentUser'));
+		console.log(this.usuario);
 		this._usuarioService.getUsuario(this.usuario.id).subscribe(
 			response => {
 				if (response.code == 200)
 					this.usuario = response.data;
-				 else
-					this._router.navigate(['/home']);
 				},
 			error => {
 				console.log(<any>error);	
@@ -77,12 +85,16 @@ export class RestaurantesListComponent {
 
 	getAll () {
 		if(this.selected == 1){
-			this.getRestaurantes();
-			console.log("opcion1");
+			this.getRestaurantesPropietario();
+			//console.log("opcion1");
 		}
 		if (this.selected == 2){
 			this.getRestaurantesValoracion();
-			console.log("opcion2");
+			//console.log("opcion2");
+		}
+		//MAPA DE RESTAURANTES
+		if (this.selected == 3){
+			this.getRestaurantes();
 		}
 	}
 
@@ -101,11 +113,15 @@ export class RestaurantesListComponent {
 		);
 	}
 
+	private convertStringToNumber(value: string): number {
+    	return +value;
+  	}
+
 	getRestaurantesValoracion () {
 		this._restauranteService.getRestaurantesValorados().subscribe(
 			result => {
 				if (result.code == 200){
-					this.restaurantes = result.data;
+					this.restProp = result.data;
 				}
 				else {
 					console.log(result);
@@ -118,13 +134,13 @@ export class RestaurantesListComponent {
 	}
 
 	getRestaurantesPropietario () {
-		console.log("está entrando");
+		//console.log("está entrando");
 		this._restauranteService.getRestProp().subscribe(
 			response => {
 				if (response.code == 200){
 					this.propietario = true;
 					this.restProp = response.data;
-					console.log(response.data);
+					//console.log(response.data);
 				}
 				else{
 					console.log(response);

@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 import { Ng2UploaderModule } from 'ng2-uploader';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FilterPipe } from './filter.pipe';
+import { AgmCoreModule } from '@agm/core';
 //Rutas
 import { routing, appRoutingProviders } from './app.routing';
 
@@ -59,7 +60,10 @@ import { TareasPendientesComponent } from './components/usuarios/admin-tareas-pe
     HttpModule,
     routing,
     Ng2UploaderModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyAYoHnjktyRL65cneiuowyOExudf0MwUSg'
+      })
   ],
   providers: [
     appRoutingProviders,

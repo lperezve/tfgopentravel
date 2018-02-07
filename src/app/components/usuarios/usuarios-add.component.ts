@@ -34,9 +34,11 @@ export class UsuariosAddComponent {
 		this._usuarioService.addUsuarios(this.usuario).subscribe(
 			response => {
 				if (response.code == 200) {
+					alert("Se ha registrado correctamente. Vaya al login para acceder a su cuenta");
 					this._router.navigate(['/home']);
 				}
 				else {
+					alert("No ha sido posible el registro. Inténtelo de nuevo.")
 					console.log(response);
 				}
 			}, 
