@@ -25,7 +25,7 @@
 				</div>
 			</div>
 			<div class="col-md-12" *ngIf="selected != 3">
-				<div class="col-md-6 row-margin" *ngFor="let restaurante of restProp | filterNombre : searchText | paginate: {itemsPerPage: 6, currentPage: p1}">
+				<div class="col-md-6 row-margin" *ngFor="let restaurante of restProp | filterNombre : searchText | paginate: {itemsPerPage: 6, currentPage: p1, id: 'first'}">
 					<div id="list-panel" class="col-md-12 row">
 						<img *ngIf="(restaurante.id_usuario != null) && (restaurante.validado == 1)" class="pull-right img-rest-propietario" src="/assets/imagen/verificado.jpg" title="Restaurante con propietario"/>
 						<h3 class="text-center text-primary margin-top-2"> {{restaurante.nombre}} </h3>
@@ -59,6 +59,8 @@
 					</div>
 				</div>
 			</div>
+			<pagination-controls *ngIf="selected != 3" (pageChange)=" p1 = $event" id="first"></pagination-controls>
+			
 			<div class="col-md-12" *ngIf="selected == 3">
 				<agm-map 
 					[latitude]="lat" 
@@ -80,7 +82,7 @@
 		<div class="col-md-3">
 			<h3 class="text-center text-muted"> Últimos comentarios </h3>
 			<div class="col-md-12">
-				<div class="thumbnail row-margin" *ngFor="let opinion of opinionesRecientes">
+				<div class="thumbnail row-margin" *ngFor="let opinion of opinionesRecientes | paginate: {itemsPerPage: 3, currentPage: p2, id: 'second'}">
 					<div class="panel-heading">
 						<h5 class="panel-title"> {{opinion.fecha}}</h5>
 					</div>
@@ -88,8 +90,11 @@
 						<p> {{opinion.mensaje}}</p>
 					</div>
 				</div>
+				<pagination-controls (pageChange)="p2 = $event" id="second"></pagination-controls>
 			</div>
+			
 		</div>
 	</div>
-	<pagination-controls *ngIf="selected != 3" (pageChange)=" p1 = $event "></pagination-controls>
+	
+
 </div>

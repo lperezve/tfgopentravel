@@ -321,5 +321,15 @@ textarea{
 	margin-top: 20px;
 }
 
+.opinion-detail {
+	margin-left: 5%;
+   	margin-bottom: 1%;
+    /*height: 100px;*/
+}
+
+.img-icon {
+	width: 20px;
+}
+
 
 

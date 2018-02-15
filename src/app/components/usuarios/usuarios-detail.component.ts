@@ -6,6 +6,7 @@ import { AuthService } from '../../services/auth.service';
 import { Opinion } from '../../models/opinion';
 import { RestauranteService } from '../../services/restaurante.service';
 import { Restaurante } from '../../models/restaurante';
+import { GLOBAL } from '../../services/global';
 
 
 @Component ({
@@ -22,6 +23,12 @@ export class UsuariosDetailComponent {
 	public restaurantes : Restaurante[];
 	public hayRestaurantes : boolean;
 	public confirmado;
+	public confirmadoOp;
+	public editOp : Opinion;
+	public eliminada : boolean;
+	//atributos para la subida de imagenes
+ 	public filesToUpload: Array<File>;
+ 	public resultUpload;
 
  
 	constructor (
@@ -42,6 +49,9 @@ export class UsuariosDetailComponent {
 		this.hayOpiniones = false;
 		this.hayRestaurantes = false;
 		this.confirmado = null;
+		this.confirmadoOp = null;
+		this.editOp = null;
+		this.eliminada = false;
 	}
 
 	ngOnInit(){
@@ -124,5 +134,89 @@ export class UsuariosDetailComponent {
 				console.log(<any>error);
 			}
 		);
+	}
+
+	borrarConfirmOp(id){
+		this.confirmadoOp = id;
+	}
+
+	cancelarConfirmOp(id){
+		this.confirmadoOp = null;
+	}
+
+	onDeleteOpinion(id){
+		this._usuarioService.deleteOpinionUser(id).subscribe(
+			response => {
+				if (response.code == 200) {
+					alert('El comentario '+ id + ', se ha borrado correctamente');
+					window.location.reload();
+				} else
+					alert('Error al borrar el comentario');
+			}, 
+			error => {
+				console.log(<any>error);
+			}
+		);
+	}
+
+	editOpinion (id){
+		this._usuarioService.getOpinion(id).subscribe(
+			response => {
+				if (response.code == 200) {
+					this.editOp = response.data;
+					console.log(this.editOp);
+				} else
+					alert('No existe esa opinión');
+			}, 
+			error => {
+				console.log(<any>error);
+			}
+		);
+	}
+
+	eliminarImagen(){
+		this.editOp.imagen = null;
+		this.eliminada = true;
+	}
+
+	onUpdateOpinion(id){
+		if (this.filesToUpload && this.filesToUpload.length >= 1){
+			this._restauranteService.makeFileRequest(GLOBAL.urlopinionesRestaurantes+'upload-images', [], this.filesToUpload).then(
+				(result) => {
+					this.resultUpload = result;
+					this.editOp.imagen = this.resultUpload.filename;
+					this.actualizar(id);
+				},
+				(error) => {
+					console.log(error);
+				});
+		}
+		else {
+			this.actualizar(id);
+		}
+		
+	}
+
+	actualizar (id){
+		this._usuarioService.updateOpinion(id, this.editOp).subscribe(
+			response => {
+				if (response.code == 200){
+					alert("La opinión ha sido actualizada");
+					this.editOp = null;
+					window.location.reload();
+				}
+				else {
+					alert ('Error al actualizar opinión');
+				}
+			},
+			error => {
+				console.log(<any>error);
+			}
+		);
+	}
+
+	fileChangeEvent (fileInput: any) {
+		this.filesToUpload = <Array<File>>fileInput.target.files;
+		console.log(this.filesToUpload);		
 	}
 }

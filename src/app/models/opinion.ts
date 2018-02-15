@@ -5,6 +5,7 @@ export class Opinion {
 		public id_usuario : number,
 		public puntuacion : number,
 		public fecha : string,
-		public mensaje : string
+		public mensaje : string,
+		public imagen : string
 		) {}
 }

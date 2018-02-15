@@ -7,7 +7,7 @@ import { Usuario } from '../../models/usuario';
 import { UsuarioService } from '../../services/usuario.service';
 import { AuthService } from '../../services/auth.service';
 import { PropiedadService } from '../../services/propiedad.service';
-//import { GoogleMapsAPIWrapper } from '@agm/core';
+import { GLOBAL } from '../../services/global';
 
 @Component ({
 	selector: 'restaurantes-detail',
@@ -35,6 +35,12 @@ export class RestaurantesDetailComponent {
 	public lat : number;
   	public long : number;
   	public zoom : number;
+
+  	//atributos para la subida de imagenes
+ 	public filesToUpload: Array<File>;
+ 	public resultUpload;
+
+  	
  
 	constructor (
 		private _route: ActivatedRoute,
@@ -44,8 +50,8 @@ export class RestaurantesDetailComponent {
 		private _auth : AuthService,
 		private _propiedadService : PropiedadService
 	) {
-		this.opinion = new Opinion(0,0,0,0,'','');
-		this.opinionSingle = new Opinion(0,0,0,0,'','');
+		this.opinion = new Opinion(0,0,0,0,'','','');
+		this.opinionSingle = new Opinion(0,0,0,0,'','','');
 		this.propietario = false;
 		this.solicitado = false;
 		this.confirmado = false;
@@ -260,6 +266,24 @@ export class RestaurantesDetailComponent {
 	}
 
 	saveOpinion() {
+		if (this.filesToUpload && this.filesToUpload.length >= 1){
+			this._restauranteService.makeFileRequest(GLOBAL.urlopinionesRestaurantes+'upload-images', [], this.filesToUpload).then((result) => {
+				this.resultUpload = result;
+				this.opinion.imagen = this.resultUpload.filename;
+				//console.log(this.resultUpload);
+				this.newOpinion();
+				
+			},
+			(error) => {
+				console.log(error);
+			});
+		}
+		else {
+			this.newOpinion();
+		}
+	}
+
+	newOpinion() {
 		this._restauranteService.addOpinion(this.opinion).subscribe(
 			response => {
 				if (response.code == 200){
@@ -278,5 +302,9 @@ export class RestaurantesDetailComponent {
 		);
 	}
 
-	
+	//este método va a ser llamado cuando hagamos el evento change en el campo input file 
+	fileChangeEvent (fileInput: any) {
+		this.filesToUpload = <Array<File>>fileInput.target.files;
+		console.log(this.filesToUpload);		
+	}
 }

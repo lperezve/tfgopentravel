@@ -23,14 +23,16 @@
 					<div class="only-little-margin">
 						<h3 class="text-center text-success">
 							Mi perfil
-						</h3>
+						</h3> 
 						<div class="col-md-12 panel panel-default" *ngIf="hayRestaurantes">
 							<h4 class="panel-heading"> Restaurantes propios </h4>
-							 <div class="panel-body cuadrado-azul" *ngFor="let rest of restaurantes | paginate: {itemsPerPage: 1, currentPage: p1, id: 'first'}">
+							 <div class="panel-body cuadrado-azul" *ngFor="let rest of restaurantes | paginate: {itemsPerPage: 2, currentPage: p1, id: 'first'}">
 							 	<div class="col-md-3">
-							 		<img class="img-rounded imagen-rest-usuario" src="{{rest.imagen}}">
+							 		<img *ngIf="rest.imagen" class="img-rounded imagen-rest-usuario img-responsive center-block" src="{{rest.imagen}}"/>
+							 		<img *ngIf="!rest.imagen" class="img-rounded imagen-listado img-responsive center-block" src="https://image.flaticon.com/icons/png/512/45/45586.png"/>
+							 		
 							 	</div>
-							 	<div class="col-md-7">
+							 	<div class="col-md-6">
 								 	<p class="text-default"> {{rest.nombre}} </p>
 								 	<p class="text-default"> {{rest.direccion}} </p>
 								 	<p class="text-muted"> Poner las estrellitas (la media de las opiniones)</p>
@@ -38,7 +40,7 @@
 							 	<div class="col-md-2">
 							 		<div class="botones" *ngIf="confirmado != rest.id ">
 										<a [routerLink]="['/editar-restaurantes', rest.id]" class="btn btn-warning btn-block">Editar</a>
-										<a (click)="borrarConfirm(rest.id)" class="btn btn-danger btn-block">Elimnar</a>
+										<a (click)="borrarConfirm(rest.id)" class="btn btn-danger btn-block">Eliminar</a>
 									</div>
 									<div class="seguro" *ngIf="confirmado == rest.id">
 										<a (click)="onDeleteRestaurante(rest.id, rest.nombre)" class="btn btn-danger btn-block">Aceptar</a>
@@ -50,13 +52,41 @@
 						</div>
 						<div class=" col-md-12 panel panel-default" *ngIf="opiniones">
 							 <h4 class="panel-heading"> Comentarios dejados </h4>
-							 <div class="panel-body cuadrado-azul" *ngFor="let op of opiniones | paginate: {itemsPerPage: 2, currentPage: p2, id: 'second'}">
-							 	{{op.fecha}} 
-							 	<br>
-							 	{{op.nombre}} - <strong>{{op.mensaje}}</strong>
+							 <div class="col-md-5 panel-body well opinion-detail" *ngFor="let op of opiniones | paginate: {itemsPerPage: 2, currentPage: p2, id: 'second'}">
+							 	<div *ngIf="!op.imagen">
+								 	<div class="col-md-12">
+									 	{{op.fecha}} 
+									 	<br>
+									 	{{op.nombre}} - <strong>{{op.mensaje}}</strong>
+								 	</div>
+								 </div>
+								<div *ngIf="op.imagen">
+									<div class="col-md-8">
+									 	{{op.fecha}} 
+									 	<br>
+									 	{{op.nombre}} - <strong>{{op.mensaje}}</strong>
+								 	</div>
+								 	<div class="col-md-4">
+								 		<img *ngIf="op.imagen" class="img-responsive center-block" src="http://localhost/tfg-lpv/tfg-backend/uploads/images_comment/{{op.imagen}}" width="100px"/>
+								 	</div>
+							 	</div>
+							 	<div class="col-md-12 padding-top" *ngIf="confirmadoOp != op.id ">
+								 	<p> <a class="btn btn-sm btn-warning" (click)="editOpinion(op.id)">Editar
+    									</a> 
+    									<a class="btn btn-sm btn-danger" (click)="borrarConfirmOp(op.id)">Eliminar
+    									</a>
+								    </p>
+							 	</div>
+							 	<div class="col-md-12 padding-top" *ngIf="confirmadoOp == op.id ">
+								 	<p> <a class="btn btn-sm btn-warning" (click)="onDeleteOpinion(op.id)">Aceptar
+    									</a> 
+    									<a class="btn btn-sm btn-danger" (click)="cancelarConfirmOp()">Cancelar
+    									</a>
+								    </p>
+							 	</div>
 							 </div>
-							<pagination-controls (pageChange)="p2 = $event" id="second"></pagination-controls>
 						</div>
+						<pagination-controls (pageChange)="p2 = $event" id="second"></pagination-controls>
 						<div class="panel panel-default" *ngIf="!opiniones">
 							<div class="row only-little-margin">
 								<div class="col-md-8">
@@ -64,6 +94,41 @@
 								<div class="col-md-3"><p><a [routerLink]="['/restaurantes']" class="btn btn-primary"> Restaurantes </a></p></div>
 							</div>
 						</div>
+
+						<!-- FORMULARIO EDICIÓN COMENTARIO -->
+					<div *ngIf="editOp"> <!-- ngif si has pulsado editar -->
+						<div class="col-md-12 thumbnail">
+							<h3 class="text-primary text-center"> Editar Comentario </h3>
+							<form role="form" #formEditarOpinion="ngForm" (ngSubmit)="onUpdateOpinion(editOp.id)">
+								<div class="form-group">
+									<div class="col-md-4">
+										<label for="Puntuacion">
+											Puntuación
+										</label>
+										<select class="form-control" name="puntuacion" id="puntuacion" #editOp.puntuacion="ngModel" [(ngModel)]="editOp.puntuacion">
+									      <option value="5">5. Muy bien</option>
+									      <option value="4">4. Bien</option>
+									      <option value="3">3. Regular</option>
+									      <option value="2">2. Mal</option>
+									      <option value="1">1. Muy mal</option>
+									    </select>
+										<label> Imagen </label>
+										<input type="file" class="form-control" placeholder="Subir imagen..." (change)="fileChangeEvent($event)"/>
+										<p><a *ngIf="(editOp.imagen) && (!eliminada)" class="text-warning" (click)="eliminarImagen()" style="cursor:pointer;">Eliminar imagen</a></p>
+										<p *ngIf="eliminada">Imagen Eliminada</p>
+									</div>
+									<div class="col-md-8">
+										<label for="Opinion">
+											Opinión (máx 420 caracteres)
+										</label>
+										<textarea placeholder="Introduzca aquí su opinión (max 420 caracteres)" #editOp.mensaje="ngModel" name="mensaje" [(ngModel)]="editOp.mensaje"></textarea>
+
+									</div>
+										<input type="submit" value="Editar" class="btn btn-info pull-right only-little-margin" [disabled]="!formEditarOpinion.form.valid"/>
+								</div>
+							</form>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
