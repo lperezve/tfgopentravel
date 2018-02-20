@@ -38,6 +38,11 @@ export class RestauranteService {
 		return this._http.get(this.url+'tiene-propietario/'+id).map(res => res.json());
 	}
 
+	//obtener los restaurantes, el propietario y la media
+	getRestPropAvg(){
+		return this._http.get(this.url+'restaurantes-propietario-avg').map(res => res.json());
+	}
+
 	//obtener el restaurante id
 	getRestaurante (id) {
 		return this._http.get(this.url+'restaurantes/'+id).map(res => res.json());
@@ -97,6 +102,11 @@ export class RestauranteService {
 	/* OBTENER TODAS LAS OPINIONES DE MAS NUEVAS A MÁS ANTIGUAS */
 	getOpinionesRecientes (){
 		return this._http.get(this.urlOpiniones+'opiniones-recientes').map(res => res.json());
+	}
+
+	/* obtener las 5 mejores opiniones para el carousel */
+	getMejoresOpiniones(){
+		return this._http.get(this.urlOpiniones+'mejores-opiniones').map(res => res.json());
 	}
 
 	/* obtener los atributos de la tabla restaurantes */

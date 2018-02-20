@@ -20,7 +20,7 @@ export class UsuariosDetailComponent {
 	public opiniones;
 	public hayOpiniones : boolean;
 	public admin : boolean = false;
-	public restaurantes : Restaurante[];
+	public restaurantes = [];
 	public hayRestaurantes : boolean;
 	public confirmado;
 	public confirmadoOp;
@@ -82,6 +82,7 @@ export class UsuariosDetailComponent {
 				if (response.code == 200){
 					this.restaurantes = response.data;
 					this.hayRestaurantes = true;
+					console.log(this.restaurantes);
 				}
 				else {
 					console.log(response);

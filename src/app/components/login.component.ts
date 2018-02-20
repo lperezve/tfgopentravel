@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Router, ActivatedRoute, Params} from '@angular/router';
 import { Usuario } from '../models/usuario';
 import { AuthService } from '../services/auth.service';
 
@@ -20,6 +20,7 @@ export class LoginComponent {
 	){
 		console.log('Se ha cargado el componente login.component.ts');
 		this.usuario = new Usuario (0,'','','','','','',false);
+		//this.toasterService = toasterService;
 	}
 
 	/*ngOnInit(){
@@ -35,10 +36,12 @@ export class LoginComponent {
 				if (response.code == 200){
 					this.usuario = response.data;
 					this._authService.loginservice(this.usuario);
+					//this.popToast();
 					alert("Se ha loggeado correctamente");
 					/* para redirigir a la url previa del login */
 					this.returnUrl = this._route.snapshot.queryParams['returnUrl'] || '/';
 					this._router.navigate([this.returnUrl]);
+					
 					location.reload();
 				}
 				else {

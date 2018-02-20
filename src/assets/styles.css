@@ -288,6 +288,7 @@ textarea{
 	padding: 10px;
 	margin-bottom: 10px;
 	border-radius: 0.25rem !important;
+	box-shadow: 1px 1px #808080b3;
 	/*-webkit-box-shadow: 5px 10px 30px -5px rgba(0,0,0,0.39);
 	-moz-box-shadow: 5px 10px 30px -5px rgba(0,0,0,0.39);
 	box-shadow: 5px 10px 30px -5px rgba(0,0,0,0.39);*/
@@ -331,5 +332,54 @@ textarea{
 	width: 20px;
 }
 
+.ngx-pagination .current {
+	box-shadow: 1px 1px #808080b3;
+    border-radius: 1px;
+    background: #f15914 !important;
+}
+
+.sombra {
+	box-shadow: 1px 1px #808080b3;
+}
+
+.panel-home-map {
+	padding: 20px;
+    margin-top: 30px;
+    border-right: 1px solid #a3ccff;
+}
+.panel-home-comment {
+	padding: 20px;
+    margin-top: 30px;
+}
+
+.panel-carousel {
+	background-color: #a3ccff8c;
+	padding: 10px !important;
+}
+
+.img-carousel {
+	width: 360px;
+	height: 200px;
+	display: block;
+}
+
+.link {
+  font: oblique 100% cursive;
+  color: white;
+  text-shadow: 0.1em 0.1em 0.2em black;
+}
+
+#linkComment:hover {
+	font-weight: bold; 
+	color: #469abe;
+	text-shadow: 0 0 0.1em white;
+	text-decoration: none;
+}
+
+.msg-error {
+	margin-top: 15px;
+	padding: 5px;
+	border: 2px solid #a54a4abf;
+}
 
 

@@ -26,6 +26,7 @@ export class RestaurantesImportCSVComponent {
 	public mensajeError;
 	public errorImportacion : boolean;
 	public inputButton : boolean;
+	public errorInsercion : boolean;
 
 	constructor (private _restauranteService : RestauranteService,
 		private _datasetService : DatasetService,
@@ -39,6 +40,7 @@ export class RestaurantesImportCSVComponent {
 		this.errorImportacion = false;
 		this.inputButton = false;
 		this.separacion = null;
+		this.errorInsercion = false;
 	}
 
 	ngOnInit () {
@@ -96,6 +98,8 @@ export class RestaurantesImportCSVComponent {
 					this._router.navigate(['/restaurantes']);
 				}
 				else {
+					this.errorInsercion = true;
+					this.mensajeError = response.message;
 					console.log(response);
 				}
 			},

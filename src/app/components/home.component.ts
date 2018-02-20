@@ -13,6 +13,7 @@ import { Restaurante } from '../models/restaurante';
 export class HomeComponent {
 	public titulo : string;
 	public restaurantes : Restaurante[];
+	public mejoresOp = [];
   	lat: number = 40.4893538;
   	lng: number = -3.6827461;
   	zoom : number = 5;
@@ -20,12 +21,13 @@ export class HomeComponent {
 	constructor (private auth : AuthService,
 				private _restauranteService : RestauranteService
 				) {
-		this.titulo = 'Página Principal';
-		this.getRestaurantes();
+		this.titulo = 'Open Travel';
 	}
 
 	ngOnInit () {
 		console.log('Se ha cargado el componente home.component.ts');
+		this.getRestaurantes();
+		this.getMejoresOps();
 	}
 
 	getRestaurantes () {
@@ -35,6 +37,22 @@ export class HomeComponent {
 					console.log(result);
 				} else {
 					this.restaurantes = result.data;
+				}
+			}, 
+			error => {
+				console.log(<any>error);
+			}
+		);
+	}
+
+	getMejoresOps(){
+		this._restauranteService.getMejoresOpiniones().subscribe(
+			result => {
+				if (result.code != 200) {
+					console.log(result);
+				} else {
+					this.mejoresOp = result.data;
+					console.log(this.mejoresOp);
 				}
 			}, 
 			error => {

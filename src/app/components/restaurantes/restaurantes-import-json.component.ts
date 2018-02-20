@@ -84,8 +84,9 @@ export class RestaurantesImportJSONComponent {
 	passingFields (){
 		this._route.params.forEach((params: Params) => {
 			let filename = this.resultUpload.filename;
+			console.log(filename);
 			//PASAMOS LOS FIELDS EMPAREJADOS CON LOS ATRIBUTOS DE LA BASE DE DATOS PARA PODER INSERTARLOS A TRAVES DE LA API
-			this._datasetService.addFieldsJson(filename, this.restaurante, this.selectCity).subscribe(
+			this._datasetService.addFieldsJson(filename, this.restaurante).subscribe(
 			response => {
 				if (response.code == 200){
 					console.log(response);

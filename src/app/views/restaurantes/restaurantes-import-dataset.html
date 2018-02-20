@@ -26,7 +26,7 @@
        <select class="form-control" [(ngModel)]="separacion">
           <option value=",">, (coma)</option>
           <option value=":">: (dos puntos)</option>
-          <option value=";">: (punto y coma)</option>
+          <option value=";">; (punto y coma)</option>
       </select>
     <p *ngIf="separacion"><strong>Ha seleccionado: {{separacion}}</strong></p>
     </div>
@@ -36,14 +36,15 @@
     </div>
      <input *ngIf="soyCsv" type="submit" value="Importar" class="btn btn-primary center-block" (click)="onSubmit()" [disabled]="(!inputButton) || (!separacion)"/>
      <input *ngIf="!soyCsv" type="submit" value="Importar" class="btn btn-primary center-block" (click)="onSubmit()" [disabled]="!inputButton"/>
+     <div *ngIf="errorImportacion" class="msg-error">
+      <p class="text-danger text-center"> {{mensajeError}} </p>
+    </div>
   </div>
    
 </div>
 
 <div class="col-md-12">
-  <div *ngIf="errorImportacion">
-    <p> {{mensajeError}} </p>
-  </div>
+  
   <hr />
   <div *ngIf="importado" class="col-md-12 only-little-margin">
     <h3 class="text-success text-center">Formulario de emparejamiento </h3>
@@ -113,5 +114,7 @@
        <input type="submit" class="btn btn-success center-block" value="Continuar"/>
       </div>
     </form>
+    <div class="col-md-8 col-md-offset-2 msg-error" *ngIf="errorInsercion">
+      <p class="text-danger text-center"> {{mensajeError}} </p>
   </div>
 </div>

@@ -1,11 +1,12 @@
-<div class="col-md-12 col-lmd-offset-1">
-	<div class="jumbotron">
-		<h2> {{titulo}} </h2>
-		<p> Aplicación Open Travel para compartir datos públicos de turismo nacional </p>
-		<p>
+<div class="col-md-12">
+	<h2 class="text-primary text-center"><strong> {{titulo}}</strong> </h2>
+		<p class="text-muted text-center">  Aplicación para compartir datos públicos de turismo nacional </p>
+		<!--<p>
 			<a [routerLink]="['/restaurantes']" class="btn-lg btn-primary"> Restaurantes </a>
-		</p>
-
+		</p>-->
+</div>
+<div class="col-md-12">
+	<div class="col-md-8 panel-home-map">
 		<agm-map 
 			[latitude]="lat" 
 			[longitude]="lng" 
@@ -20,5 +21,22 @@
 			</agm-info-window>
 			</agm-marker>
 		</agm-map>
+	</div>
+	<div class="col-md-4 panel-home-comment">
+		<carousel>
+			  <slide *ngFor="let op of mejoresOp">
+			  	<div class="panel-carousel">
+			    <img src="http://localhost/tfg-lpv/tfg-backend/uploads/images_comment/{{op.imagen}}" alt="{{op.mensaje}}" class="img-carousel img-responsive center-block">
+			    	<div class = "carousel-caption d-none d-md-block"> 
+		      			<h3 class="text-center text-primary"><strong> {{op.nombre}}</strong> </h3>
+		      			<p> <img src="/assets/imagen/star.png" class="img-icon" title="Valoración" /> {{op.puntuacion}} - {{op.mensaje}} </p>
+		      			<p class="text-center"><a id="linkComment" class="link" [routerLink]="['/restaurantes', op.id_restaurante]"> Ver Restaurante </a></p>
+	    			</div>
+	    			
+	    		</div>
+			  </slide>
+		</carousel>
+	</div>
+	<div class="col-md-12">
 	</div>
 </div>

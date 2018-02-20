@@ -135,7 +135,7 @@ export class RestaurantesListComponent {
 
 	getRestaurantesPropietario () {
 		//console.log("está entrando");
-		this._restauranteService.getRestProp().subscribe(
+		this._restauranteService.getRestPropAvg().subscribe(
 			response => {
 				if (response.code == 200){
 					this.propietario = true;

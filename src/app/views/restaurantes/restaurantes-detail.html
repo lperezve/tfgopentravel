@@ -12,8 +12,10 @@
 					<h3 class="text-primary text-center">
 						{{restaurante.nombre}}
 					</h3>
-					<p> <img src="/assets/imagen/address.png" class="img-rest-propietario" title="Dirección"/> {{restaurante.direccion}}</p>
-					<p class="text-primary text-success"> <img src="/assets/imagen/star.png" class="img-rest-propietario" title="Valoración" /> {{avg}}/5 </p>
+					<div class="col-md-7">
+					<p *ngIf="restaurante.direccion" class="text-primary"> <img src="/assets/imagen/address.png" class="img-rest-propietario" title="Dirección"/> {{restaurante.direccion}}</p>
+					<p *ngIf="avg" class="text-primary text-success"> <img src="/assets/imagen/star.png" class="img-rest-propietario" title="Valoración" /> {{avg}}/5 </p>
+					<p *ngIf="restaurante.url" class="text-primary text-info"> <img src="/assets/imagen/website.png" class="img-rest-propietario" title="Website" /><a href="{{restaurante.url}}" target="_blank">{{restaurante.url}}</a></p>
 
 					<div *ngIf="!propietario">
 						<div *ngIf="(!solicitado) && (!hayPeticion) && (hayUsuario)">
@@ -32,7 +34,7 @@
 							<p class="text-muted"> Ha realizado una petición para ser propietario de este restaurante. Espere a que el Administrador se ponga en contacto con usted. Muchas gracias :) </p>
 						</div>
 					</div>
-					<div *ngIf="(hayUsuario && propietario && usuario.id == userPropi.id) || (admin)">
+					<div class="pull-right" *ngIf="(hayUsuario && propietario && usuario.id == userPropi.id) || (admin)">
 						<div *ngIf="!confirmado">
 							<button [routerLink]="['/editar-restaurantes', restaurante.id]" class="btn btn-warning">Editar</button>
 
@@ -43,17 +45,18 @@
 							<button (click)="cancelarBorrar()" class="btn btn-warning">Cancelar</button>
 						</div>
 					</div>
+					</div>
 
 				
 				
-					<div class="col-md-12 thumbnail" *ngIf="propietario">
+					<div class="col-md-5 thumbnail pull-right sombra" *ngIf="propietario">
 						<h4 class="text-muted text-center"> Propietario </h4>
 						<img class="pull-right img-rest-propietario" src="/assets/imagen/verificado.jpg" title="Propietario"/>
 						<p class="text-center">{{userPropi.nombre}} {{userPropi.apellido1}} {{userPropi.apellido2}} </p>
 						<p class="text-center">{{userPropi.email}}</p>
 					</div>
 				</div>
-			<div class="col-md-5">
+			<div class="col-md-5" *ngIf="lat && long">
 				<agm-map 
 					[latitude]="lat" 
 					[longitude]="long" 
@@ -68,7 +71,7 @@
 		</div>
 		<div class="row">
 			<div class="col-md-12">
-				<h3 class="text-center">
+				<h3 *ngIf="opiniones" class="text-center">
 						Comentarios
 				</h3>
 				<!-- AQUÍ SE PODRÍA PONER UN FILTRO PARA LOS COMENTARIOS -->
@@ -78,7 +81,7 @@
 				      		<h4> <img src="/assets/imagen/user.png" class="img-rest-propietario" title="Usuario" />  {{opinion.nombre}}</h4>
 				      	</div>
 				      	<div class="panel-body">
-				      		<div class="col-md-6">
+				      		<div class="col-md-8">
 					      		<p class="text-muted"> <img src="/assets/imagen/date.png" class="img-icon" title="Fecha" />  {{opinion.fecha}}</p>
 								<p class="text-primary text-success"> <img src="/assets/imagen/star.png" class="img-icon" title="Valoración" /> {{opinion.puntuacion}} </p>
 								<p class="text-primary"> <strong>{{opinion.mensaje}}</strong></p>
@@ -86,7 +89,7 @@
 									Votar
 								</button>-->
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-4">
 								<img *ngIf="opinion.imagen" src="http://localhost/tfg-lpv/tfg-backend/uploads/images_comment/{{opinion.imagen}}" width="200px">
 							</div>
 							
@@ -118,10 +121,9 @@
 
 								</div>
 								<div class="col-md-8">
-									<label for="Opinion">
-										Opinión (máx 420 caracteres)
-									</label>
-									<textarea placeholder="Introduzca aquí su opinión (max 420 caracteres)" #mensaje="ngModel" name="mensaje" [(ngModel)]="opinion.mensaje"></textarea>
+									<label> Opinión ( <span></span> caracteres)</label>
+									<textarea placeholder="Introduzca aquí su opinión (max 250 caracteres)" #mensaje="ngModel" name="mensaje" [(ngModel)]="opinion.mensaje" maxlength="250"></textarea>
+									
 
 								</div>
 									<input type="submit" value="Opinar" class="btn btn-info pull-right only-little-margin" [disabled]="!formOpinionesRest.form.valid"/>

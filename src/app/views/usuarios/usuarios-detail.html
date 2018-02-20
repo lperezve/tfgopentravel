@@ -26,16 +26,16 @@
 						</h3> 
 						<div class="col-md-12 panel panel-default" *ngIf="hayRestaurantes">
 							<h4 class="panel-heading"> Restaurantes propios </h4>
-							 <div class="panel-body cuadrado-azul" *ngFor="let rest of restaurantes | paginate: {itemsPerPage: 2, currentPage: p1, id: 'first'}">
+							 <div class="panel-body cuadrado-azul sombra" *ngFor="let rest of restaurantes | paginate: {itemsPerPage: 2, currentPage: p1, id: 'first'}">
 							 	<div class="col-md-3">
 							 		<img *ngIf="rest.imagen" class="img-rounded imagen-rest-usuario img-responsive center-block" src="{{rest.imagen}}"/>
 							 		<img *ngIf="!rest.imagen" class="img-rounded imagen-listado img-responsive center-block" src="https://image.flaticon.com/icons/png/512/45/45586.png"/>
 							 		
 							 	</div>
 							 	<div class="col-md-6">
-								 	<p class="text-default"> {{rest.nombre}} </p>
-								 	<p class="text-default"> {{rest.direccion}} </p>
-								 	<p class="text-muted"> Poner las estrellitas (la media de las opiniones)</p>
+								 	<p *ngIf="rest.direccion" class="text-primary"> <img src="/assets/imagen/address.png" class="img-rest-propietario" title="Dirección"/> {{rest.direccion}}</p>
+									<p *ngIf="rest.media" class="text-primary text-success"> <img src="/assets/imagen/star.png" class="img-rest-propietario" title="Valoración" /> {{rest.media}} </p>
+									<p *ngIf="rest.url" class="text-primary text-info"> <img src="/assets/imagen/website.png" class="img-rest-propietario" title="Website" /><a href="{{rest.url}}" target="_blank">{{rest.url}}</a></p>
 							 	</div>
 							 	<div class="col-md-2">
 							 		<div class="botones" *ngIf="confirmado != rest.id ">
@@ -48,7 +48,9 @@
 									</div>
 							 	</div>
 							 </div>
-							 <pagination-controls (pageChange)="p1 = $event" id="first"></pagination-controls>
+							 <div class="col-md-6 col-md-offset-4 margin-top-20">
+							 	<pagination-controls (pageChange)="p1 = $event" id="first"></pagination-controls>
+							 </div>
 						</div>
 						<div class=" col-md-12 panel panel-default" *ngIf="opiniones">
 							 <h4 class="panel-heading"> Comentarios dejados </h4>
@@ -67,7 +69,7 @@
 									 	{{op.nombre}} - <strong>{{op.mensaje}}</strong>
 								 	</div>
 								 	<div class="col-md-4">
-								 		<img *ngIf="op.imagen" class="img-responsive center-block" src="http://localhost/tfg-lpv/tfg-backend/uploads/images_comment/{{op.imagen}}" width="100px"/>
+								 		<img *ngIf="op.imagen" class="img-responsive center-block sombra" src="http://localhost/tfg-lpv/tfg-backend/uploads/images_comment/{{op.imagen}}" width="100px"/>
 								 	</div>
 							 	</div>
 							 	<div class="col-md-12 padding-top" *ngIf="confirmadoOp != op.id ">
@@ -85,8 +87,10 @@
 								    </p>
 							 	</div>
 							 </div>
+							 <div class="col-md-6 col-md-offset-4 margin-top-20">
+								<pagination-controls (pageChange)="p2 = $event" id="second"></pagination-controls>
+							</div>
 						</div>
-						<pagination-controls (pageChange)="p2 = $event" id="second"></pagination-controls>
 						<div class="panel panel-default" *ngIf="!opiniones">
 							<div class="row only-little-margin">
 								<div class="col-md-8">
@@ -118,10 +122,8 @@
 										<p *ngIf="eliminada">Imagen Eliminada</p>
 									</div>
 									<div class="col-md-8">
-										<label for="Opinion">
-											Opinión (máx 420 caracteres)
-										</label>
-										<textarea placeholder="Introduzca aquí su opinión (max 420 caracteres)" #editOp.mensaje="ngModel" name="mensaje" [(ngModel)]="editOp.mensaje"></textarea>
+										<label> Opinión ( <span></span> caracteres)</label>
+										<textarea placeholder="Introduzca aquí su opinión (max 250 caracteres)"#editOp.mensaje="ngModel" name="mensaje" [(ngModel)]="editOp.mensaje" maxlength="250"></textarea>
 
 									</div>
 										<input type="submit" value="Editar" class="btn btn-info pull-right only-little-margin" [disabled]="!formEditarOpinion.form.valid"/>

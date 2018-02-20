@@ -6,6 +6,8 @@ import { Ng2UploaderModule } from 'ng2-uploader';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FilterPipe } from './filter.pipe';
 import { AgmCoreModule } from '@agm/core';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
+
 //Rutas
 import { routing, appRoutingProviders } from './app.routing';
 
@@ -63,7 +65,8 @@ import { TareasPendientesComponent } from './components/usuarios/admin-tareas-pe
     NgxPaginationModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyAYoHnjktyRL65cneiuowyOExudf0MwUSg'
-      })
+      }),
+    CarouselModule.forRoot()
   ],
   providers: [
     appRoutingProviders,
