@@ -1,10 +1,12 @@
-<nav class="navbar navbar-default" role="navigation">
+<nav class="navbar navbar-default" role="navigation" id="#menu_gral">
 	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 		<ul class="nav navbar-nav">
-			<li> <a [routerLink]="['/home']" [routerLinkActive]="['activado']"> Home </a></li>
-			<li> <a [routerLink]="['/restaurantes']" [routerLinkActive]="['activado']"> Restaurantes </a></li>
+			<li> <a [routerLink]="['/home']" [routerLinkActive]="['activado']"><strong> Home </strong> </a></li>
+			<li> <a [routerLink]="['/restaurantes']" [routerLinkActive]="['activado']"><strong> Restaurantes </strong></a></li>
+			<li> <a (click)="generateDownloadCSV()" class="link-descarga"> Descargar Datos (CSV) </a></li>
+			<li> <a (click)="generateDownloadJson()" class="link-descarga"> Descargar Datos (JSON) </a></li>
 			<!--<li class="dropdown">
-				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown<strong class="caret"></strong></a>
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Descargar datos<strong class="caret"></strong></a>
 				<ul class="dropdown-menu" aria-labelled-by="dropdownmenu">
 					<li>
 						<a href="#">Action</a>
@@ -16,12 +18,13 @@
 					</li>
 				</ul>
 			</li>-->
+
 		</ul>
-		<ul class="nav navbar-nav navbar-right">
-			<li *ngIf="!autenticado"> <a [routerLink]="['/crear-usuarios']" [routerLinkActive]="['activado']"> Registrarse </a></li>
-			<li> <a [routerLink]="['/login']" [routerLinkActive]="['activado']" *ngIf="!auth.authenticated()"> Login </a></li>
-			<li> <a [routerLink]="['/usuario']" [routerLinkActive]="['activado']" *ngIf="auth.authenticated()"> Perfil {{usuario.nombre}} </a></li>
-			<li> <a [routerLink]="['/home']" (click)="auth.logoutService()" *ngIf="auth.authenticated()"> Logout </a></li> 
+		<ul class="nav navbar-nav navbar-right" style="margin-right: 5px;">
+			<li *ngIf="!autenticado"> <a [routerLink]="['/crear-usuarios']" [routerLinkActive]="['activado']"><strong> Registrarse </strong></a></li>
+			<li> <a [routerLink]="['/login']" [routerLinkActive]="['activado']" *ngIf="!auth.authenticated()"><strong> Login </strong></a></li>
+			<li> <a [routerLink]="['/usuario']" [routerLinkActive]="['activado']" *ngIf="auth.authenticated()"><strong> Perfil {{usuario.nombre}}</strong> </a></li>
+			<li> <a [routerLink]="['/home']" (click)="auth.logoutService()" *ngIf="auth.authenticated()"><strong> Logout </strong></a></li> 
 		</ul>
 	</div>
 

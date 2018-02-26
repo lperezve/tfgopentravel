@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ViewContainerRef } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { RestauranteService } from '../../services/restaurante.service';
 import { Restaurante } from '../../models/restaurante';
 import { GLOBAL } from '../../services/global';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component ({
 	selector: 'restaurantes-edit',
@@ -20,11 +21,14 @@ export class RestaurantesEditComponent {
 	constructor (
 		private _restauranteService : RestauranteService,
 		private _route: ActivatedRoute,
-		private _router: Router
-		) {
+		private _router: Router,
+		public toastr: ToastsManager, 
+		vcr: ViewContainerRef
+	) {
 		this.titulo = 'Editar Restaurante';
 		this.restaurante = new Restaurante (0, '','','','','','');
 		this.is_edit = true;
+		this.toastr.setRootViewContainerRef(vcr);
 	}
 
 	ngOnInit () {
@@ -58,9 +62,11 @@ export class RestaurantesEditComponent {
 			this._restauranteService.editRestaurantes(id, this.restaurante).subscribe(
 				response => {
 					if (response.code == 200) {
+						this.toastr.success('Restaurante editado correctamente.', 'Success!');
 						this._router.navigate(['/restaurantes', id]);
 					}
 					else {
+						this.toastr.error('Ha habido un problema con la edición del restaurante.', 'Oops!');
 						console.log(response);
 					}
 				}, 

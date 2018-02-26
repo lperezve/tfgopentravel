@@ -5,7 +5,7 @@
 				<img alt="Imagen Principal del Restaurante" src="{{restaurante.imagen}}" class="img-rounded imagen-detalle">
 			</div>
 			<div class="col-lg-3" *ngIf="!restaurante.imagen">
-			<img src="https://image.flaticon.com/icons/png/512/45/45586.png" class="img-rounded imagen-detalle"/>
+			<img src="https://lh3.googleusercontent.com/O3q2V2Svag9asAi2r7PvI01Jh5dpR76gaNex7ejgoCqjkKLmE_LBWGYjUQf6PQeAkik=w300" class="img-rounded imagen-detalle" style="margin-left:50px"/>
 			</div>
 			<div class="col-md-9">
 				<div class="col-md-7 thumbnail">
@@ -15,7 +15,7 @@
 					<div class="col-md-7">
 					<p *ngIf="restaurante.direccion" class="text-primary"> <img src="/assets/imagen/address.png" class="img-rest-propietario" title="Dirección"/> {{restaurante.direccion}}</p>
 					<p *ngIf="avg" class="text-primary text-success"> <img src="/assets/imagen/star.png" class="img-rest-propietario" title="Valoración" /> {{avg}}/5 </p>
-					<p *ngIf="restaurante.url" class="text-primary text-info"> <img src="/assets/imagen/website.png" class="img-rest-propietario" title="Website" /><a href="{{restaurante.url}}" target="_blank">{{restaurante.url}}</a></p>
+					<p *ngIf="restaurante.url" class="text-primary text-info"> <img src="/assets/imagen/website.png" class="img-rest-propietario" title="Website" /><a href="{{restaurante.url}}" target="_blank"> {{restaurante.url}}</a></p>
 
 					<div *ngIf="!propietario">
 						<div *ngIf="(!solicitado) && (!hayPeticion) && (hayUsuario)">
@@ -71,47 +71,49 @@
 		</div>
 		<div class="row">
 			<div class="col-md-12">
-				<h3 *ngIf="opiniones" class="text-center">
-						Comentarios
+				<h3 *ngIf="opiniones" class="text-center text-muted">
+						<strong>Comentarios</strong>
 				</h3>
 				<!-- AQUÍ SE PODRÍA PONER UN FILTRO PARA LOS COMENTARIOS -->
 				<div class="col-md-10 col-md-offset-1">
 					<div class="panel panel-info" *ngFor="let opinion of opiniones | paginate: {itemsPerPage: 2, currentPage: p}">
 				    	<div class="panel-heading">
-				      		<h4> <img src="/assets/imagen/user.png" class="img-rest-propietario" title="Usuario" />  {{opinion.nombre}}</h4>
+				      		<h4 class="without-margin-top-bot"> <img src="/assets/imagen/user.png" class="img-rest-propietario" title="Usuario" />  {{opinion.nombre}}</h4>
 				      	</div>
 				      	<div class="panel-body">
-				      		<div class="col-md-8">
-					      		<p class="text-muted"> <img src="/assets/imagen/date.png" class="img-icon" title="Fecha" />  {{opinion.fecha}}</p>
-								<p class="text-primary text-success"> <img src="/assets/imagen/star.png" class="img-icon" title="Valoración" /> {{opinion.puntuacion}} </p>
-								<p class="text-primary"> <strong>{{opinion.mensaje}}</strong></p>
+				      		<div class="col-md-9">
+					      		<p class="text-primary"> <img src="/assets/imagen/date.png" class="img-icon" title="Fecha" />  {{opinion.fecha}}</p>
+								<p class="text-primary text-success"> <img src="/assets/imagen/star.png" class="img-icon" title="Valoración" /> <strong>{{opinion.puntuacion}} </strong></p>
+								<p class="text-muted text-justify"> {{opinion.mensaje}}</p>
 								<!--<button type="button" class="btn btn-success btn-sm">
 									Votar
 								</button>-->
 							</div>
-							<div class="col-md-4">
-								<img *ngIf="opinion.imagen" src="http://localhost/tfg-lpv/tfg-backend/uploads/images_comment/{{opinion.imagen}}" width="200px">
+							<div class="col-md-3">
+								<img *ngIf="opinion.imagen" src="http://localhost/tfg-lpv/tfg-backend/uploads/images_comment/{{opinion.imagen}}" class="img-responsive img-comment">
 							</div>
 							
 				      	</div>
 					</div>
-					<pagination-controls *ngIf="opiniones" (pageChange)=" p = $event "></pagination-controls>
+					<div class="col-md-16 col-md-offset-4">
+						<pagination-controls class="center-block" *ngIf="opiniones" (pageChange)=" p = $event "></pagination-controls>
+					</div>
 				</div>
 				<div *ngIf="hayUsuario">
-					<div class="col-md-10 col-md-offset-1 thumbnail">
-						<h3 class="text-primary text-center"> Deja tu opinión </h3>
+					<div class="col-md-10 col-md-offset-1 thumbnail  margin-top-20">
+						<h3 class="text-muted text-center"><strong> Deja tu opinión</strong> </h3>
 						<form role="form" #formOpinionesRest="ngForm" (ngSubmit)="onSubmitOpinion()">
 							<div class="form-group">
 								<div class="col-md-4">
 									<label for="Puntuacion">
 										Puntuación
 									</label>
-									<select class="form-control" name="puntuacion" id="puntuacion" #puntuacion="ngModel" [(ngModel)]="opinion.puntuacion">
-								      <option value="5">5. Muy bien</option>
-								      <option value="4">4. Bien</option>
-								      <option value="3">3. Regular</option>
-								      <option value="2">2. Mal</option>
-								      <option value="1">1. Muy mal</option>
+									<select required class="form-control" name="puntuacion" id="puntuacion" #puntuacion="ngModel" [(ngModel)]="opinion.puntuacion">
+								      	<option value="5">5. Muy bien</option>
+								      	<option value="4">4. Bien</option>
+								      	<option value="3">3. Regular</option>
+								      	<option value="2">2. Mal</option>
+								      	<option value="1">1. Muy mal</option>
 								    </select>
 									<label> Imagen </label>
 									<input type="file" class="form-control" placeholder="Subir imagen..." (change)="fileChangeEvent($event)"/>
@@ -122,7 +124,7 @@
 								</div>
 								<div class="col-md-8">
 									<label> Opinión ( <span></span> caracteres)</label>
-									<textarea placeholder="Introduzca aquí su opinión (max 250 caracteres)" #mensaje="ngModel" name="mensaje" [(ngModel)]="opinion.mensaje" maxlength="250"></textarea>
+									<textarea placeholder="Introduzca aquí su opinión (max 250 caracteres)" #mensaje="ngModel" name="mensaje" [(ngModel)]="opinion.mensaje" maxlength="250" required></textarea>
 									
 
 								</div>

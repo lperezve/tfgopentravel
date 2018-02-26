@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewContainerRef } from '@angular/core';
 import { Router, ActivatedRoute, Params} from '@angular/router';
 import { Usuario } from '../models/usuario';
 import { AuthService } from '../services/auth.service';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component ({
 	selector: 'login',
@@ -16,16 +17,23 @@ export class LoginComponent {
 	constructor (
 		private _route: ActivatedRoute,
 		private _router: Router,
-		private _authService : AuthService
+		private _authService : AuthService,
+		public toastr: ToastsManager, 
+		vcr: ViewContainerRef
 	){
 		console.log('Se ha cargado el componente login.component.ts');
 		this.usuario = new Usuario (0,'','','','','','',false);
-		//this.toasterService = toasterService;
+		this.toastr.setRootViewContainerRef(vcr);
 	}
 
-	/*ngOnInit(){
-		this.returnUrl = this._route.snapshot.queryParams['returnUrl'] || '/';
-	}*/
+	showSuccess() {
+    	this.toastr.success('Inicio de sesión correcto', 'Success!');
+  	}
+
+  	showError() {
+    	this.toastr.error('Aún no tiene cuenta con nosotros. Regístrese en un momento!', 'Oops!');
+  	}
+
 
 	loginUsuario(event){
 		var email = event.target.elements[0].value;
@@ -36,8 +44,7 @@ export class LoginComponent {
 				if (response.code == 200){
 					this.usuario = response.data;
 					this._authService.loginservice(this.usuario);
-					//this.popToast();
-					alert("Se ha loggeado correctamente");
+					this.showSuccess();
 					/* para redirigir a la url previa del login */
 					this.returnUrl = this._route.snapshot.queryParams['returnUrl'] || '/';
 					this._router.navigate([this.returnUrl]);
@@ -45,8 +52,8 @@ export class LoginComponent {
 					location.reload();
 				}
 				else {
-					this._router.navigate(['/home']);
-					alert("Aún no tiene cuenta con nosotros. Regístrese en un momento!");
+					//this._router.navigate(['/home']);
+					this.showError();
 					console.log('El usuario no está registrado');
 				}
 			},

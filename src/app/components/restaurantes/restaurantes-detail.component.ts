@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewContainerRef } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { RestauranteService } from '../../services/restaurante.service';
 import { Restaurante } from '../../models/restaurante';
@@ -8,6 +8,7 @@ import { UsuarioService } from '../../services/usuario.service';
 import { AuthService } from '../../services/auth.service';
 import { PropiedadService } from '../../services/propiedad.service';
 import { GLOBAL } from '../../services/global';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component ({
 	selector: 'restaurantes-detail',
@@ -31,7 +32,7 @@ export class RestaurantesDetailComponent {
 	public admin : boolean = false;
 	public confirmado : boolean;
 	public hayPeticion : boolean;
-	//public gMaps: GoogleMapsAPIWrapper;
+
 	public lat : number;
   	public long : number;
   	public zoom : number;
@@ -48,15 +49,18 @@ export class RestaurantesDetailComponent {
 		private _restauranteService: RestauranteService,
 		private _usuarioService: UsuarioService,
 		private _auth : AuthService,
-		private _propiedadService : PropiedadService
+		private _propiedadService : PropiedadService,
+		public toastr: ToastsManager, 
+		vcr: ViewContainerRef
 	) {
-		this.opinion = new Opinion(0,0,0,0,'','','');
+		this.opinion = new Opinion(0,0,0,null,'','','');
 		this.opinionSingle = new Opinion(0,0,0,0,'','','');
 		this.propietario = false;
 		this.solicitado = false;
 		this.confirmado = false;
 		this.hayPeticion = false;
 		this.zoom = 11;
+		this.toastr.setRootViewContainerRef(vcr);
 	}
 
 	ngOnInit() {
@@ -195,10 +199,10 @@ export class RestaurantesDetailComponent {
 		this._restauranteService.deleteRestaurantes(this.restaurante.id).subscribe(
 			response => {
 				if (response.code == 200) {
-					alert('El restaurante se ha borrado correctamente');
+					this.toastr.success('El restaurante se ha borraado correctamente.', 'Success!');
 					this._router.navigate(['/restaurantes']);
 				} else
-					alert('Error al borrar el restaurante');
+					this.toastr.error('Error al borrar el restaurante.', 'Oops!');
 			}, 
 			error => {
 				console.log(<any>error);
@@ -288,11 +292,11 @@ export class RestaurantesDetailComponent {
 			response => {
 				if (response.code == 200){
 					this._router.navigate(['/restaurantes',this.restaurante.id]);
-					alert("Opinión realizada correctamente");
+					this.toastr.success('Opinión realizada correctamente', 'Success!');
 					location.reload();
 				}
 				else {
-					alert("Ha habido un problema al dejar la opinión, inténtelo de nuevo");
+					this.toastr.error('Ha habido un problema al dejar la opinión, inténtelo de nuevo', 'Oops!');
 					console.log(response);
 				}
 			},

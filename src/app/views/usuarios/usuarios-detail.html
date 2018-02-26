@@ -57,16 +57,14 @@
 							 <div class="col-md-5 panel-body well opinion-detail" *ngFor="let op of opiniones | paginate: {itemsPerPage: 2, currentPage: p2, id: 'second'}">
 							 	<div *ngIf="!op.imagen">
 								 	<div class="col-md-12">
-									 	{{op.fecha}} 
-									 	<br>
-									 	{{op.nombre}} - <strong>{{op.mensaje}}</strong>
+									 	<p class="text-muted">{{op.fecha}} </p>
+									 	<p class="text-justify">{{op.nombre}} - <strong>{{op.mensaje}}</strong></p>
 								 	</div>
 								 </div>
 								<div *ngIf="op.imagen">
 									<div class="col-md-8">
-									 	{{op.fecha}} 
-									 	<br>
-									 	{{op.nombre}} - <strong>{{op.mensaje}}</strong>
+									 	<p class="text-muted">{{op.fecha}}</p> 
+									 	<p class="text-justify"><a [routerLink]="['/restaurantes', op.id_restaurante]">{{op.nombre}}</a> - <strong>{{op.mensaje}}</strong></p>
 								 	</div>
 								 	<div class="col-md-4">
 								 		<img *ngIf="op.imagen" class="img-responsive center-block sombra" src="http://localhost/tfg-lpv/tfg-backend/uploads/images_comment/{{op.imagen}}" width="100px"/>

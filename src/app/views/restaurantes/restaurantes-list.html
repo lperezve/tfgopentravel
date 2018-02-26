@@ -13,7 +13,10 @@
 						  <select class="form-control" [(ngModel)]="selected" (ngModelChange)="getAll()">
 						    <option value="1">Todos los restaurantes</option>
 						    <option value="2">Mejor Valoración</option>
-						    <option value="3">Mostrar Mapa</option>
+						    <option value="3">Peor Valoración</option>
+						    <option value="4">Más Comentados</option>
+						    <option value="5">Menos Comentados</option>
+						    <option value="6">Mostrar Mapa</option>
 						</select>
 					</div>
 					<div class="col-md-3">
@@ -24,31 +27,38 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-12" *ngIf="selected != 3">
-				<div class="col-md-6 row-margin" *ngFor="let restaurante of restProp | filterNombre : searchText | paginate: {itemsPerPage: 6, currentPage: p1, id: 'first'}">
+			<div class="col-md-12" *ngIf="selected != 6">
+				<div class="col-md-6 row-margin" *ngFor="let restaurante of restProp | filterNombre : searchText | paginate: {itemsPerPage: 8, currentPage: p1, id: 'first'}">
 					<div id="list-panel" class="col-md-12 row">
 						<img *ngIf="(restaurante.id_usuario != null) && (restaurante.validado == 1)" class="pull-right img-rest-propietario" src="/assets/imagen/verificado.jpg" title="Restaurante con propietario"/>
 						<a [routerLink]="['/restaurantes', restaurante.id]"><h3 class="text-center text-primary margin-top-2"> {{restaurante.nombre}} </h3></a>
 						<div class="col-md-4">
 							<div *ngIf="restaurante.imagen" class="imagen_container">
-										<!--<img src="http://localhost/tfg-lpv/tfg-backend/uploads/{{restaurante.imagen}}" class="restaurante_imagen"/>-->
 								<a [routerLink]="['/restaurantes', restaurante.id]"><img src="{{restaurante.imagen}}" class="img-rounded imagen-listado"/></a>
 							</div>
-							<div *ngIf="!restaurante.imagen" class="imagen_container"> <!--class="imagen_relleno">-->
+							<div *ngIf="!restaurante.imagen" class="imagen_container">
 								<img class="pull-left img-rounded imagen-listado" src="https://image.flaticon.com/icons/png/512/45/45586.png">
+								<!--
+									https://image.flaticon.com/icons/png/512/45/45586.png
+
+									https://lh3.googleusercontent.com/O3q2V2Svag9asAi2r7PvI01Jh5dpR76gaNex7ejgoCqjkKLmE_LBWGYjUQf6PQeAkik=w300
+
+									http://icons.iconarchive.com/icons/graphicloads/colorful-long-shadow/256/Restaurant-icon.png
+									 -->
 							</div>
 						</div>
 					<div class="col-md-8">
-						<p *ngIf="restaurante.direccion" class="text-primary"> <img src="/assets/imagen/address.png" class="img-icon" title="Dirección"/> {{restaurante.direccion}}</p>
+						<p *ngIf="restaurante.direccion" class="text-muted"> <img src="/assets/imagen/address.png" class="img-icon" title="Dirección"/> {{restaurante.direccion}}</p>
 						<p *ngIf="restaurante.media" class="text-primary text-success"> <img src="/assets/imagen/star.png" class="img-icon" title="Valoración" /> {{restaurante.media}} </p>
+						<p *ngIf="restaurante.num_opiniones" class="text-primary text-success"><img src="/assets/imagen/comment.png" class="img-icon" title="Comentarios" /> {{restaurante.num_opiniones}}</p>
 
 						<div class="botones" *ngIf="confirmado != restaurante.id ">
-							<div class="margin-top-20" *ngIf="hayUsuario">
+							<div class="margin-top-2" *ngIf="hayUsuario">
 								<p> <a [routerLink]="['/restaurantes', restaurante.id]" class="btn btn-primary">Ver más</a>
 								<a *ngIf="(esAdmin) || ((restaurante.id_usuario == usuario.id) && (restaurante.validado == 1))" [routerLink]="['/editar-restaurantes', restaurante.id]" class="btn btn-warning">Editar</a>
 								<a *ngIf="(esAdmin) || ((restaurante.id_usuario == usuario.id) && (restaurante.validado == 1))" (click)="borrarConfirm(restaurante.id)" class="btn btn-danger">Elimnar</a></p>
 							</div>
-							<div class="margin-top-20" *ngIf="!hayUsuario">
+							<div class="margin-top-2" *ngIf="!hayUsuario">
 								<p> <a [routerLink]="['/restaurantes', restaurante.id]" class="btn btn-primary">Ver más</a></p>
 							</div>
 
@@ -63,11 +73,11 @@
 			</div>
 			<div class="col-md-12">
 				<div class="col-md-6 col-md-offset-3 margin-top-20">
-					<pagination-controls *ngIf="selected != 3" (pageChange)=" p1 = $event" id="first"></pagination-controls>
+					<pagination-controls *ngIf="selected != 6" (pageChange)=" p1 = $event" id="first"></pagination-controls>
 				</div>
 			</div>
 			
-			<div class="col-md-12" *ngIf="selected == 3">
+			<div class="col-md-12" *ngIf="selected == 6">
 				<agm-map 
 					[latitude]="lat" 
 					[longitude]="lng" 
@@ -88,22 +98,18 @@
 		<div class="col-md-3">
 			<h3 class="text-center text-muted"> Últimos comentarios </h3>
 			<div class="col-md-12 margin-top-20">
-				<div class="thumbnail row-margin sombra" *ngFor="let opinion of opinionesRecientes | paginate: {itemsPerPage: 4, currentPage: p2, id: 'second'}">
+				<div class="thumbnail row-margin sombra" *ngFor="let opinion of opinionesRecientes | paginate: {itemsPerPage: 3, currentPage: p2, id: 'second'}">
 					<div class="panel-heading">
 						<h5 class="panel-title"> {{opinion.fecha}}</h5>
 					</div>
 					<div class="panel-body">
-						<div class="col-md-9">
-							<p *ngIf="opinion.puntuacion" class="text-primary text-info"> <img src="/assets/imagen/star.png" class="img-icon" title="Valoración" /> {{opinion.puntuacion}} - {{opinion.mensaje}} </p>
+						<div class="col-md-12">
+							<a [routerLink]="['/restaurantes', opinion.id_restaurante]"><p *ngIf="opinion.puntuacion" class="text-primary text-info text-justify"> <img src="/assets/imagen/star.png" class="img-icon" title="Valoración" /> {{opinion.puntuacion}} - {{opinion.mensaje}} </p></a>
 							<img *ngIf="opinion.imagen" class="img-responsive center-block sombra" src="http://localhost/tfg-lpv/tfg-backend/uploads/images_comment/{{opinion.imagen}}" width="80px"/>
 						</div>
-						<div class="col-md-3">
-							<a [routerLink]="['/restaurantes', opinion.id_restaurante]"><img src="/assets/imagen/Detail.png" class="img-rest-propietario" title="Ver Detalle" /></a>
-						</div>
-
 					</div>
 				</div>
-				<div class="col-md-10 col-md-offset-1">
+				<div class="col-md-12">
 					<pagination-controls (pageChange)="p2 = $event" id="second"></pagination-controls>
 				</div>
 			</div>

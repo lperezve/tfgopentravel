@@ -28,6 +28,18 @@ export class RestauranteService {
 		return this._http.get(this.url+'valorados').map(res => res.json());
 	}
 
+	getRestaurantesMenosValorados() {
+		return this._http.get(this.url+'menos-valorados').map(res => res.json());
+	}
+
+	getRestaurantesMasComentarios(){
+		return this._http.get(this.url+'mas-comentarios').map(res => res.json());
+	}
+
+	getRestaurantesMenosComentarios(){
+		return this._http.get(this.url+'menos-comentarios').map(res => res.json());
+	}
+
 	//OBTENER TODOS LOS RESTAURANTES Y LOS PROPIETARIOS DE AQUELLOS QUE TENGAN
 	getRestProp(){
 		return this._http.get(this.url+'restaurantes-propietario').map(res => res.json());

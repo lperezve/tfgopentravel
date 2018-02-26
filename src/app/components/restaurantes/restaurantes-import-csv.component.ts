@@ -1,9 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewContainerRef } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { RestauranteService } from '../../services/restaurante.service';
 import { DatasetService } from '../../services/dataset.service';
 import { Restaurante } from '../../models/restaurante';
 import { GLOBAL } from '../../services/global';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component ({
 	selector: 'restaurantes-import-csv',
@@ -31,7 +32,10 @@ export class RestaurantesImportCSVComponent {
 	constructor (private _restauranteService : RestauranteService,
 		private _datasetService : DatasetService,
 		private _route: ActivatedRoute,
-		private _router: Router) {
+		private _router: Router,
+		public toastr: ToastsManager, 
+		vcr: ViewContainerRef
+	) {
 		this.soyCsv = true;
 		this.soyJson = false;
 		//----
@@ -41,6 +45,7 @@ export class RestaurantesImportCSVComponent {
 		this.inputButton = false;
 		this.separacion = null;
 		this.errorInsercion = false;
+		this.toastr.setRootViewContainerRef(vcr);
 	}
 
 	ngOnInit () {
@@ -58,7 +63,9 @@ export class RestaurantesImportCSVComponent {
 							console.log(result);
 							this.errorImportacion = true;
 							this.mensajeError = result.message;
+							this.toastr.error('La extensión no es correcta', 'Oops!');
 						} else {
+							this.toastr.info('Dataset importado. Continue con el emparejamiento.');
 							//OBTENEMOS LOS ATRIBUTOS DE LA TABLA RESTAURANTES PARA SU EMPAREJAMIENTO
 							this._restauranteService.getAtributosTabla().subscribe(
 								result => {
@@ -88,16 +95,18 @@ export class RestaurantesImportCSVComponent {
 	passingFields(){
 		this._route.params.forEach((params: Params) => {
 			let filename = this.resultUpload.filename;
-			console.log("HASTA AQUÍ");
+			//console.log("HASTA AQUÍ");
 			//PASAMOS LOS FIELDS EMPAREJADOS CON LOS ATRIBUTOS DE LA BASE DE DATOS PARA PODER INSERTARLOS A TRAVES DE LA API
 			this._datasetService.addFields(filename, this.separacion, this.restaurante).subscribe(
 			response => {
 				console.log(response);
 				if (response.code == 200){
+					this.toastr.success('Los datos se han subido correctamente.', 'Success!');
 					console.log(response);
 					this._router.navigate(['/restaurantes']);
 				}
 				else {
+					this.toastr.error('Error en la subida de datos.', 'Oops!');
 					this.errorInsercion = true;
 					this.mensajeError = response.message;
 					console.log(response);
@@ -106,7 +115,7 @@ export class RestaurantesImportCSVComponent {
 			error => {
 				console.log(<any>error);
 			});
-		console.log("Aquí tambien");
+		//console.log("Aquí tambien");
 		});
 	}
 

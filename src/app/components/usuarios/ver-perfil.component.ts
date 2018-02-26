@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ViewContainerRef } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { UsuarioService } from '../../services/usuario.service';
 import { Usuario } from '../../models/usuario';
 import { AuthService } from '../../services/auth.service';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component ({
 	selector: 'ver-perfil',
@@ -21,7 +22,9 @@ export class VerPerfilComponent {
 		private _route: ActivatedRoute,
 		private _router: Router,
 		private _usuarioService: UsuarioService,
-		private _authService : AuthService
+		private _authService : AuthService,
+		public toastr: ToastsManager, 
+		vcr: ViewContainerRef
 	) {
 		if (_authService.authenticated()){
 	      this.usuario = JSON.parse(localStorage.getItem('currentUser'));
@@ -33,6 +36,7 @@ export class VerPerfilComponent {
 	    }
 		this.usuarioArray = [];
 		this.confirmado = null;
+		this.toastr.setRootViewContainerRef(vcr);
 
 	}
 
@@ -96,11 +100,14 @@ export class VerPerfilComponent {
 		this._usuarioService.deleteUsuarios(id).subscribe(
 			response => {
 				if (response.code == 200) {
+					this.toastr.success('Se ha dado de baja con éxito.', 'Success!');
 					this._authService.logoutService();
 					this._router.navigate(['/home']);
 
-				} else
+				} else {
+					this.toastr.error('Problemas con la baja de usuario.', 'Oops!');
 					console.log(response);
+				}
 			}, 
 			error => {
 				console.log(<any>error);

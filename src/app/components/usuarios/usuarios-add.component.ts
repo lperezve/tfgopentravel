@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewContainerRef } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { UsuarioService } from '../../services/usuario.service';
 import { Usuario } from '../../models/usuario';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component ({
 	selector: 'usuarios-add',
@@ -16,10 +17,13 @@ export class UsuariosAddComponent {
 	constructor(
 		private _usuarioService : UsuarioService,
 		private _route: ActivatedRoute,
-		private _router: Router
+		private _router: Router,
+		public toastr: ToastsManager, 
+		vcr: ViewContainerRef
 		) {
 		this.titulo = 'Crear un nuevo usuario';
 		this.usuario = new Usuario (0,'','','','','','',false);
+		this.toastr.setRootViewContainerRef(vcr);
 	}
 	ngOnInit() {
 		console.log('Se ha cargado el componente usuarios-add.component.ts');
@@ -34,11 +38,11 @@ export class UsuariosAddComponent {
 		this._usuarioService.addUsuarios(this.usuario).subscribe(
 			response => {
 				if (response.code == 200) {
-					alert("Se ha registrado correctamente. Vaya al login para acceder a su cuenta");
+					this.toastr.success('Se ha registrado correctamente. Vaya al login para acceder a su cuenta.', 'Success!');
 					this._router.navigate(['/home']);
 				}
 				else {
-					alert("No ha sido posible el registro. Inténtelo de nuevo.")
+					this.toastr.error('No ha sido posible el registro. Inténtelo de nuevo.', 'Oops!');
 					console.log(response);
 				}
 			}, 

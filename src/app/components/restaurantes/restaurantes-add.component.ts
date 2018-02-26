@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ViewContainerRef } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { RestauranteService } from '../../services/restaurante.service';
 import { Restaurante } from '../../models/restaurante';
 import { GLOBAL } from '../../services/global';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component ({
 	selector: 'restaurantes-add',
@@ -19,10 +20,13 @@ export class RestaurantesAddComponent {
 	constructor (
 		private _restauranteService : RestauranteService,
 		private _route: ActivatedRoute,
-		private _router: Router
+		private _router: Router,
+		public toastr: ToastsManager, 
+		vcr: ViewContainerRef
 		) {
 		this.titulo = 'Crear un nuevo restaurante';
 		this.restaurante = new Restaurante (0, '','','','','','');
+		this.toastr.setRootViewContainerRef(vcr);
 	}
 
 	ngOnInit () {
@@ -49,13 +53,23 @@ export class RestaurantesAddComponent {
 		}
 	}
 
+	showSuccess() {
+    	this.toastr.success('Restaurante insertado correctamente.', 'Success!');
+  	}
+
+  	showError() {
+    	this.toastr.error('Error en la insercción del restaurante.', 'Oops!');
+  	}
+
 	saveRestaurante () {
 		this._restauranteService.addRestaurantes(this.restaurante).subscribe(
 			response => {
 				if (response.code == 200) {
+					this.showSuccess();
 					this._router.navigate(['/restaurantes']);
 				}
 				else {
+					this.showError();
 					console.log(response);
 				}
 			}, 

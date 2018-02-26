@@ -16,7 +16,7 @@ export class HomeComponent {
 	public mejoresOp = [];
   	lat: number = 40.4893538;
   	lng: number = -3.6827461;
-  	zoom : number = 5;
+  	zoom : number = 4;
 
 	constructor (private auth : AuthService,
 				private _restauranteService : RestauranteService

@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ViewContainerRef } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { UsuarioService } from '../../services/usuario.service';
 import { Usuario } from '../../models/usuario';
 import { AuthService } from '../../services/auth.service';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component ({
 	selector: 'usarios-edit',
@@ -19,7 +20,9 @@ export class UsuariosEditComponent {
 		private _route: ActivatedRoute,
 		private _router: Router,
 		private _usuarioService: UsuarioService,
-		private _authService : AuthService
+		private _authService : AuthService,
+		public toastr: ToastsManager, 
+		vcr: ViewContainerRef
 	) {
 		if (_authService.authenticated()){
 	      this.usuario = JSON.parse(localStorage.getItem('currentUser'));
@@ -29,6 +32,7 @@ export class UsuariosEditComponent {
 	      	this.admin = false;
 	      }
 	    }
+	    this.toastr.setRootViewContainerRef(vcr);
 	}
 
 	ngOnInit(){
@@ -72,11 +76,12 @@ export class UsuariosEditComponent {
 		this._usuarioService.editUsuarios(this.usuario.id, this.usuario).subscribe(
 			response => {
 				if (response.code == 200) {
+					this.toastr.success('Usuario actualizado correctamente', 'Success!');
 					this._authService.loginservice(this.usuario);
 					this._router.navigate(['/ver-perfil']);
-
 				}
 				else {
+					this.toastr.error('Problemas con la edición de usuario.', 'Oops!');
 					console.log(response);
 				}
 			},

@@ -9,15 +9,15 @@
   </div>-->
   <div class="col-md-7 only-little-margin">
     <h3 class="text-default text-primary"> Instrucciones </h3>
-    <p *ngIf="!soyCsv"> A continuación se procedera a la carga de datos a través de ficheros con extensión json. </p>
+    <p *ngIf="!soyCsv" class="text-justify"> A continuación se procedera a la carga de datos a través de ficheros con extensión json. </p>
 
-    <p *ngIf="soyCsv"> A continuación se procedera a la carga de datos a través de ficheros con extensión csv. </p>
-    <p *ngIf="soyCsv"> Para poder cargar datos en <i>csv</i> es necesario conocer el carácter con el que están separados los datos para poder comunicárselo al sistema y así llevar a cabo la insercción. Por el momento disponemos de 3 tipos de separadores: coma (,), dos puntos (:) y punto y coma (;). Por tanto, una vez conocido, seleccionamos el separador del documento que vamos a importar.</p>
-    <p> Seleccionamos el documento deseado y procedemos a la importación (pulsar boton <i>Importar</i>).</p>
-    <p> Una vez importado el documento, nos aparece un formulario con los campos que requiere la base de datos para realizar la inserción de los restaurantes. La función de este formulario será emparejar cada atributo de la base de datos, con la clave adecuada a esa información (clave proporcionada por el dataset).</p>
-    <p class="text-muted"> Por ejemplo, para el campo <i>nombre</i>, las claves más comunes a seleccionar serían: <i>rdfs</i>, <i>name</i>, <i>título</i> (entre otras), pero nunca una clave como <i>street</i> (que seguramente hará referencia a la dirección del restaurante).</p>
-    <p> Una vez emparejados los atributos deseados con las claves correspondientes, hacemos clic en <i>Continuar</i> para proceder a la carga de los datos</p>
-    <p class="text-warning"> Ningún atributo es obligatorio para hacer la insercción, así como es posible que no encuentre claves en el dataset para todos los atributos. </p>
+    <p *ngIf="soyCsv" class="text-justify"> A continuación se procedera a la carga de datos a través de ficheros con extensión csv. </p>
+    <p *ngIf="soyCsv" class="text-justify"> Para poder cargar datos en <i>csv</i> es necesario conocer el carácter con el que están separados los datos para poder comunicárselo al sistema y así llevar a cabo la insercción. Por el momento disponemos de 3 tipos de separadores: coma (,), dos puntos (:) y punto y coma (;). Por tanto, una vez conocido, seleccionamos el separador del documento que vamos a importar.</p>
+    <p class="text-justify"> Seleccionamos el documento deseado y procedemos a la importación (pulsar boton <i>Importar</i>).</p>
+    <p class="text-justify"> Una vez importado el documento, nos aparece un formulario con los campos que requiere la base de datos para realizar la inserción de los restaurantes. La función de este formulario será emparejar cada atributo de la base de datos, con la clave adecuada a esa información (clave proporcionada por el dataset).</p>
+    <p class="text-muted text-justify"> Por ejemplo, para el campo <i>nombre</i>, las claves más comunes a seleccionar serían: <i>rdfs</i>, <i>name</i>, <i>título</i> (entre otras), pero nunca una clave como <i>street</i> (que seguramente hará referencia a la dirección del restaurante).</p>
+    <p class="text-justify"> Una vez emparejados los atributos deseados con las claves correspondientes, hacemos clic en <i>Continuar</i> para proceder a la carga de los datos</p>
+    <p class="text-warning text-justify"> Ningún atributo es obligatorio para hacer la insercción, así como es posible que no encuentre claves en el dataset para todos los atributos. </p>
 
   </div>
   <div class="col-md-4">

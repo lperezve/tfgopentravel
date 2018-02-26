@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewContainerRef } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { UsuarioService } from '../../services/usuario.service';
 import { Usuario } from '../../models/usuario';
@@ -7,7 +7,7 @@ import { Opinion } from '../../models/opinion';
 import { RestauranteService } from '../../services/restaurante.service';
 import { Restaurante } from '../../models/restaurante';
 import { GLOBAL } from '../../services/global';
-
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component ({
 	selector: 'usarios-detail',
@@ -36,7 +36,9 @@ export class UsuariosDetailComponent {
 		private _router : Router,
 		private _usuarioService : UsuarioService,
 		private _restauranteService : RestauranteService,
-		private auth : AuthService
+		private auth : AuthService,
+		public toastr: ToastsManager, 
+		vcr: ViewContainerRef
 	) {
 		if (auth.authenticated()){
 	      this.usuario = JSON.parse(localStorage.getItem('currentUser'));
@@ -52,6 +54,7 @@ export class UsuariosDetailComponent {
 		this.confirmadoOp = null;
 		this.editOp = null;
 		this.eliminada = false;
+		this.toastr.setRootViewContainerRef(vcr);
 	}
 
 	ngOnInit(){
@@ -107,10 +110,10 @@ export class UsuariosDetailComponent {
 		this._restauranteService.deleteRestaurantes(id).subscribe(
 			response => {
 				if (response.code == 200) {
-					alert('El restaurante: '+ id + ' - ' + nombre +', se ha borrado correctamente');
+					this.toastr.success('El restaurante: '+ id + ' - ' + nombre +', se ha borrado correctamente', 'Success!');
 					window.location.reload();
 				} else
-					alert('Error al borrar el restaurante');
+					this.toastr.error('Error al borrar el restaurante.', 'Oops!');
 			}, 
 			error => {
 				console.log(<any>error);
@@ -149,10 +152,10 @@ export class UsuariosDetailComponent {
 		this._usuarioService.deleteOpinionUser(id).subscribe(
 			response => {
 				if (response.code == 200) {
-					alert('El comentario '+ id + ', se ha borrado correctamente');
+					this.toastr.success('El comentario '+ id + ', se ha borrado correctamente', 'Success!');
 					window.location.reload();
 				} else
-					alert('Error al borrar el comentario');
+					this.toastr.error('Error al borrar el comentario.', 'Oops!');
 			}, 
 			error => {
 				console.log(<any>error);
@@ -167,7 +170,7 @@ export class UsuariosDetailComponent {
 					this.editOp = response.data;
 					console.log(this.editOp);
 				} else
-					alert('No existe esa opinión');
+					this.toastr.error('La opinión no existe.', 'Oops!');
 			}, 
 			error => {
 				console.log(<any>error);
@@ -202,12 +205,12 @@ export class UsuariosDetailComponent {
 		this._usuarioService.updateOpinion(id, this.editOp).subscribe(
 			response => {
 				if (response.code == 200){
-					alert("La opinión ha sido actualizada");
+					this.toastr.success('El comentario ha sido actualizado.', 'Success!');
 					this.editOp = null;
 					window.location.reload();
 				}
 				else {
-					alert ('Error al actualizar opinión');
+					this.toastr.error('Error al actualizar el comentario.', 'Oops!');
 				}
 			},
 			error => {

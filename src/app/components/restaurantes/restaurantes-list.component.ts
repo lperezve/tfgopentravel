@@ -31,7 +31,7 @@ export class RestaurantesListComponent {
 	public hayUsuario : boolean;
 	lat: number = 40.4893538;
   	lng: number = -3.6827461;
-  	zoom : number = 5;
+  	zoom : number = 4;
 
 	constructor (
 		private _route: ActivatedRoute,
@@ -86,14 +86,23 @@ export class RestaurantesListComponent {
 	getAll () {
 		if(this.selected == 1){
 			this.getRestaurantesPropietario();
-			//console.log("opcion1");
 		}
 		if (this.selected == 2){
 			this.getRestaurantesValoracion();
-			//console.log("opcion2");
 		}
-		//MAPA DE RESTAURANTES
+
 		if (this.selected == 3){
+			this.getRestaurantesMenorValoracion();
+		}
+		if (this.selected == 4){
+			this.getRestaurantesMasComment();
+		}
+		if (this.selected == 5){
+			this.getRestaurantesMenosComment();
+		}
+
+		//MAPA DE RESTAURANTES
+		if (this.selected == 6){
 			this.getRestaurantes();
 		}
 	}
@@ -122,6 +131,57 @@ export class RestaurantesListComponent {
 			result => {
 				if (result.code == 200){
 					this.restProp = result.data;
+				}
+				else {
+					console.log(result);
+				}
+			},
+			error => {
+				console.log(<any>error);
+			}
+		);
+	}
+
+	getRestaurantesMenorValoracion () {
+		this._restauranteService.getRestaurantesMenosValorados().subscribe(
+			result => {
+				if (result.code == 200){
+					this.restProp = result.data;
+					console.log(this.restProp);
+				}
+				else {
+					console.log(result);
+				}
+			},
+			error => {
+				console.log(<any>error);
+			}
+		);
+	}
+
+	getRestaurantesMasComment () {
+		this._restauranteService.getRestaurantesMasComentarios().subscribe(
+			result => {
+				if (result.code == 200){
+					this.restProp = result.data;
+					console.log(this.restProp);
+				}
+				else {
+					console.log(result);
+				}
+			},
+			error => {
+				console.log(<any>error);
+			}
+		);
+	}
+
+	getRestaurantesMenosComment () {
+		this._restauranteService.getRestaurantesMenosComentarios().subscribe(
+			result => {
+				if (result.code == 200){
+					this.restProp = result.data;
+					console.log(this.restProp);
 				}
 				else {
 					console.log(result);
@@ -189,78 +249,4 @@ export class RestaurantesListComponent {
 			}
 		);
 	}
-
-	generateDownloadJson() {
-		this._restauranteService.getRestaurantes().subscribe(
-			result => {
-				if (result.code != 200) { //cuando haya un error
-					console.log(result);
-				} else { //cuando todo va bien, se le asignan los datos
-					let restaurantesDown : Restaurante = result.data;
-					let theJSON = JSON.stringify(restaurantesDown);
-    				var a = document.createElement("a");
-				    a.setAttribute('style', 'display:none;');
-				    document.body.appendChild(a);
-				    var blob = new Blob([theJSON], { type: 'text/json' });
-					var urlDownload = window.URL.createObjectURL(blob);
-				    a.href = urlDownload;
-				    a.download = 'Restaurantes.json';
-				    a.click();
-				}
-			}, 
-			error => {
-				console.log(<any>error);//para mostrar el error que nos devuelve
-			}
-		);		
-	}
-
-	generateDownloadCSV () {
-		this._restauranteService.getRestaurantes().subscribe(
-			result => {
-				if (result.code != 200) { //cuando haya un error
-					console.log(result);
-				} else { //cuando todo va bien, se le asignan los datos
-					let restaurantesDowncsv : Restaurante = result.data;
-					var csvData = this.ConvertToCSV(restaurantesDowncsv);
-					var a = document.createElement("a");
-				    a.setAttribute('style', 'display:none;');
-				    document.body.appendChild(a);
-				    var blob = new Blob([csvData], { type: 'text/csv' });
-				    var url= window.URL.createObjectURL(blob);
-				    a.href = url;
-				    a.download = 'Restaurantes.csv';
-				    a.click();
-				}
-			}, 
-			error => {
-				console.log(<any>error);//para mostrar el error que nos devuelve
-			}
-		);	
-	}
-
-	ConvertToCSV(objArray) {
-            var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
-            var str = '';
-            var row = "";
- 
-            for (var index in objArray[0]) {
-                //Now convert each value to string and comma-separated
-                row += index + ',';
-            }
-            row = row.slice(0, -1);
-            //append Label row with line break
-            str += row + '\r\n';
- 
-            for (var i = 0; i < array.length; i++) {
-                var line = '';
-                for (var index in array[i]) {
-                    if (line != '') line += ','
- 
-                    line += array[i][index];
-                }
-                str += line + '\r\n';
-            }
-            return str;
-        }
-
 }

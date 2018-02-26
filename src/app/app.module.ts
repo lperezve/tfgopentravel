@@ -7,6 +7,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { FilterPipe } from './filter.pipe';
 import { AgmCoreModule } from '@agm/core';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
+import { ToastModule } from 'ng2-toastr/ng2-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 //Rutas
 import { routing, appRoutingProviders } from './app.routing';
@@ -60,13 +62,16 @@ import { TareasPendientesComponent } from './components/usuarios/admin-tareas-pe
     BrowserModule,
     FormsModule,
     HttpModule,
+    BrowserAnimationsModule,
     routing,
     Ng2UploaderModule,
     NgxPaginationModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyAYoHnjktyRL65cneiuowyOExudf0MwUSg'
       }),
-    CarouselModule.forRoot()
+    CarouselModule.forRoot(),
+    ToastModule.forRoot()
+
   ],
   providers: [
     appRoutingProviders,

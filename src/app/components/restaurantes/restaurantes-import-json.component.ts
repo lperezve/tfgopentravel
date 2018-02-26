@@ -1,9 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewContainerRef } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { RestauranteService } from '../../services/restaurante.service';
 import { DatasetService } from '../../services/dataset.service';
 import { Restaurante } from '../../models/restaurante';
 import { GLOBAL } from '../../services/global';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component ({
 	selector: 'restaurantes-import-json',
@@ -25,17 +26,23 @@ export class RestaurantesImportJSONComponent {
 	public archivoObtenido;
 	selectCity = null;
 	public inputButton : boolean;
+	public errorInsercion : boolean;
 
 	constructor (private _restauranteService : RestauranteService,
 		private _datasetService : DatasetService,
 		private _route: ActivatedRoute,
-		private _router: Router) {
+		private _router: Router,
+		public toastr: ToastsManager, 
+		vcr: ViewContainerRef
+	) {
 		this.soyCsv = false;
 		this.soyJson = true;
 		this.restaurante = new Restaurante (0, '','','','','','');
 		this.importado = false;
 		this.errorImportacion = false;
 		this.inputButton = false;
+		this.errorInsercion = false;
+		this.toastr.setRootViewContainerRef(vcr);
 	}
 	ngOnInit () {
 		console.log('Se ha cargado el componente restaurantes-import-json.component.ts');
@@ -53,8 +60,10 @@ export class RestaurantesImportJSONComponent {
 							console.log(result);
 							this.errorImportacion = true;
 							this.mensajeError = result.message;
+							this.toastr.error('La extensión no es correcta', 'Oops!');
 						} else {
-							console.log("ESTOY EN EL ELSE");
+							this.toastr.info('Dataset importado. Continue con el emparejamiento.');
+							//console.log("ESTOY EN EL ELSE");
 							//OBTENEMOS LOS ATRIBUTOS DE LA TABLA RESTAURANTES PARA SU EMPAREJAMIENTO
 							this._restauranteService.getAtributosTabla().subscribe(
 								result => {
@@ -67,7 +76,7 @@ export class RestaurantesImportJSONComponent {
 									this.errorImportacion = false;
 								}
 							);					
-							console.log("va bien");
+							//console.log("va bien");
 							this.archivoObtenido = result;
 							this.fields = this.archivoObtenido.data;
 							console.log(this.fields);
@@ -90,9 +99,11 @@ export class RestaurantesImportJSONComponent {
 			response => {
 				if (response.code == 200){
 					console.log(response);
+					this.toastr.success('Los datos se han subido correctamente.', 'Success!');
 					this._router.navigate(['/restaurantes']);
 				}
 				else {
+					this.toastr.error('Error en la subida de datos.', 'Oops!');
 					console.log(response);
 				}
 				},
