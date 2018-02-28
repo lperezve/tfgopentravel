@@ -55,6 +55,19 @@ export class RestauranteService {
 		return this._http.get(this.url+'restaurantes-propietario-avg').map(res => res.json());
 	}
 
+	//obtener los restaurantes que aún no han sido validados por el admin
+	getRestNoValidados(){
+		return this._http.get(this.url+'no-validados').map(res => res.json());
+	}
+
+	validarRestaurante (id) {
+		return this._http.get(this.url+'validar-restaurante/'+id).map(res => res.json());
+	}
+
+	denegarRestaurante (id) {
+		return this._http.get(this.url+'denegar-restaurante/'+id).map(res => res.json());
+	}
+
 	//obtener el restaurante id
 	getRestaurante (id) {
 		return this._http.get(this.url+'restaurantes/'+id).map(res => res.json());
@@ -71,6 +84,15 @@ export class RestauranteService {
 		let headers = new Headers({'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'});
 
 		return this._http.post(this.url+'restaurantes', params, {headers: headers})
+				.map(res => res.json());
+	}
+
+	addRestauranteUser(restaurante : Restaurante) {
+		let json = JSON.stringify(restaurante);
+		let params = 'json='+json;
+		let headers = new Headers({'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'});
+
+		return this._http.post(this.url+'restaurantes-user', params, {headers: headers})
 				.map(res => res.json());
 	}
 

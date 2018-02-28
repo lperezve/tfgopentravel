@@ -18,6 +18,7 @@
 					</li>
 				</ul>
 			</li>-->
+			<li *ngIf="autenticado && !admin"> <a [routerLink]="['/crear-restaurantes']" [routerLinkActive]="['activado']"> <strong>Crear Restaurante</strong></a></li>
 
 		</ul>
 		<ul class="nav navbar-nav navbar-right" style="margin-right: 5px;">

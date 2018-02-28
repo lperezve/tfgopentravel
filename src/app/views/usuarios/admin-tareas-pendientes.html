@@ -39,7 +39,23 @@
 								</div>
 							</div>
 						</div>
-					<div class="only-little-margin"*ngIf="!peticiones">
+
+						<div class="only-little-margin"*ngIf="restaurantes">
+							<h4 class="text-warning"> Restauranes pendientes de validación </h4>
+							<div class="col-md-12 panel panel-default padding-top"*ngFor="let rest of restaurantes">
+								<div class="col-md-2 ">
+									<p class="text-center text-danger"> Restaurante {{rest.id}}</p>
+								</div>
+								<div class="col-md-7">
+									<p class="text-info text-justify"> El restaurante con nombre <strong>{{rest.nombre}}</strong> está pendiente de validación. Para obtener más información pulse <a [routerLink]="['/restaurantes', rest.id]"> <strong><i>aquí.</i></strong></a></p>
+								</div>
+								<div class="col-md-3">
+									<button (click)="validarRest(rest.id)" class="btn btn-success">Validar</button>
+									<button (click)="denegarRest(rest.id)"class="btn btn-danger">Denegar</button>
+								</div>
+							</div>
+						</div>
+					<div class="only-little-margin" *ngIf="!peticiones && !restaurantes">
 						<h4 class="text-success text-center"> Enhorabuena!! No tiene ninguna tarea ;) </h4>
 					</div>
 				</div>

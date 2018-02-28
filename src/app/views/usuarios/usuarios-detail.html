@@ -28,14 +28,15 @@
 							<h4 class="panel-heading"> Restaurantes propios </h4>
 							 <div class="panel-body cuadrado-azul sombra" *ngFor="let rest of restaurantes | paginate: {itemsPerPage: 2, currentPage: p1, id: 'first'}">
 							 	<div class="col-md-3">
-							 		<img *ngIf="rest.imagen" class="img-rounded imagen-rest-usuario img-responsive center-block" src="{{rest.imagen}}"/>
-							 		<img *ngIf="!rest.imagen" class="img-rounded imagen-listado img-responsive center-block" src="https://image.flaticon.com/icons/png/512/45/45586.png"/>
+							 		<img *ngIf="rest.imagen" class="img-rounded imagen-rest-usuario img-responsive center-block margin-top-2" src="{{rest.imagen}}"/>
+							 		<img *ngIf="!rest.imagen" class="img-rounded imagen-listado img-responsive center-block margin-top-2" src="https://image.flaticon.com/icons/png/512/45/45586.png"/>
 							 		
 							 	</div>
 							 	<div class="col-md-6">
-								 	<p *ngIf="rest.direccion" class="text-primary"> <img src="/assets/imagen/address.png" class="img-rest-propietario" title="Dirección"/> {{rest.direccion}}</p>
-									<p *ngIf="rest.media" class="text-primary text-success"> <img src="/assets/imagen/star.png" class="img-rest-propietario" title="Valoración" /> {{rest.media}} </p>
-									<p *ngIf="rest.url" class="text-primary text-info"> <img src="/assets/imagen/website.png" class="img-rest-propietario" title="Website" /><a href="{{rest.url}}" target="_blank">{{rest.url}}</a></p>
+							 		<h4 class="text-primary"><a [routerLink]="['/restaurantes', rest.id]"> {{rest.nombre}} </a></h4>
+								 	<!--<p *ngIf="rest.direccion" class="text-primary"> <img src="/assets/imagen/address.png" class="img-rest-propietario" title="Dirección"/> {{rest.direccion}}</p>-->
+									<p *ngIf="rest.media" class="text-primary text-success"> <img src="/assets/imagen/star.png" class="img-icon" title="Valoración" /> {{rest.media}} </p>
+									<p *ngIf="rest.url" class="text-primary text-info"> <img src="/assets/imagen/website.png" class="img-icon" title="Website" /><a href="{{rest.url}}" target="_blank"> {{rest.url}}</a></p>
 							 	</div>
 							 	<div class="col-md-2">
 							 		<div class="botones" *ngIf="confirmado != rest.id ">
