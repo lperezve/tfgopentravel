@@ -32,7 +32,7 @@ export class RestaurantesAddComponent {
 		private _authService : AuthService
 		) {
 		this.titulo = 'Crear un nuevo restaurante';
-		this.restaurante = new Restaurante (0, '','','','','','');
+		this.restaurante = new Restaurante (0, '','','','','','','');
 		this.toastr.setRootViewContainerRef(vcr);
 		if (_authService.authenticated()){
 	      this.usuario = JSON.parse(localStorage.getItem('currentUser'));
@@ -51,30 +51,14 @@ export class RestaurantesAddComponent {
 
 	onSubmit() {
 		console.log(this.restaurante);
-
-		/*if (this.filesToUpload && this.filesToUpload.length >= 1) { //en el caso de que haya una imagen seleccionada
-			this._restauranteService.makeFileRequest(GLOBAL.url+'upload-image', [], this.filesToUpload)
-				.then((result) => {
-					console.log(result);
-					this.resultUpload = result;
-					this.restaurante.imagen = this.resultUpload.filename;
-					this.saveRestaurante();
-				}, 
-				(error) => {
-					console.log(error);
-				});
-		}
-		else {*/
 			if (this.admin){
-				//console.log("admin");
-				this.saveRestaurante(); //se llama saveRestaurante sin tener que subir la imagen
+				console.log("admin");
+				this.saveRestaurante();
 			}
 			else {
-				//console.log("user");
+				console.log("no admin");
 				this.saveRestauranteUser();
 			}
-			
-		//}
 	}
 
 	showSuccess() {

@@ -35,7 +35,7 @@ export class RestaurantesEditComponent {
 		private auth : AuthService
 	) {
 		this.titulo = 'Editar Restaurante';
-		this.restaurante = new Restaurante (0, '','','','','','');
+		this.restaurante = new Restaurante (0, '','','','','','','');
 		this.is_edit = true;
 		this.noPropietario = false;
 		this.toastr.setRootViewContainerRef(vcr);

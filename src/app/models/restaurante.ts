@@ -6,6 +6,7 @@ export class Restaurante {
 		public latitud : string,
 		public longitud : string,
 		public url : string,
-		public imagen : string
+		public imagen : string,
+		public ciudad : string
 		) {}
 }
