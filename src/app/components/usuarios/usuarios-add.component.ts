@@ -31,7 +31,24 @@ export class UsuariosAddComponent {
 
 	onSubmit (){
 		console.log(this.usuario);
-		this.saveUsuario();
+		this._usuarioService.emailUnico(this.usuario.email).subscribe(
+			response => {
+				if (response.code == 200) {
+					if (response.bandera){
+						this.toastr.error('Email registrado. Prueba con otro.', 'Oops!');
+					}
+					else {
+						this.saveUsuario();
+					}
+				}
+				else {
+					console.log(response);
+				}
+				},
+			error => {
+				console.log(<any>error);
+			}
+		);	
 	}
 
 	saveUsuario() {

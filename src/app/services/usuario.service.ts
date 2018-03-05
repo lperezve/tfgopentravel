@@ -71,4 +71,9 @@ export class UsuarioService {
 		return this._http.post(this.urlOpiniones+'update-opinion/'+id, params, {headers: headers})
 				.map(res => res.json());
 	}
+
+	//comprobar si existe ya ese email en la base de datos al registrar usuario
+	emailUnico (email) {
+		return this._http.get(this.url+'existe-email/'+email).map(res => res.json());
+	}
 }

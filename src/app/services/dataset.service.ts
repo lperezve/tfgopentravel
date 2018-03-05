@@ -25,20 +25,20 @@ export class DatasetService {
 	}
 
 	/* SE PASA UN RESTAURANTE QUE TIENE LOS CAMPOS (FIELDS) NECESARIOS PARA LA INSERCCIÓN CSV*/
-	addFields(filename, separacion, restaurante : Restaurante){
+	addFields(filename, separacion, restaurante : Restaurante, ciudad){
 		let json = JSON.stringify(restaurante);
 		let params = 'json='+json;
 		let headers = new Headers({'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'});
-		return this._http.post(this.url+'up-csv/'+filename+'/'+separacion, params, {headers: headers})
+		return this._http.post(this.url+'up-csv/'+filename+'/'+separacion+'/'+ciudad, params, {headers: headers})
 				.map(res => res.json());
 	}
 
 	/* SE PASA UN RESTAURANTE QUE TIENE LOS CAMPOS (FIELDS) NECESARIOS PARA LA INSERCCIÓN JSON*/
-	addFieldsJson(filename, restaurante : Restaurante){
+	addFieldsJson(filename, restaurante : Restaurante, ciudad){
 		let json = JSON.stringify(restaurante);
 		let params = 'json='+json;
 		let headers = new Headers({'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'});
-		return this._http.post(this.url+'up-json/'+filename, params, {headers: headers})
+		return this._http.post(this.url+'up-json/'+filename+'/'+ciudad, params, {headers: headers})
 				.map(res => res.json());
 	}
 }

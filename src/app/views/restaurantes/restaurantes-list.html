@@ -16,6 +16,7 @@
 						    <option value="3">Peor Valoración</option>
 						    <option value="4">Más Comentados</option>
 						    <option value="5">Menos Comentados</option>
+						    <option value="7"> Ciudad </option>
 						    <option value="6">Mostrar Mapa</option>
 						</select>
 					</div>
@@ -27,7 +28,19 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-12" *ngIf="selected != 6">
+			<div class="col-md-12" *ngIf="selected == 7">
+				<div class="col-md-2">
+					<h5 class="text-success text-right"> Seleccione una ciudad </h5>
+				</div>
+				<div class="col-md-3 margin-top-10">
+					<select class="form-control" [(ngModel)]="selectedCity" (ngModelChange)="getCity()">
+						<option *ngFor="let c of ciudades">
+	                     	{{c.ciudad}}
+	             		</option>
+					</select>
+				</div>
+			</div>
+			<div class="col-md-12 margin-top-10" *ngIf="selected != 6">
 				<div class="col-md-6 row-margin" *ngFor="let restaurante of restProp | filterNombre : searchText | paginate: {itemsPerPage: 8, currentPage: p1, id: 'first'}">
 					<div id="list-panel" class="col-md-12 row">
 						<img *ngIf="(restaurante.id_usuario != null) && (restaurante.validado == 1)" class="pull-right img-rest-propietario" src="/assets/imagen/verificado.jpg" title="Restaurante con propietario"/>

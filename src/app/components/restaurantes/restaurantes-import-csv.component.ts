@@ -28,6 +28,7 @@ export class RestaurantesImportCSVComponent {
 	public errorImportacion : boolean;
 	public inputButton : boolean;
 	public errorInsercion : boolean;
+	public ciudad;
 
 	constructor (private _restauranteService : RestauranteService,
 		private _datasetService : DatasetService,
@@ -97,11 +98,12 @@ export class RestaurantesImportCSVComponent {
 			let filename = this.resultUpload.filename;
 			//console.log("HASTA AQUÍ");
 			//PASAMOS LOS FIELDS EMPAREJADOS CON LOS ATRIBUTOS DE LA BASE DE DATOS PARA PODER INSERTARLOS A TRAVES DE LA API
-			this._datasetService.addFields(filename, this.separacion, this.restaurante).subscribe(
+			this._datasetService.addFields(filename, this.separacion, this.restaurante, this.ciudad).subscribe(
 			response => {
 				console.log(response);
 				if (response.code == 200){
 					this.toastr.success('Los datos se han subido correctamente.', 'Success!');
+					this.toastr.info('Se han añadido ' + response.numRegistros + ' restaurantes.');
 					console.log(response);
 					this._router.navigate(['/restaurantes']);
 				}

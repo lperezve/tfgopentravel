@@ -68,6 +68,14 @@ export class RestauranteService {
 		return this._http.get(this.url+'denegar-restaurante/'+id).map(res => res.json());
 	}
 
+	getCiudadesRestaurantes (){
+		return this._http.get(this.url+'ciudades').map(res => res.json());
+	}
+
+	getRestaurantesCiudad (ciudad){
+		return this._http.get(this.url+'rest-ciudad/'+ciudad).map(res => res.json());
+	}
+
 	//obtener el restaurante id
 	getRestaurante (id) {
 		return this._http.get(this.url+'restaurantes/'+id).map(res => res.json());

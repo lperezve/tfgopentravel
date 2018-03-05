@@ -108,7 +108,7 @@
 										<label for="Puntuacion">
 											Puntuación
 										</label>
-										<select class="form-control" name="puntuacion" id="puntuacion" #editOp.puntuacion="ngModel" [(ngModel)]="editOp.puntuacion">
+										<select class="form-control" name="puntuacion" id="puntuacion" #editOp.puntuacion="ngModel" [(ngModel)]="editOp.puntuacion" required>
 									      <option value="5">5. Muy bien</option>
 									      <option value="4">4. Bien</option>
 									      <option value="3">3. Regular</option>
@@ -118,11 +118,15 @@
 										<label> Imagen </label>
 										<input type="file" class="form-control" placeholder="Subir imagen..." (change)="fileChangeEvent($event)"/>
 										<p><a *ngIf="(editOp.imagen) && (!eliminada)" class="text-warning" (click)="eliminarImagen()" style="cursor:pointer;">Eliminar imagen</a></p>
+										<div *ngIf="editOp.imagen"> 
+											<img src="http://localhost/tfg-lpv/tfg-backend/uploads/images_comment/{{editOp.imagen}}" class="img-responsive" width="100px">
+										</div>
+
 										<p *ngIf="eliminada">Imagen Eliminada</p>
 									</div>
 									<div class="col-md-8">
 										<label> Opinión ( <span></span> caracteres)</label>
-										<textarea placeholder="Introduzca aquí su opinión (max 250 caracteres)"#editOp.mensaje="ngModel" name="mensaje" [(ngModel)]="editOp.mensaje" maxlength="250"></textarea>
+										<textarea placeholder="Introduzca aquí su opinión (max 250 caracteres)"#editOp.mensaje="ngModel" name="mensaje" [(ngModel)]="editOp.mensaje" maxlength="250" required></textarea>
 
 									</div>
 										<input type="submit" value="Editar" class="btn btn-info pull-right only-little-margin" [disabled]="!formEditarOpinion.form.valid"/>

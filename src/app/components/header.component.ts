@@ -7,7 +7,6 @@ import { RestauranteService } from '../services/restaurante.service';
 import { Restaurante } from '../models/restaurante';
 import { DropdownModule } from "ngx-dropdown";
 
-
 @Component ({
 	selector: 'navegacion',
 	templateUrl: '../views/header.html',
@@ -18,7 +17,6 @@ export class HeaderComponent {
   public usuario : Usuario;
   public autenticado : boolean;
   public admin : boolean = false;
-  pages =['abc','bca','pqr'];
 
   constructor (private auth : AuthService, private _restauranteService: RestauranteService){
     if (auth.authenticated()){

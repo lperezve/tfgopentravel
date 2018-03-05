@@ -35,4 +35,9 @@ export class PropiedadService {
 	obtenerSiHayPeticion (id_usuario, id_restaurante) {
 		return this._http.get(this.url+'hay-peticion/'+id_usuario+'/'+id_restaurante).map(res => res.json());
 	}
+
+	//comprobar si para un restaurante, el usuario que está es su dueño o no
+	comprobarPropiedad (id_restaurante, id_usuario) {
+		return this._http.get(this.url+'comprobar-propietario/'+id_restaurante+'/'+id_usuario).map(res => res.json());
+	}
 }

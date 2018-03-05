@@ -27,6 +27,8 @@ export class RestaurantesImportJSONComponent {
 	selectCity = null;
 	public inputButton : boolean;
 	public errorInsercion : boolean;
+	public ciudad;
+
 
 	constructor (private _restauranteService : RestauranteService,
 		private _datasetService : DatasetService,
@@ -95,11 +97,12 @@ export class RestaurantesImportJSONComponent {
 			let filename = this.resultUpload.filename;
 			console.log(filename);
 			//PASAMOS LOS FIELDS EMPAREJADOS CON LOS ATRIBUTOS DE LA BASE DE DATOS PARA PODER INSERTARLOS A TRAVES DE LA API
-			this._datasetService.addFieldsJson(filename, this.restaurante).subscribe(
+			this._datasetService.addFieldsJson(filename, this.restaurante, this.ciudad).subscribe(
 			response => {
 				if (response.code == 200){
 					console.log(response);
 					this.toastr.success('Los datos se han subido correctamente.', 'Success!');
+					this.toastr.info('Se han añadido ' + response.numRegistros + ' restaurantes.');
 					this._router.navigate(['/restaurantes']);
 				}
 				else {

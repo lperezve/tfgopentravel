@@ -29,6 +29,8 @@ export class RestaurantesListComponent {
 	public restProp = [];
 	public usuario : Usuario;
 	public hayUsuario : boolean;
+	public ciudades = [];
+	public selectedCity;
 	lat: number = 40.4893538;
   	lng: number = -3.6827461;
   	zoom : number = 4;
@@ -45,6 +47,7 @@ export class RestaurantesListComponent {
 		this.selected = 1;
 		this.propietario = false;
 		this.hayUsuario = false;
+		this.selectedCity = '';
 
 		if (_auth.authenticatedAdmin()){
 			this.esAdmin = true;
@@ -101,10 +104,44 @@ export class RestaurantesListComponent {
 			this.getRestaurantesMenosComment();
 		}
 
+		if (this.selected == 7){
+			this._restauranteService.getCiudadesRestaurantes().subscribe(
+				result => {
+					if (result.code == 200){
+						this.ciudades = result.data;
+						console.log(this.ciudades);
+					}
+					else {
+						console.log(result);
+					}
+				},
+				error => {
+					console.log(<any>error);
+				}
+			);
+		}
+
 		//MAPA DE RESTAURANTES
 		if (this.selected == 6){
 			this.getRestaurantes();
 		}
+	}
+
+	getCity (){
+		console.log(this.selectedCity);
+		this._restauranteService.getRestaurantesCiudad(this.selectedCity).subscribe(
+			result => {
+				if (result.code == 200) {
+					this.restProp = result.data;
+				}
+				else {
+					console.log(result);
+				}
+			},
+			error => {
+				console.log(<any>error);
+			}
+		);
 	}
 
 	getRestaurantes () {
