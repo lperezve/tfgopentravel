@@ -39,7 +39,7 @@ export class RestaurantesImportJSONComponent {
 	) {
 		this.soyCsv = false;
 		this.soyJson = true;
-		this.restaurante = new Restaurante (0, '','','','','','');
+		this.restaurante = new Restaurante (0, '','','','','','','','','');
 		this.importado = false;
 		this.errorImportacion = false;
 		this.inputButton = false;

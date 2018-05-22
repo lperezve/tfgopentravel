@@ -4,7 +4,7 @@
 			<!-- COLUMNA IZQUIERDA -->
 			<div class="col-md-3">
 				<div class="col-md-12 only-little-margin" align="center">
-					<img alt="Imagen de perfil" class="max-image border-grey img-circle" src="https://image.flaticon.com/icons/png/512/10/10952.png">
+					<img alt="Imagen de perfil" class="max-image border-grey img-circle" src="/assets/imagen/perfil.png">
 				</div>
 				<div class="col-md-12 row-margin">
 					<p class="text-center font-weight-bold"> {{usuario.nombre}} {{usuario.apellido1}} {{usuario.apellido2}} </p>
@@ -24,7 +24,7 @@
 						<h3 class="text-center text-success">
 							Tareas Pendientes
 						</h3>
-						<div class="only-little-margin"*ngIf="peticiones">
+						<div class="only-little-margin" *ngIf="peticiones">
 							<h4 class="text-warning"> Usuarios que solicitan propiedades </h4>
 							<div class="col-md-12 panel panel-default padding-top"*ngFor="let pet of peticiones">
 								<div class="col-md-1 ">
@@ -40,7 +40,7 @@
 							</div>
 						</div>
 
-						<div class="only-little-margin"*ngIf="restaurantes">
+						<div class="only-little-margin" *ngIf="restaurantes">
 							<h4 class="text-warning"> Restauranes pendientes de validación </h4>
 							<div class="col-md-12 panel panel-default padding-top"*ngFor="let rest of restaurantes">
 								<div class="col-md-2 ">

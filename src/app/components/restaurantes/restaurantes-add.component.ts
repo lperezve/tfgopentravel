@@ -32,7 +32,7 @@ export class RestaurantesAddComponent {
 		private _authService : AuthService
 		) {
 		this.titulo = 'Crear un nuevo restaurante';
-		this.restaurante = new Restaurante (0, '','','','','','','');
+		this.restaurante = new Restaurante (0, '','','','','','','','','');
 		this.toastr.setRootViewContainerRef(vcr);
 		if (_authService.authenticated()){
 	      this.usuario = JSON.parse(localStorage.getItem('currentUser'));

@@ -30,6 +30,9 @@ export class HeaderComponent {
     }
   }
 
+  ngOnInit(){
+  }
+
   generateDownloadJson() {
     this._restauranteService.getRestaurantes().subscribe(
       result => {
@@ -44,7 +47,7 @@ export class HeaderComponent {
             var blob = new Blob([theJSON], { type: 'text/json' });
           var urlDownload = window.URL.createObjectURL(blob);
             a.href = urlDownload;
-            a.download = 'Restaurantes.json';
+            a.download = 'Establecimientos_Open_Travel.json';
             a.click();
         }
       }, 
@@ -68,7 +71,7 @@ export class HeaderComponent {
             var blob = new Blob([csvData], { type: 'text/csv' });
             var url= window.URL.createObjectURL(blob);
             a.href = url;
-            a.download = 'Restaurantes.csv';
+            a.download = 'Establecimientos_Open_Travel.csv';
             a.click();
         }
       }, 
@@ -77,7 +80,7 @@ export class HeaderComponent {
       }
     );  
   }
-
+/*
   ConvertToCSV(objArray) {
             var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
             var str = '';
@@ -94,11 +97,36 @@ export class HeaderComponent {
             for (var i = 0; i < array.length; i++) {
                 var line = '';
                 for (var index in array[i]) {
+                  var prueba = array[i][index];
+                  if (prueba){
                   var sin_salto = array[i][index].split("\n").join(" ");
                     if (line != '') line += ',';
-
-
                     line += sin_salto;
+                  }
+                }
+                str += line + '\r\n';
+            }
+            return str;
+        }*/
+        ConvertToCSV(objArray) {
+            var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+            var str = '';
+            var row = "";
+ 
+            for (var index in objArray[0]) {
+                //Now convert each value to string and comma-separated
+                row += index + ';';
+            }
+            row = row.slice(0, -1);
+            //append Label row with line break
+            str += row + '\r\n';
+ 
+            for (var i = 0; i < array.length; i++) {
+                var line = '';
+                for (var index in array[i]) {
+                    if (line != '') line += ';'
+ 
+                    line += array[i][index];
                 }
                 str += line + '\r\n';
             }

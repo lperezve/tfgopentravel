@@ -93,13 +93,11 @@ export class TareasPendientesComponent {
 		this._propiedadService.validarPeticion(id).subscribe(
 			response => {
 				if (response.code == 200){
-					this.toastr.success('Petición validada.', 'Success!');
-					//console.log(response.message);
-					window.location.reload();
+					this.toastr.success('Petición ' + id + ' validada.', 'Success!');
+					this.getTareasPendientes();
 				}
 				else {
 					this.toastr.error('Error de validación.', 'Oops!');
-					//console.log(response);
 				}
 			},
 			error => {
@@ -112,9 +110,9 @@ export class TareasPendientesComponent {
 		this._propiedadService.denegarPeticion(id).subscribe(
 			response => {
 				if (response.code == 200){
-					this.toastr.success('Petición denegada.', 'Success!');
-					//console.log(response.message);
-					window.location.reload();
+					this.toastr.success('Petición ' + id + ' denegada.', 'Success!');
+					this.getTareasPendientes();
+
 				}
 				else {
 					this.toastr.error('Error de negación', 'Oops!');
@@ -133,8 +131,10 @@ export class TareasPendientesComponent {
 				if (response.code == 200){
 					//console.log(response.data);
 					this.restaurantes = response.data;
+					this.getTareasPendientes();
 				}
 				else {
+					this.restaurantes = null;
 					console.log(response);
 				}
 			},
@@ -148,9 +148,9 @@ export class TareasPendientesComponent {
 		this._restauranteService.validarRestaurante(id).subscribe(
 			response => {
 				if (response.code == 200){
-					this.toastr.success('Restaurante validado.', 'Success!');
+					this.toastr.success('Restaurante ' + id + ' validado.', 'Success!');
 					//console.log(response.message);
-					window.location.reload();
+					this.getRestaurantesNoValidados();
 				}
 				else {
 					this.toastr.error('Error de validación.', 'Oops!');
@@ -167,9 +167,8 @@ export class TareasPendientesComponent {
 		this._restauranteService.denegarRestaurante(id).subscribe(
 			response => {
 				if (response.code == 200){
-					this.toastr.success('Restaurante denegado.', 'Success!');
-					//console.log(response.message);
-					window.location.reload();
+					this.toastr.success('Restaurante ' + id + ' denegado.', 'Success!');
+					this.getRestaurantesNoValidados();
 				}
 				else {
 					this.toastr.error('Error de negación', 'Oops!');

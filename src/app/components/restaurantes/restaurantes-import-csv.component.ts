@@ -39,8 +39,7 @@ export class RestaurantesImportCSVComponent {
 	) {
 		this.soyCsv = true;
 		this.soyJson = false;
-		//----
-		this.restaurante = new Restaurante (0, '','','','','','');
+		this.restaurante = new Restaurante (0, '','','','','','','','','');
 		this.importado = false;
 		this.errorImportacion = false;
 		this.inputButton = false;
@@ -63,7 +62,7 @@ export class RestaurantesImportCSVComponent {
 						if (result.code != 200){
 							console.log(result);
 							this.errorImportacion = true;
-							this.mensajeError = result.message;
+							this.mensajeError = 'La extensión no es correcta';
 							this.toastr.error('La extensión no es correcta', 'Oops!');
 						} else {
 							this.toastr.info('Dataset importado. Continue con el emparejamiento.');

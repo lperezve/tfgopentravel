@@ -31,15 +31,12 @@ const appRoutes : Routes = [
 	{path: 'editar-restaurantes/:id', canActivate: [AuthguardGuard], component: RestaurantesEditComponent},
 	{path: 'importcsv-restaurantes', canActivate: [AuthguardGuard], component: RestaurantesImportCSVComponent},
 	{path: 'importjson-restaurantes', canActivate: [AuthguardGuard], component: RestaurantesImportJSONComponent},
-	
 	{path: 'crear-usuarios', component: UsuariosAddComponent},
 	{path: 'usuario', canActivate: [AuthguardGuard], component: UsuariosDetailComponent},
-	{path: 'ver-perfil', component: VerPerfilComponent},
-	{path: 'editar-perfil', component: UsuariosEditComponent},
+	{path: 'ver-perfil', canActivate: [AuthguardGuard], component: VerPerfilComponent},
+	{path: 'editar-perfil', canActivate: [AuthguardGuard], component: UsuariosEditComponent},
 	{path: 'tareas-pendientes', canActivate: [AuthguardGuard], component: TareasPendientesComponent},
-
-	{path: '**', component: ErrorComponent}//siempre debe ser la última, es cuando no existe la ruta
-
+	{path: '**', component: ErrorComponent}//siempre debe ser la última, para cuando la ruta no existe
 ];
 
 export const appRoutingProviders: any[] = [];

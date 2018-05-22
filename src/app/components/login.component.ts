@@ -48,8 +48,6 @@ export class LoginComponent {
 					/* para redirigir a la url previa del login */
 					this.returnUrl = this._route.snapshot.queryParams['returnUrl'] || '/';
 					this._router.navigate([this.returnUrl]);
-					
-					location.reload();
 				}
 				else {
 					//this._router.navigate(['/home']);

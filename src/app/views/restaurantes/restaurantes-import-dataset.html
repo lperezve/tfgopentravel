@@ -37,7 +37,7 @@
      <input *ngIf="soyCsv" type="submit" value="Importar" class="btn btn-primary center-block" (click)="onSubmit()" [disabled]="(!inputButton) || (!separacion)"/>
      <input *ngIf="!soyCsv" type="submit" value="Importar" class="btn btn-primary center-block" (click)="onSubmit()" [disabled]="!inputButton"/>
      <div *ngIf="errorImportacion" class="msg-error">
-      <p class="text-danger text-center"> {{mensajeError}} </p>
+      <h4 class="text-danger text-center"> {{mensajeError}} </h4>
     </div>
   </div>
    
@@ -46,7 +46,7 @@
 <div class="col-md-12">
   
   <hr />
-  <div *ngIf="importado" class="col-md-12 only-little-margin">
+  <div *ngIf="importado" class="col-md-12 only-little-margin"><!-- -->
     <h3 class="text-success text-center">Formulario de emparejamiento </h3>
     <form #formCombinarDataset="ngForm" (ngSubmit)="passingFields()" class="col-lg-8 col-md-offset-2" id="form-restaurantes">
       <div>
@@ -68,6 +68,25 @@
            </option>
         </select>
       </div>
+
+      <div>
+        <label> Email </label>
+        <select class="form-control col-lg-8" [(ngModel)]="restaurante.email" #email="ngModel" name="email">
+           <option *ngFor="let item of fields">
+                   {{item}}
+           </option>
+        </select>
+      </div>
+
+      <div>
+        <label> Teléfono </label>
+        <select class="form-control col-lg-8" [(ngModel)]="restaurante.telefono" #telefono="ngModel" name="telefono">
+           <option *ngFor="let item of fields">
+                   {{item}}
+           </option>
+        </select>
+      </div>
+
       <div>
         <label> 
         Latitud 

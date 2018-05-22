@@ -4,7 +4,7 @@
 			<!-- COLUMNA IZQUIERDA -->
 			<div class="col-md-3">
 				<div class="col-md-12 only-little-margin" align="center">
-					<img alt="Imagen de perfil" class="max-image border-grey img-circle" src="https://image.flaticon.com/icons/png/512/10/10952.png">
+					<img alt="Imagen de perfil" class="max-image border-grey img-circle" src="/assets/imagen/perfil.png">
 				</div>
 				<div class="col-md-12 row-margin">
 					<p class="text-center font-weight-bold"> {{usuario.nombre}} {{usuario.apellido1}} {{usuario.apellido2}} </p>
@@ -36,7 +36,7 @@
 							 		<h4 class="text-primary"><a [routerLink]="['/restaurantes', rest.id]"> {{rest.nombre}} </a></h4>
 								 	<!--<p *ngIf="rest.direccion" class="text-primary"> <img src="/assets/imagen/address.png" class="img-rest-propietario" title="Dirección"/> {{rest.direccion}}</p>-->
 									<p *ngIf="rest.media" class="text-primary text-success"> <img src="/assets/imagen/star.png" class="img-icon" title="Valoración" /> {{rest.media}} </p>
-									<p *ngIf="rest.url" class="text-primary text-info"> <img src="/assets/imagen/website.png" class="img-icon" title="Website" /><a href="{{rest.url}}" target="_blank"> {{rest.url}}</a></p>
+									<p *ngIf="rest.url" class="text-primary text-info"> <img src="/assets/imagen/website.png" class="img-icon" title="Website" /><a href="{{rest.url}}" target="_blank"> Sitio web </a></p>
 							 	</div>
 							 	<div class="col-md-2">
 							 		<div class="botones" *ngIf="confirmado != rest.id ">
@@ -99,7 +99,7 @@
 						</div>
 
 						<!-- FORMULARIO EDICIÓN COMENTARIO -->
-					<div *ngIf="editOp"> <!-- ngif si has pulsado editar -->
+					<div *ngIf="editOp" (ngModel)="editOp"> <!-- ngif si has pulsado editar -->
 						<div class="col-md-12 thumbnail">
 							<h3 class="text-primary text-center"> Editar Comentario </h3>
 							<form role="form" #formEditarOpinion="ngForm" (ngSubmit)="onUpdateOpinion(editOp.id)">

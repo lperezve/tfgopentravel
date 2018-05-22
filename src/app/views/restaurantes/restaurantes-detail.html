@@ -14,8 +14,10 @@
 					</h3>
 					<div class="col-md-7">
 					<p *ngIf="restaurante.direccion" class="text-primary"> <img src="/assets/imagen/address.png" class="img-rest-propietario" title="Dirección"/> {{restaurante.direccion}}</p>
+					<p *ngIf="restaurante.email" class="text-primary"> <img src="/assets/imagen/email.png" class="img-rest-propietario" title="Email"/> {{restaurante.email}}</p>
+					<p *ngIf="restaurante.telefono" class="text-primary"> <img src="/assets/imagen/phone.png" class="img-rest-propietario" title="Teléfono"/> {{restaurante.telefono}}</p>
 					<p *ngIf="avg" class="text-primary text-success"> <img src="/assets/imagen/star.png" class="img-rest-propietario" title="Valoración" /> {{avg}}/5 </p>
-					<p *ngIf="restaurante.url" class="text-primary text-info"> <img src="/assets/imagen/website.png" class="img-rest-propietario" title="Website" /><a href="{{restaurante.url}}" target="_blank"> {{restaurante.url}}</a></p>
+					<p *ngIf="restaurante.url" class="text-primary text-info"> <img src="/assets/imagen/website.png" class="img-rest-propietario" title="Website" /> <a href="{{restaurante.url}}" target="_blank"> Web {{restaurante.nombre}} </a></p>
 
 					<div *ngIf="!propietario">
 						<div *ngIf="(!solicitado) && (!hayPeticion) && (hayUsuario)">
@@ -27,7 +29,7 @@
 						<div *ngIf="solicitado">
 							<p><strong> A continuación se va a proceder a informar al administrador de la solicitud deseada: <i>el usuario {{usuario.nombre}} requiere los derechos de este establecimiento ({{restaurante.nombre}}). </i></strong></p>
 							<p> ¿Está seguro? </p>
-							<a (click)="solicitarPropiedad(restaurante.id)" class="btn btn-success">Aceptar</a>
+							<a (click)="solicitarPropiedad(restaurante.id)" (ngModel)="cambiar" class="btn btn-success">Aceptar</a>
 							<a (click)="cancelarSolicitud()" class="btn btn-warning">Cancelar</a>
 						</div>
 						<div *ngIf="(!solicitado) && (hayPeticion)">
@@ -76,7 +78,7 @@
 				</h3>
 				<!-- AQUÍ SE PODRÍA PONER UN FILTRO PARA LOS COMENTARIOS -->
 				<div class="col-md-10 col-md-offset-1">
-					<div class="panel panel-info" *ngFor="let opinion of opiniones | paginate: {itemsPerPage: 2, currentPage: p}">
+					<div class="panel panel-info" *ngFor="let opinion of opiniones | paginate: {itemsPerPage: 2, currentPage: p}" (ngModel)="opiniones">
 				    	<div class="panel-heading">
 				      		<h4 class="without-margin-top-bot"> <img src="/assets/imagen/user.png" class="img-rest-propietario" title="Usuario" />  {{opinion.nombre}}</h4>
 				      	</div>

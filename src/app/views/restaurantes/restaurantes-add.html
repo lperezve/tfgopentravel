@@ -7,9 +7,9 @@
 
 		<h3 class="text-default text-center">{{titulo}}</h3>
 
-		<div class="col-md-8">
+		<div class="col-md-12">
 			<form #formRestaurantes="ngForm" (ngSubmit)="onSubmit()" class="col-md-8 col-md-offset-2" id="form-restaurantes">
-
+			<div class="col-md-5 ">
 				<label> 
 					Nombre 
 					<span *ngIf="!nombre.valid && nombre.touched" class="label label-danger"> El nombre es obligatorio </span>
@@ -22,6 +22,12 @@
 					<span *ngIf="!direccion.valid && direccion.touched" class="label label-danger"> La direccion es obligatoria </span></label>
 				<input type="text" class="form-control" #direccion="ngModel" name="direccion" [(ngModel)]="restaurante.direccion" required/>
 
+				<label> Email </label>
+				<input type="text" class="form-control" #email="ngModel" name="email" [(ngModel)]="restaurante.email"/>
+
+				<label> Teléfono </label>
+				<input type="text" class="form-control" #telefono="ngModel" name="telefono" [(ngModel)]="restaurante.telefono"/>
+			
 				<label> 
 					Latitud 
 					<span *ngIf="!latitud.valid && latitud.touched" class="label label-danger"> La latitud no es correcta </span>
@@ -33,28 +39,29 @@
 					<span *ngIf="!longitud.valid && longitud.touched" class="label label-danger"> La longitud no es correcta </span>
 				</label>
 				<input type="text" class="form-control" #longitud="ngModel" name="longitud" [(ngModel)]="restaurante.longitud" required pattern="(-[0-9+].[0-9]+)|([0-9+].[0-9]+)" />
+			</div>
 
+			<div class="col-md-5 col-md-offset-1">
 				<label> Url </label>
 				<input type="text" class="form-control" #url="ngModel" name="url" [(ngModel)]="restaurante.url"/>
 
 				<label> Imagen </label>
-				<input type="text" class="form-control" (change)="fileChangeEvent($event)" #imagen="ngModel" name="imagen" [(ngModel)]="restaurante.imagen"/>
+				<input type="text" class="form-control" #imagen="ngModel" name="imagen" [(ngModel)]="restaurante.imagen"/>
 
 				<label> 
 					Ciudad 
 					<span *ngIf="!ciudad.valid && ciudad.touched" class="label label-danger"> La ciudad es obligatoria </span>
 				</label>
-
 				<input type="text" class="form-control" #ciudad="ngModel" name="ciudad" [(ngModel)]="restaurante.ciudad" required />
-
-				<br>
-				<input type="submit" value ="{{titulo}}" class="btn btn-success" [disabled]="!formRestaurantes.form.valid" />
-			</form>
-		</div>
-		<div class="col-md-4">
-			<div *ngIf="is_edit"> 
-					<img src="{{restaurante.imagen}}" width="200" />
+				<div class="col-md-12 col-md-offset-1 margin-top-20">
+					<img *ngIf="restaurante.imagen" src="{{restaurante.imagen}}" width="200" />
 				</div>
+			</div>
+
+				<div class="col-md-12 col-md-offset-4 margin-top-20">
+					<input type="submit" value ="{{titulo}}" class="btn btn-success" [disabled]="!formRestaurantes.form.valid" />
+				</div>
+			</form>
 		</div>
 	</div>
 </div>

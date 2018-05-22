@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewContainerRef } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { RestauranteService } from '../../services/restaurante.service';
 import { Restaurante } from '../../models/restaurante';
@@ -9,6 +9,7 @@ import { saveAs as importedSaveAs} from "file-saver";
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 import { Usuario } from '../../models/usuario';
 import { UsuarioService } from '../../services/usuario.service';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 
 @Component ({
@@ -40,7 +41,9 @@ export class RestaurantesListComponent {
 		private _router: Router,
 		private _restauranteService: RestauranteService,
 		private _auth : AuthService,
-		private _usuarioService : UsuarioService
+		private _usuarioService : UsuarioService,
+		public toastr: ToastsManager, 
+		vcr: ViewContainerRef
 		) {
 		this.titulo = 'Listado de Restaurantes';
 		this.confirmado = null;
@@ -55,6 +58,7 @@ export class RestaurantesListComponent {
 		}
 		else
 			this.esAdmin = false;
+		this.toastr.setRootViewContainerRef(vcr);
 	}
 
 	ngOnInit () {
@@ -70,6 +74,7 @@ export class RestaurantesListComponent {
 			this.hayUsuario = false;
 		}	
 		this.getOpinionesRecientes();
+		this.getRestaurantes();
 	}
 
 	getUsuario(){
@@ -151,6 +156,7 @@ export class RestaurantesListComponent {
 					console.log(result);
 				} else { //cuando todo va bien, se le asignan los datos
 					this.restaurantes = result.data;
+
 				}
 			}, 
 			error => {
@@ -237,7 +243,7 @@ export class RestaurantesListComponent {
 				if (response.code == 200){
 					this.propietario = true;
 					this.restProp = response.data;
-					//console.log(response.data);
+					console.log(response.data);
 				}
 				else{
 					console.log(response);
@@ -261,10 +267,10 @@ export class RestaurantesListComponent {
 		this._restauranteService.deleteRestaurantes(id).subscribe(
 			response => {
 				if (response.code == 200) {
-					alert('El restaurante: '+ id + ' - ' + nombre +', se ha borrado correctamente');
-					window.location.reload();
+					this.toastr.success('El restaurante: '+ id + ' - ' + nombre +', se ha borrado correctamente', 'Success!');
+					this.getRestaurantesPropietario();
 				} else
-					alert('Error al borrar el restaurante');
+					this.toastr.error('Error al borrar el restaurante', 'Oops!');
 			}, 
 			error => {
 				console.log(<any>error);

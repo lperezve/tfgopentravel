@@ -40,6 +40,7 @@ export class RestaurantesDetailComponent {
   	//atributos para la subida de imagenes
  	public filesToUpload: Array<File>;
  	public resultUpload;
+ 	public cambia : boolean;
 
   	
  
@@ -61,6 +62,7 @@ export class RestaurantesDetailComponent {
 		this.hayPeticion = false;
 		this.zoom = 11;
 		this.toastr.setRootViewContainerRef(vcr);
+		this.cambia = false;
 	}
 
 	ngOnInit() {
@@ -214,9 +216,8 @@ export class RestaurantesDetailComponent {
 		this._propiedadService.nuevaSolicitud(this.usuario.id, id).subscribe(
 			response => {
 				if (response.code == 200){
-					//console.log(response.message);
 					this.solicitado = false;
-					window.location.reload();
+					this.hayPeticion = true;
 				}
 				else {
 					console.log(response);
@@ -293,7 +294,8 @@ export class RestaurantesDetailComponent {
 				if (response.code == 200){
 					this._router.navigate(['/restaurantes',this.restaurante.id]);
 					this.toastr.success('Opinión realizada correctamente', 'Success!');
-					location.reload();
+					this.getOpiniones();
+					//location.reload();
 				}
 				else {
 					this.toastr.error('Ha habido un problema al dejar la opinión, inténtelo de nuevo', 'Oops!');

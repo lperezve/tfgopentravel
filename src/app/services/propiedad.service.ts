@@ -29,7 +29,7 @@ export class PropiedadService {
 	}
 
 	denegarPeticion (id) {
-		return this._http.get(this.url+'denegar/'+id).map(res => res.json());
+		return this._http.delete(this.url+'denegar/'+id).map(res => res.json());
 	}
 
 	obtenerSiHayPeticion (id_usuario, id_restaurante) {

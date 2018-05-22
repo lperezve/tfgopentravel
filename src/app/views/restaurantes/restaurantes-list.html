@@ -3,7 +3,7 @@
 
 		<!-- LISTA DE RESTAURANTES --> 
 		<div class="col-md-9">
-			<h3 class="text-center text-default"> Restaurantes </h3>
+			<h3 class="text-center text-primary"> Restaurantes </h3>
 			<div class="row only-little-margin">
 				<div class="col-md-12"  id="panel-buscador">
 					<div class="col-md-1">
@@ -24,7 +24,7 @@
 						<h4 class="text-center text-secondary bold"> Buscar por nombre </h4>
 					</div>
 					<div class="col-md-4">
-						<input class="form-control" [(ngModel)]="searchText" placeholder="search text goes here">
+						<input class="form-control" [(ngModel)]="searchText" placeholder="nombre del establecimiento">
 					</div>
 				</div>
 			</div>
@@ -69,7 +69,7 @@
 							<div class="margin-top-2" *ngIf="hayUsuario">
 								<p> <a [routerLink]="['/restaurantes', restaurante.id]" class="btn btn-primary">Ver más</a>
 								<a *ngIf="(esAdmin) || ((restaurante.id_usuario == usuario.id) && (restaurante.validado == 1))" [routerLink]="['/editar-restaurantes', restaurante.id]" class="btn btn-warning">Editar</a>
-								<a *ngIf="(esAdmin) || ((restaurante.id_usuario == usuario.id) && (restaurante.validado == 1))" (click)="borrarConfirm(restaurante.id)" class="btn btn-danger">Elimnar</a></p>
+								<a *ngIf="(esAdmin) || ((restaurante.id_usuario == usuario.id) && (restaurante.validado == 1))" (ngModel)="confirmado" (click)="borrarConfirm(restaurante.id)" class="btn btn-danger">Elimnar</a></p>
 							</div>
 							<div class="margin-top-2" *ngIf="!hayUsuario">
 								<p> <a [routerLink]="['/restaurantes', restaurante.id]" class="btn btn-primary">Ver más</a></p>

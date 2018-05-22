@@ -46,16 +46,16 @@ export class UsuarioService {
 		let params = 'json='+json;
 		let headers = new Headers({'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'});
 
-		return this._http.post(this.url+'update-usuarios/'+id, params, {headers: headers})
+		return this._http.put(this.url+'update-usuarios/'+id, params, {headers: headers})
 				.map(res => res.json());
 	}
 
 	deleteUsuarios (id) {
-		return this._http.get(this.url+'delete-usuarios/'+id).map(res => res.json());
+		return this._http.delete(this.url+'delete-usuarios/'+id).map(res => res.json());
 	}
 
 	deleteOpinionUser (id){
-		return this._http.get(this.urlOpiniones+'delete-opinion/'+id).map(res => res.json());
+		return this._http.delete(this.urlOpiniones+'delete-opinion/'+id).map(res => res.json());
 	}
 
 	//obtener la opinion con el id pasado
@@ -68,7 +68,7 @@ export class UsuarioService {
 		let params = 'json='+json;
 		let headers = new Headers({'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'});
 
-		return this._http.post(this.urlOpiniones+'update-opinion/'+id, params, {headers: headers})
+		return this._http.put(this.urlOpiniones+'update-opinion/'+id, params, {headers: headers})
 				.map(res => res.json());
 	}
 

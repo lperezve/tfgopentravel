@@ -65,7 +65,7 @@ export class RestauranteService {
 	}
 
 	denegarRestaurante (id) {
-		return this._http.get(this.url+'denegar-restaurante/'+id).map(res => res.json());
+		return this._http.delete(this.url+'denegar-restaurante/'+id).map(res => res.json());
 	}
 
 	getCiudadesRestaurantes (){
@@ -109,12 +109,12 @@ export class RestauranteService {
 		let params = 'json='+json;
 		let headers = new Headers({'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'});
 
-		return this._http.post(this.url+'update-restaurantes/'+id, params, {headers: headers})
+		return this._http.put(this.url+'update-restaurantes/'+id, params, {headers: headers})
 				.map(res => res.json());
 	}
 
 	deleteRestaurantes (id) {
-		return this._http.get(this.url+'delete-restaurantes/'+id).map(res => res.json());
+		return this._http.delete(this.url+'delete-restaurantes/'+id).map(res => res.json());
 	}
 
 	/* obtener las opiniones de un restaurante pasado por parámetro. 
@@ -146,7 +146,7 @@ export class RestauranteService {
 		return this._http.get(this.urlOpiniones+'opiniones-recientes').map(res => res.json());
 	}
 
-	/* obtener las 5 mejores opiniones para el carousel */
+	/* obtener las 7 mejores opiniones para el carousel */
 	getMejoresOpiniones(){
 		return this._http.get(this.urlOpiniones+'mejores-opiniones').map(res => res.json());
 	}

@@ -111,7 +111,7 @@ export class UsuariosDetailComponent {
 			response => {
 				if (response.code == 200) {
 					this.toastr.success('El restaurante: '+ id + ' - ' + nombre +', se ha borrado correctamente', 'Success!');
-					window.location.reload();
+					this.getRestaurantesUsuario();
 				} else
 					this.toastr.error('Error al borrar el restaurante.', 'Oops!');
 			}, 
@@ -153,7 +153,7 @@ export class UsuariosDetailComponent {
 			response => {
 				if (response.code == 200) {
 					this.toastr.success('El comentario '+ id + ', se ha borrado correctamente', 'Success!');
-					window.location.reload();
+					this.getOpinionesUsuario();
 				} else
 					this.toastr.error('Error al borrar el comentario.', 'Oops!');
 			}, 
@@ -207,7 +207,6 @@ export class UsuariosDetailComponent {
 				if (response.code == 200){
 					this.toastr.success('El comentario ha sido actualizado.', 'Success!');
 					this.editOp = null;
-					window.location.reload();
 				}
 				else {
 					this.toastr.error('Error al actualizar el comentario.', 'Oops!');

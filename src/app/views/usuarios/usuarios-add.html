@@ -1,12 +1,63 @@
 <div class="col-md-12">
-		
-		<div class="col-md-7 thumbnail">
-			<p> Poner las instrucciones o en qué consiste ser usuario de la página, o los distintos usuarios que puedes ser </p>
+		<div class="col-md-7 .only-little-margin">
+			<div class="col-md-12 info-page">
+				<div class="col-md-4 ">
+					<img class="img-responsive center-block info-page-image" alt="Listado" src="/assets/imagen/icons/list.png">
+					<h5 class="text-success text-center"><strong> Visualizar datos </strong></h5>
+					<p class="text-muted text-center"> Navegar por todos los establecimientos del país. </p>
+				</div>
+				<div class="col-md-4">
+					<img class="img-responsive center-block info-page-image" alt="Mapas" src="/assets/imagen/icons/maps.png">
+					<h5 class="text-success text-center"><strong> Mapas </strong></h5>
+					<p class="text-muted text-center"> Visualizar los datos según su localización. </p>
+				</div>
+				<div class="col-md-4">
+					<img class="img-responsive center-block info-page-image" alt="Filtrado" src="/assets/imagen/icons/search.png">
+					<h5 class="text-success text-center"><strong> Filtros </strong></h5>
+					<p class="text-muted text-center"> Buscar los establecimientos según características varias.</p>
+				</div>
+			</div>
+			<div class="col-md-12 info-page">
+				<div class="col-md-4">
+					<img class="img-responsive center-block info-page-image" alt="Opinar" src="/assets/imagen/icons/comment.png">
+					<h5 class="text-success text-center"><strong> Opinar </strong></h5>
+					<p class="text-muted text-center"> Añadir opiniones y experiencia personal.</p>
+				</div>
+				<div class="col-md-4">
+					<img class="img-responsive center-block info-page-image" alt="Descargar Datos" src="/assets/imagen/icons/download.png">
+					<h5 class="text-success text-center"><strong> Descargar datos </strong></h5>
+					<p class="text-muted text-center"> Obtener toda la información en varios formatos. </p>
+				</div>
+				<div class="col-md-4">
+					<img class="img-responsive center-block info-page-image" alt="Añadir datos" src="/assets/imagen/icons/add.png">
+					<h5 class="text-success text-center"><strong> Insertar contenido </strong></h5>
+					<p class="text-muted text-center"> Añadir nuevos establecimientos al portal. </p>
+				</div>
+			</div>
+			<div class="col-md-12 info-page">
+				<div class="col-md-4">
+					<img class="img-responsive center-block info-page-image" alt="Propietario" src="/assets/imagen/icons/property.png">
+					<h5 class="text-success text-center"><strong> Propietario </strong></h5>
+					<p class="text-muted text-center"> Reclamar los establecimientos propios. </p>
+				</div>
+				<div class="col-md-4">
+					<img class="img-responsive center-block info-page-image" alt="Editar" src="/assets/imagen/icons/edit.png">
+					<h5 class="text-success text-center"><strong> Edición </strong></h5>
+					<p class="text-muted text-center"> Modificar perfil y establecimientos propios. </p>
+				</div>
+				<div class="col-md-4">
+					<img class="img-responsive center-block info-page-image" alt="Eliminar" src="/assets/imagen/icons/delete.png">
+					<h5 class="text-success text-center"><strong> Borrado </strong></h5>
+					<p class="text-muted text-center"> Eliminar datos propios en cualquier momento. </p>
+				</div>
+			</div>
+
 		</div>
-		<div class="col-md-5 thumbnail">
+		<div class="col-md-5">
 			<h2 class="text-center text-primary">
 				Formulario de Registro
 						</h2>
+			<p class="col-md-10 col-md-offset-1 text-muted text-center"> Disfrute de todas las características que ofrece Open Travel al registrarse en el portal :) </p>
 			<form #formUsuarios="ngForm" (ngSubmit)="onSubmit()" class="col-md-8 col-md-offset-2 " id="form-restaurantes">
 					<label for="nombre"> Nombre </label>
 						<span *ngIf="!nombre.valid && nombre.touched" class="label label-danger"> El nombre es obligatorio </span>
@@ -40,7 +91,10 @@
 
 				<br>
 				<input type="submit" value ="{{titulo}}" class="btn btn-success" [disabled]="!formUsuarios.form.valid" />
+
+				
 			</form>
+
 	</div>
 
 </div>

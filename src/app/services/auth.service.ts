@@ -27,7 +27,6 @@ export class AuthService {
 
 	logoutService () {
 		localStorage.removeItem('currentUser');
-		location.reload();
 	}
 
 	public authenticated (){
